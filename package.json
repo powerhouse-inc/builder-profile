@@ -1,12 +1,15 @@
 {
   "name": "builder-profile",
-  "description": "",
-  "version": "1.0.0",
+  "description": "Builder profile document model",
+  "version": "0.0.1",
   "license": "AGPL-3.0-only",
   "type": "module",
   "files": [
     "/dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -52,10 +55,10 @@
     "service-unstartup": "bash ./node_modules/@powerhousedao/ph-cli/dist/scripts/service-unstartup.sh"
   },
   "dependencies": {
-    "@powerhousedao/builder-tools": "latest",
-    "@powerhousedao/common": "latest",
-    "@powerhousedao/design-system": "latest",
-    "document-model": "latest",
+    "@powerhousedao/builder-tools": "^5.0.0-staging.25",
+    "@powerhousedao/common": "^5.0.0-staging.25",
+    "@powerhousedao/design-system": "^5.0.0-staging.25",
+    "document-model": "^5.0.0-staging.25",
     "error": "^10.4.0",
     "graphql": "^16.10.0",
     "graphql-tag": "^2.12.6",
@@ -65,19 +68,19 @@
     "@electric-sql/pglite": "^0.2.12",
     "@eslint/js": "^9.25.0",
     "@powerhousedao/analytics-engine-core": "^0.5.0",
-    "@powerhousedao/codegen": "latest",
-    "@powerhousedao/ph-cli": "latest",
-    "@powerhousedao/reactor-api": "latest",
-    "@powerhousedao/reactor-browser": "latest",
-    "@powerhousedao/reactor-local": "latest",
+    "@powerhousedao/codegen": "^5.0.0-staging.25",
+    "@powerhousedao/ph-cli": "^5.0.0-staging.25",
+    "@powerhousedao/reactor-api": "^5.0.0-staging.25",
+    "@powerhousedao/reactor-browser": "^5.0.0-staging.25",
+    "@powerhousedao/reactor-local": "^5.0.0-staging.25",
     "@powerhousedao/scalars": "latest",
-    "@powerhousedao/switchboard": "latest",
+    "@powerhousedao/switchboard": "^5.0.0-staging.25",
     "@tailwindcss/cli": "^4.1.4",
     "@testing-library/react": "^16.3.0",
     "@types/node": "^22.14.1",
     "@types/react": "^18.3.20",
     "@vitejs/plugin-react": "^4.4.1",
-    "document-drive": "latest",
+    "document-drive": "^5.0.0-staging.25",
     "eslint": "^9.25.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
