@@ -9,5 +9,9 @@
   "reactor": {
     "port": 4001
   },
-  "packages": []
+  "packages": [],
+  "vetra": {
+    "driveId": "bai-builder-profile",
+    "driveUrl": "https://switchboard.staging.vetra.io/d/bai-builder-profile"
+  }
 }

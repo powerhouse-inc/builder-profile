@@ -1,7 +1,7 @@
 {
-    "name": "builder-profile",
-    "description": "A place to handle all builder profile related info",
-    "category": "Project Management",
+    "name": "Builder Profile",
+    "description": "Builder profile document model",
+    "category": "Productivity",
     "publisher": {
         "name": "Powerhouse",
         "url": "https://powerhouse.inc/"
