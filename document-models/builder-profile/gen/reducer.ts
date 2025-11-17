@@ -1,17 +1,15 @@
 // TODO: remove eslint-disable rules once refactor is done
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import {
-  type StateReducer,
-  isDocumentAction,
-  createReducer,
-} from "document-model";
-import { BuilderProfilePHState } from "./ph-factories.js";
-import { z } from "./types.js";
+import type { StateReducer } from "document-model";
+import { isDocumentAction, createReducer } from "document-model/core";
+import type { BuilderProfilePHState } from "@powerhousedao/builder-profile/document-models/builder-profile";
 
-import { reducer as BuilderReducer } from "../src/reducers/builder.js";
+import { builderProfileBuilderOperations } from "../src/reducers/builder.js";
 
-export const stateReducer: StateReducer<BuilderProfilePHState> = (
+import { UpdateProfileInputSchema } from "./schema/zod.js";
+
+const stateReducer: StateReducer<BuilderProfilePHState> = (
   state,
   action,
   dispatch,
@@ -22,8 +20,8 @@ export const stateReducer: StateReducer<BuilderProfilePHState> = (
 
   switch (action.type) {
     case "UPDATE_PROFILE":
-      z.UpdateProfileInputSchema().parse(action.input);
-      BuilderReducer.updateProfileOperation(
+      UpdateProfileInputSchema().parse(action.input);
+      builderProfileBuilderOperations.updateProfileOperation(
         (state as any)[action.scope],
         action as any,
         dispatch,

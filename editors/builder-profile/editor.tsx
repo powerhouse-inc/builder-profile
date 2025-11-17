@@ -1,11 +1,9 @@
-import type { EditorProps } from "document-model";
 import { TextInput, Textarea, Icon } from "@powerhousedao/document-engineering";
-import { toast, ToastContainer } from "@powerhousedao/design-system";
+import { toast, ToastContainer, DocumentToolbar } from "@powerhousedao/design-system/connect";
 import { actions } from "../../document-models/builder-profile/index.js";
 import { useCallback, useState, useEffect, useRef } from "react";
-import { useSelectedBuilderProfileDocument } from "../hooks/useBuilderProfileDocument.js";
-
-export type IProps = EditorProps;
+import { useSelectedBuilderProfileDocument } from "../../document-models/builder-profile/hooks.js";
+import { setSelectedNode, useParentFolderForSelectedNode } from "@powerhousedao/reactor-browser";
 
 // Image Modal Component
 function ImageModal({
@@ -197,7 +195,14 @@ function ImageUrlInput({
 export default function Editor() {
   // Getting dispatch from selected document
   const [doc, dispatch] = useSelectedBuilderProfileDocument();
-  const state = doc.state.global;
+  const state = doc?.state.global;
+
+  // Get the parent folder node for the currently selected node
+  const parentFolder = useParentFolderForSelectedNode();
+  // Set the selected node to the parent folder node (close the editor)
+  function handleClose() {
+    setSelectedNode(parentFolder?.id);
+  }
 
   // Track if we've already attempted to generate an ID
   const idGeneratedRef = useRef(false);
@@ -258,6 +263,7 @@ export default function Editor() {
 
   return (
     <div className="w-full bg-gray-50 min-h-screen">
+      <DocumentToolbar document={doc} onClose={handleClose} />
       <div className="p-6 max-w-4xl mx-auto">
         {/* Header Section */}
         <div className="bg-white rounded-lg p-6 mb-6 shadow-sm">
@@ -315,13 +321,13 @@ export default function Editor() {
                 Builder ID:
               </label>
               <div className="text-sm text-gray-500 flex items-center">
-                <span className="mr-2">{doc.header.id}</span>
+                <span className="mr-2">{doc?.header.id}</span>
                 <button
                   type="button"
                   className="ml-1 p-1 rounded transition active:bg-gray-400 hover:bg-gray-200"
                   title="Copy Builder ID"
                   onClick={() => {
-                    navigator.clipboard.writeText(doc.header.id || "");
+                    navigator.clipboard.writeText(doc?.header.id || "");
                     toast("Copied Builder ID!", {
                       type: "success",
                     });

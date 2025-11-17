@@ -1,26 +1,13 @@
 {
-    "name": "Builder Profile",
-    "description": "Builder profile document model",
-    "category": "Productivity",
+    "name": "",
+    "description": "",
+    "category": "",
     "publisher": {
-        "name": "Powerhouse",
-        "url": "https://powerhouse.inc/"
+        "name": "",
+        "url": ""
     },
-    "documentModels": [
-        {
-            "id": "powerhouse/builder-profile",
-            "name": "Builder Profile"
-        }
-    ],
-    "editors": [
-        {
-            "id": "builder-profile-editor",
-            "name": "Builder Profile Editor",
-            "documentTypes": [
-                "powerhouse/builder-profile"
-            ]
-        }
-    ],
+    "documentModels": [],
+    "editors": [],
     "apps": [],
     "subgraphs": [],
     "importScripts": []

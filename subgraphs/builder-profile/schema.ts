@@ -3,18 +3,7 @@ import type { DocumentNode } from "graphql";
 
 export const schema: DocumentNode = gql`
   """
-  Subgraph definition for BuilderProfile (powerhouse/builder-profile)
-  """
-  type BuilderProfileState {
-    id: PHID
-    slug: String
-    name: String
-    icon: URL
-    description: String
-  }
-
-  """
-  Queries: BuilderProfile
+  Queries: BuilderProfile Document
   """
   type BuilderProfileQueries {
     getDocument(docId: PHID!, driveId: PHID): BuilderProfile

@@ -1,14 +1,20 @@
-import type { PHDocument } from "document-model";
+import type { PHDocument, PHBaseState } from "document-model";
 import type { BuilderProfileAction } from "./actions.js";
-import type { BuilderProfilePHState } from "./ph-factories.js";
-import type { BuilderProfileState } from "./schema/types.js";
+import type { BuilderProfileState as BuilderProfileGlobalState } from "./schema/types.js";
 
-export { z } from "./schema/index.js";
-export type * from "./schema/types.js";
 type BuilderProfileLocalState = Record<PropertyKey, never>;
-export type BuilderProfileDocument = PHDocument<BuilderProfilePHState>;
+type BuilderProfilePHState = PHBaseState & {
+  global: BuilderProfileGlobalState;
+  local: BuilderProfileLocalState;
+};
+type BuilderProfileDocument = PHDocument<BuilderProfilePHState>;
+
+export * from "./schema/types.js";
+
 export type {
-  BuilderProfileState,
+  BuilderProfileGlobalState,
   BuilderProfileLocalState,
+  BuilderProfilePHState,
   BuilderProfileAction,
+  BuilderProfileDocument,
 };

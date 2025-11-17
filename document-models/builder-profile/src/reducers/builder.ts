@@ -1,7 +1,7 @@
-import type { BuilderProfileBuilderOperations } from "../../gen/builder/operations.js";
+import type { BuilderProfileBuilderOperations } from "@powerhousedao/builder-profile/document-models/builder-profile";
 
-export const reducer: BuilderProfileBuilderOperations = {
-    updateProfileOperation(state, action, dispatch) {
+export const builderProfileBuilderOperations: BuilderProfileBuilderOperations = {
+    updateProfileOperation(state, action) {
         state.id = action.input.id ?? state.id;
         state.slug = action.input.slug ?? state.slug;
         state.name = action.input.name ?? state.name;

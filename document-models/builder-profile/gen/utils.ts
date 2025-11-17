@@ -1,24 +1,26 @@
+import type { DocumentModelUtils } from "document-model";
 import {
-  type CreateDocument,
-  type CreateState,
-  type LoadFromFile,
-  type LoadFromInput,
   baseCreateDocument,
-  baseSaveToFile,
   baseSaveToFileHandle,
-  baseLoadFromFile,
   baseLoadFromInput,
   defaultBaseState,
   generateId,
-} from "document-model";
-import {
-  type BuilderProfileState,
-  type BuilderProfileLocalState,
+} from "document-model/core";
+import type {
+  BuilderProfileGlobalState,
+  BuilderProfileLocalState,
 } from "./types.js";
-import { BuilderProfilePHState } from "./ph-factories.js";
+import type { BuilderProfilePHState } from "./types.js";
 import { reducer } from "./reducer.js";
+import { builderProfileDocumentType } from "./document-type.js";
+import {
+  isBuilderProfileDocument,
+  assertIsBuilderProfileDocument,
+  isBuilderProfileState,
+  assertIsBuilderProfileState,
+} from "./document-schema.js";
 
-export const initialGlobalState: BuilderProfileState = {
+export const initialGlobalState: BuilderProfileGlobalState = {
   id: null,
   slug: null,
   name: null,
@@ -27,48 +29,50 @@ export const initialGlobalState: BuilderProfileState = {
 };
 export const initialLocalState: BuilderProfileLocalState = {};
 
-export const createState: CreateState<BuilderProfilePHState> = (state) => {
-  return {
-    ...defaultBaseState(),
-    global: { ...initialGlobalState, ...(state?.global ?? {}) },
-    local: { ...initialLocalState, ...(state?.local ?? {}) },
-  };
-};
-
-export const createDocument: CreateDocument<BuilderProfilePHState> = (
-  state,
-) => {
-  const document = baseCreateDocument(createState, state);
-  document.header.documentType = "powerhouse/builder-profile";
-  // for backwards compatibility, but this is NOT a valid signed document id
-  document.header.id = generateId();
-  return document;
-};
-
-export const saveToFile = (document: any, path: string, name?: string) => {
-  return baseSaveToFile(document, path, ".phdm", name);
-};
-
-export const saveToFileHandle = (document: any, input: any) => {
-  return baseSaveToFileHandle(document, input);
-};
-
-export const loadFromFile: LoadFromFile<BuilderProfilePHState> = (path) => {
-  return baseLoadFromFile(path, reducer);
-};
-
-export const loadFromInput: LoadFromInput<BuilderProfilePHState> = (input) => {
-  return baseLoadFromInput(input, reducer);
-};
-
-const utils = {
+export const utils: DocumentModelUtils<BuilderProfilePHState> = {
   fileExtension: ".phdm",
-  createState,
-  createDocument,
-  saveToFile,
-  saveToFileHandle,
-  loadFromFile,
-  loadFromInput,
+  createState(state) {
+    return {
+      ...defaultBaseState(),
+      global: { ...initialGlobalState, ...state?.global },
+      local: { ...initialLocalState, ...state?.local },
+    };
+  },
+  createDocument(state) {
+    const document = baseCreateDocument(utils.createState, state);
+
+    document.header.documentType = builderProfileDocumentType;
+
+    // for backwards compatibility, but this is NOT a valid signed document id
+    document.header.id = generateId();
+
+    return document;
+  },
+  saveToFileHandle(document, input) {
+    return baseSaveToFileHandle(document, input);
+  },
+  loadFromInput(input) {
+    return baseLoadFromInput(input, reducer);
+  },
+  isStateOfType(state) {
+    return isBuilderProfileState(state);
+  },
+  assertIsStateOfType(state) {
+    return assertIsBuilderProfileState(state);
+  },
+  isDocumentOfType(document) {
+    return isBuilderProfileDocument(document);
+  },
+  assertIsDocumentOfType(document) {
+    return assertIsBuilderProfileDocument(document);
+  },
 };
 
-export default utils;
+export const createDocument = utils.createDocument;
+export const createState = utils.createState;
+export const saveToFileHandle = utils.saveToFileHandle;
+export const loadFromInput = utils.loadFromInput;
+export const isStateOfType = utils.isStateOfType;
+export const assertIsStateOfType = utils.assertIsStateOfType;
+export const isDocumentOfType = utils.isDocumentOfType;
+export const assertIsDocumentOfType = utils.assertIsDocumentOfType;

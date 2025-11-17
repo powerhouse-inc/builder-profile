@@ -1,13 +1,19 @@
-import { type Subgraph } from "@powerhousedao/reactor-api";
+import type { BaseSubgraph } from "@powerhousedao/reactor-api";
 import { addFile } from "document-drive";
+import { setName } from "document-model";
 import {
   actions,
-  type UpdateProfileInput,
-  type BuilderProfileDocument,
-} from "../../document-models/builder-profile/index.js";
-import { setName } from "document-model";
+  builderProfileDocumentType,
+} from "@powerhousedao/builder-profile/document-models/builder-profile";
 
-export const getResolvers = (subgraph: Subgraph): Record<string, unknown> => {
+import type {
+  BuilderProfileDocument,
+  UpdateProfileInput,
+} from "@powerhousedao/builder-profile/document-models/builder-profile";
+
+export const getResolvers = (
+  subgraph: BaseSubgraph,
+): Record<string, unknown> => {
   const reactor = subgraph.reactor;
 
   return {
@@ -64,7 +70,7 @@ export const getResolvers = (subgraph: Subgraph): Record<string, unknown> => {
             );
 
             return docs.filter(
-              (doc) => doc.header.documentType === "powerhouse/builder-profile",
+              (doc) => doc.header.documentType === builderProfileDocumentType,
             );
           },
         };
@@ -76,9 +82,7 @@ export const getResolvers = (subgraph: Subgraph): Record<string, unknown> => {
         args: { name: string; driveId?: string },
       ) => {
         const { driveId, name } = args;
-        const document = await reactor.addDocument(
-          "powerhouse/builder-profile",
-        );
+        const document = await reactor.addDocument(builderProfileDocumentType);
 
         if (driveId) {
           await reactor.addAction(
@@ -86,7 +90,7 @@ export const getResolvers = (subgraph: Subgraph): Record<string, unknown> => {
             addFile({
               name,
               id: document.header.id,
-              documentType: "powerhouse/builder-profile",
+              documentType: builderProfileDocumentType,
             }),
           );
         }

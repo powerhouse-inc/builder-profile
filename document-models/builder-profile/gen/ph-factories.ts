@@ -1,27 +1,17 @@
 /**
  * Factory methods for creating BuilderProfileDocument instances
  */
-
-import {
-  createBaseState,
-  defaultBaseState,
-  type PHAuthState,
-  type PHDocumentState,
-  type PHBaseState,
-} from "document-model";
+import type { PHAuthState, PHDocumentState, PHBaseState } from "document-model";
+import { createBaseState, defaultBaseState } from "document-model/core";
 import type {
   BuilderProfileDocument,
   BuilderProfileLocalState,
-  BuilderProfileState,
+  BuilderProfileGlobalState,
+  BuilderProfilePHState,
 } from "./types.js";
 import { createDocument } from "./utils.js";
 
-export type BuilderProfilePHState = PHBaseState & {
-  global: BuilderProfileState;
-  local: BuilderProfileLocalState;
-};
-
-export function defaultGlobalState(): BuilderProfileState {
+export function defaultGlobalState(): BuilderProfileGlobalState {
   return {
     id: null,
     slug: null,
@@ -44,12 +34,12 @@ export function defaultPHState(): BuilderProfilePHState {
 }
 
 export function createGlobalState(
-  state?: Partial<BuilderProfileState>,
-): BuilderProfileState {
+  state?: Partial<BuilderProfileGlobalState>,
+): BuilderProfileGlobalState {
   return {
     ...defaultGlobalState(),
     ...(state || {}),
-  } as BuilderProfileState;
+  } as BuilderProfileGlobalState;
 }
 
 export function createLocalState(
@@ -63,7 +53,7 @@ export function createLocalState(
 
 export function createState(
   baseState?: Partial<PHBaseState>,
-  globalState?: Partial<BuilderProfileState>,
+  globalState?: Partial<BuilderProfileGlobalState>,
   localState?: Partial<BuilderProfileLocalState>,
 ): BuilderProfilePHState {
   return {
@@ -82,7 +72,7 @@ export function createBuilderProfileDocument(
   state?: Partial<{
     auth?: Partial<PHAuthState>;
     document?: Partial<PHDocumentState>;
-    global?: Partial<BuilderProfileState>;
+    global?: Partial<BuilderProfileGlobalState>;
     local?: Partial<BuilderProfileLocalState>;
   }>,
 ): BuilderProfileDocument {
