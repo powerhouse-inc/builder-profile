@@ -1,0 +1,108 @@
+import type { BuilderProfileBuildersOperations } from "@powerhousedao/builder-profile/document-models/builder-profile";
+
+export const builderProfileBuildersOperations: BuilderProfileBuildersOperations =
+  {
+    updateProfileOperation(state, action) {
+      if (action.input.id) state.id = action.input.id;
+      if (action.input.code) state.code = action.input.code;
+      if (action.input.slug) state.slug = action.input.slug;
+      if (action.input.name) state.name = action.input.name;
+      if (action.input.icon) state.icon = action.input.icon;
+      if (action.input.description)
+        state.description = action.input.description;
+      if (action.input.status) state.status = action.input.status;
+      if (action.input.type) state.type = action.input.type;
+
+      // Convert UTC timestamp (ms) to ISO string for storage
+      state.lastModified = new Date(action.timestampUtcMs).toISOString();
+    },
+    addSkillOperation(state, action) {
+      if (action.input.skill) {
+        if (!state.skilss.includes(action.input.skill)) {
+          state.skilss.push(action.input.skill);
+        }
+      }
+      // Convert UTC timestamp (ms) to ISO string for storage
+      state.lastModified = new Date(action.timestampUtcMs).toISOString();
+    },
+    removeSkillOperation(state, action) {
+      if (action.input.skill) {
+        const index = state.skilss.indexOf(action.input.skill);
+        if (index !== -1) {
+          state.skilss.splice(index, 1);
+        }
+      }
+      // Convert UTC timestamp (ms) to ISO string for storage
+      state.lastModified = new Date(action.timestampUtcMs).toISOString();
+    },
+    addScopeOperation(state, action) {
+      if (action.input.scope) {
+        if (!state.scopes.includes(action.input.scope)) {
+          state.scopes.push(action.input.scope);
+        }
+      }
+      // Convert UTC timestamp (ms) to ISO string for storage
+      state.lastModified = new Date(action.timestampUtcMs).toISOString();
+    },
+    removeScopeOperation(state, action) {
+      if (action.input.scope) {
+        const index = state.scopes.indexOf(action.input.scope);
+        if (index !== -1) {
+          state.scopes.splice(index, 1);
+        }
+      }
+      // Convert UTC timestamp (ms) to ISO string for storage
+      state.lastModified = new Date(action.timestampUtcMs).toISOString();
+    },
+    addLinkOperation(state, action) {
+      const newLink = {
+        id: action.input.id,
+        url: action.input.url,
+        label: action.input.label || null,
+      };
+      state.links.push(newLink);
+      // Convert UTC timestamp (ms) to ISO string for storage
+      state.lastModified = new Date(action.timestampUtcMs).toISOString();
+    },
+    editLinkOperation(state, action) {
+      const linkIndex = state.links.findIndex(
+        (link) => link.id === action.input.id,
+      );
+      if (linkIndex !== -1) {
+        if (action.input.url) state.links[linkIndex].url = action.input.url;
+        if (action.input.label)
+          state.links[linkIndex].label = action.input.label;
+      }
+      // Convert UTC timestamp (ms) to ISO string for storage
+      state.lastModified = new Date(action.timestampUtcMs).toISOString();
+    },
+    removeLinkOperation(state, action) {
+      const linkIndex = state.links.findIndex(
+        (link) => link.id === action.input.id,
+      );
+      if (linkIndex !== -1) {
+        state.links.splice(linkIndex, 1);
+      }
+      // Convert UTC timestamp (ms) to ISO string for storage
+      state.lastModified = new Date(action.timestampUtcMs).toISOString();
+    },
+    addContributorOperation(state, action) {
+      if (action.input.contributorPHID) {
+        if (!state.contributors.includes(action.input.contributorPHID)) {
+          state.contributors.push(action.input.contributorPHID);
+        }
+      }
+      // Convert UTC timestamp (ms) to ISO string for storage
+      state.lastModified = new Date(action.timestampUtcMs).toISOString();
+    },
+    removeContributorOperation(state, action) {
+      if (action.input.contributorPHID) {
+        const index = state.contributors.indexOf(action.input.contributorPHID);
+        if (index !== -1) {
+          state.contributors.splice(index, 1);
+        }
+      }
+      // Convert UTC timestamp (ms) to ISO string for storage
+      state.lastModified = new Date(action.timestampUtcMs).toISOString();
+    },
+  };

@@ -9,6 +9,15 @@ import {
 import type {
   BuilderProfileDocument,
   UpdateProfileInput,
+  AddSkillInput,
+  RemoveSkillInput,
+  AddScopeInput,
+  RemoveScopeInput,
+  AddLinkInput,
+  EditLinkInput,
+  RemoveLinkInput,
+  AddContributorInput,
+  RemoveContributorInput,
 } from "@powerhousedao/builder-profile/document-models/builder-profile";
 
 export const getResolvers = (
@@ -119,6 +128,194 @@ export const getResolvers = (
 
         if (result.status !== "SUCCESS") {
           throw new Error(result.error?.message ?? "Failed to updateProfile");
+        }
+
+        return true;
+      },
+
+      BuilderProfile_addSkill: async (
+        _: unknown,
+        args: { docId: string; input: AddSkillInput },
+      ) => {
+        const { docId, input } = args;
+        const doc = await reactor.getDocument<BuilderProfileDocument>(docId);
+        if (!doc) {
+          throw new Error("Document not found");
+        }
+
+        const result = await reactor.addAction(docId, actions.addSkill(input));
+
+        if (result.status !== "SUCCESS") {
+          throw new Error(result.error?.message ?? "Failed to addSkill");
+        }
+
+        return true;
+      },
+
+      BuilderProfile_removeSkill: async (
+        _: unknown,
+        args: { docId: string; input: RemoveSkillInput },
+      ) => {
+        const { docId, input } = args;
+        const doc = await reactor.getDocument<BuilderProfileDocument>(docId);
+        if (!doc) {
+          throw new Error("Document not found");
+        }
+
+        const result = await reactor.addAction(
+          docId,
+          actions.removeSkill(input),
+        );
+
+        if (result.status !== "SUCCESS") {
+          throw new Error(result.error?.message ?? "Failed to removeSkill");
+        }
+
+        return true;
+      },
+
+      BuilderProfile_addScope: async (
+        _: unknown,
+        args: { docId: string; input: AddScopeInput },
+      ) => {
+        const { docId, input } = args;
+        const doc = await reactor.getDocument<BuilderProfileDocument>(docId);
+        if (!doc) {
+          throw new Error("Document not found");
+        }
+
+        const result = await reactor.addAction(docId, actions.addScope(input));
+
+        if (result.status !== "SUCCESS") {
+          throw new Error(result.error?.message ?? "Failed to addScope");
+        }
+
+        return true;
+      },
+
+      BuilderProfile_removeScope: async (
+        _: unknown,
+        args: { docId: string; input: RemoveScopeInput },
+      ) => {
+        const { docId, input } = args;
+        const doc = await reactor.getDocument<BuilderProfileDocument>(docId);
+        if (!doc) {
+          throw new Error("Document not found");
+        }
+
+        const result = await reactor.addAction(
+          docId,
+          actions.removeScope(input),
+        );
+
+        if (result.status !== "SUCCESS") {
+          throw new Error(result.error?.message ?? "Failed to removeScope");
+        }
+
+        return true;
+      },
+
+      BuilderProfile_addLink: async (
+        _: unknown,
+        args: { docId: string; input: AddLinkInput },
+      ) => {
+        const { docId, input } = args;
+        const doc = await reactor.getDocument<BuilderProfileDocument>(docId);
+        if (!doc) {
+          throw new Error("Document not found");
+        }
+
+        const result = await reactor.addAction(docId, actions.addLink(input));
+
+        if (result.status !== "SUCCESS") {
+          throw new Error(result.error?.message ?? "Failed to addLink");
+        }
+
+        return true;
+      },
+
+      BuilderProfile_editLink: async (
+        _: unknown,
+        args: { docId: string; input: EditLinkInput },
+      ) => {
+        const { docId, input } = args;
+        const doc = await reactor.getDocument<BuilderProfileDocument>(docId);
+        if (!doc) {
+          throw new Error("Document not found");
+        }
+
+        const result = await reactor.addAction(docId, actions.editLink(input));
+
+        if (result.status !== "SUCCESS") {
+          throw new Error(result.error?.message ?? "Failed to editLink");
+        }
+
+        return true;
+      },
+
+      BuilderProfile_removeLink: async (
+        _: unknown,
+        args: { docId: string; input: RemoveLinkInput },
+      ) => {
+        const { docId, input } = args;
+        const doc = await reactor.getDocument<BuilderProfileDocument>(docId);
+        if (!doc) {
+          throw new Error("Document not found");
+        }
+
+        const result = await reactor.addAction(
+          docId,
+          actions.removeLink(input),
+        );
+
+        if (result.status !== "SUCCESS") {
+          throw new Error(result.error?.message ?? "Failed to removeLink");
+        }
+
+        return true;
+      },
+
+      BuilderProfile_addContributor: async (
+        _: unknown,
+        args: { docId: string; input: AddContributorInput },
+      ) => {
+        const { docId, input } = args;
+        const doc = await reactor.getDocument<BuilderProfileDocument>(docId);
+        if (!doc) {
+          throw new Error("Document not found");
+        }
+
+        const result = await reactor.addAction(
+          docId,
+          actions.addContributor(input),
+        );
+
+        if (result.status !== "SUCCESS") {
+          throw new Error(result.error?.message ?? "Failed to addContributor");
+        }
+
+        return true;
+      },
+
+      BuilderProfile_removeContributor: async (
+        _: unknown,
+        args: { docId: string; input: RemoveContributorInput },
+      ) => {
+        const { docId, input } = args;
+        const doc = await reactor.getDocument<BuilderProfileDocument>(docId);
+        if (!doc) {
+          throw new Error("Document not found");
+        }
+
+        const result = await reactor.addAction(
+          docId,
+          actions.removeContributor(input),
+        );
+
+        if (result.status !== "SUCCESS") {
+          throw new Error(
+            result.error?.message ?? "Failed to removeContributor",
+          );
         }
 
         return true;

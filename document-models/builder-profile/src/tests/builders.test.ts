@@ -13,7 +13,7 @@ import {
   UpdateProfileInputSchema,
 } from "@powerhousedao/builder-profile/document-models/builder-profile";
 
-describe("Builder Operations", () => {
+describe("Builders Operations", () => {
   it("should handle updateProfile operation", () => {
     const document = utils.createDocument();
     const input = generateMock(UpdateProfileInputSchema());

@@ -14,10 +14,18 @@ import { createDocument } from "./utils.js";
 export function defaultGlobalState(): BuilderProfileGlobalState {
   return {
     id: null,
+    code: null,
     slug: null,
     name: null,
     icon: null,
     description: null,
+    lastModified: null,
+    type: "INDIVIDUAL",
+    contributors: [],
+    status: null,
+    skilss: [],
+    scopes: [],
+    links: [],
   };
 }
 

@@ -17,20 +17,153 @@ scalar Amount
 scalar Upload
 type BuilderProfileState {
   id: PHID
+  code: String
   slug: String
   name: String
   icon: URL
   description: String
+  lastModified: DateTime
+  type: teamType!
+  contributors: [PHID!]!
+  status: BuilderStatus
+  skilss: [BuilderSkill!]!
+  scopes: [BuilderScope!]!
+  links: [BuilderLink!]!
+}
+
+enum teamType {
+  INDIVIDUAL
+  TEAM
+}
+
+enum BuilderStatus {
+  ACTIVE
+  INACTIVE
+  ON_HOLD
+  COMPLETED
+  ARCHIVED
+}
+
+enum BuilderSkill {
+  FRONTEND_DEVELOPMENT
+  BACKEND_DEVELOPMENT
+  FULL_STACK_DEVELOPMENT
+  DEVOPS_ENGINEERING
+  SMART_CONTRACT_DEVELOPMENT
+  UI_UX_DESIGN
+  TECHNICAL_WRITING
+  QA_TESTING
+  DATA_ENGINEERING
+  SECURITY_ENGINEERING
+}
+
+enum BuilderScope {
+  ACC
+  STA
+  SUP
+  STABILITY_SCOPE
+  SUPPORT_SCOPE
+  PROTOCOL_SCOPE
+  GOVERNANCE_SCOPE
+}
+
+type BuilderLink {
+  id: OID!
+  url: URL!
+  label: String
 }
 
 
 
-# builder
+
+# builders
 
 input UpdateProfileInput {
   id: PHID
+  code: String
   slug: String
   name: String
   icon: URL
   description: String
+  status: BuilderStatusInput
+  type: teamTypeInput
+}
+
+enum teamTypeInput {
+  INDIVIDUAL
+  TEAM
+}
+
+enum BuilderStatusInput {
+  ACTIVE
+  INACTIVE
+  ON_HOLD
+  COMPLETED
+  ARCHIVED
+}
+
+
+input AddSkillInput {
+  skill: BuilderSkillInput
+}
+
+enum BuilderSkillInput {
+  FRONTEND_DEVELOPMENT
+  BACKEND_DEVELOPMENT
+  FULL_STACK_DEVELOPMENT
+  DEVOPS_ENGINEERING
+  SMART_CONTRACT_DEVELOPMENT
+  UI_UX_DESIGN
+  TECHNICAL_WRITING
+  QA_TESTING
+  DATA_ENGINEERING
+  SECURITY_ENGINEERING
+}
+
+input RemoveSkillInput {
+  skill: BuilderSkillInput
+}
+
+
+
+input AddScopeInput {
+  scope: BuilderScopeInput
+}
+
+enum BuilderScopeInput {
+  ACC
+  STA
+  SUP
+  STABILITY_SCOPE
+  SUPPORT_SCOPE
+  PROTOCOL_SCOPE
+  GOVERNANCE_SCOPE
+}
+
+input RemoveScopeInput {
+  scope: BuilderScopeInput
+}
+
+input AddLinkInput {
+  id: OID!
+  url: URL!
+  label: String
+}
+
+input EditLinkInput {
+  id: OID!
+  url: URL!
+  label: String
+}
+
+input RemoveLinkInput {
+  id: OID!  
+}
+
+input AddContributorInput {
+  contributorPHID: PHID!
+}
+
+input RemoveContributorInput {
+  contributorPHID: PHID!
 }

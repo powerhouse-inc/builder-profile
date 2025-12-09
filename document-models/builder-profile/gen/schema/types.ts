@@ -56,18 +56,135 @@ export type Scalars = {
   Upload: { input: File; output: File };
 };
 
+export type AddContributorInput = {
+  contributorPHID: Scalars["PHID"]["input"];
+};
+
+export type AddLinkInput = {
+  id: Scalars["OID"]["input"];
+  label?: InputMaybe<Scalars["String"]["input"]>;
+  url: Scalars["URL"]["input"];
+};
+
+export type AddScopeInput = {
+  scope?: InputMaybe<BuilderScopeInput>;
+};
+
+export type AddSkillInput = {
+  skill?: InputMaybe<BuilderSkillInput>;
+};
+
+export type BuilderLink = {
+  id: Scalars["OID"]["output"];
+  label: Maybe<Scalars["String"]["output"]>;
+  url: Scalars["URL"]["output"];
+};
+
 export type BuilderProfileState = {
+  code: Maybe<Scalars["String"]["output"]>;
+  contributors: Array<Scalars["PHID"]["output"]>;
   description: Maybe<Scalars["String"]["output"]>;
   icon: Maybe<Scalars["URL"]["output"]>;
   id: Maybe<Scalars["PHID"]["output"]>;
+  lastModified: Maybe<Scalars["DateTime"]["output"]>;
+  links: Array<BuilderLink>;
   name: Maybe<Scalars["String"]["output"]>;
+  scopes: Array<BuilderScope>;
+  skilss: Array<BuilderSkill>;
   slug: Maybe<Scalars["String"]["output"]>;
+  status: Maybe<BuilderStatus>;
+  type: TeamType;
+};
+
+export type BuilderScope =
+  | "ACC"
+  | "GOVERNANCE_SCOPE"
+  | "PROTOCOL_SCOPE"
+  | "STA"
+  | "STABILITY_SCOPE"
+  | "SUP"
+  | "SUPPORT_SCOPE";
+
+export type BuilderScopeInput =
+  | "ACC"
+  | "GOVERNANCE_SCOPE"
+  | "PROTOCOL_SCOPE"
+  | "STA"
+  | "STABILITY_SCOPE"
+  | "SUP"
+  | "SUPPORT_SCOPE";
+
+export type BuilderSkill =
+  | "BACKEND_DEVELOPMENT"
+  | "DATA_ENGINEERING"
+  | "DEVOPS_ENGINEERING"
+  | "FRONTEND_DEVELOPMENT"
+  | "FULL_STACK_DEVELOPMENT"
+  | "QA_TESTING"
+  | "SECURITY_ENGINEERING"
+  | "SMART_CONTRACT_DEVELOPMENT"
+  | "TECHNICAL_WRITING"
+  | "UI_UX_DESIGN";
+
+export type BuilderSkillInput =
+  | "BACKEND_DEVELOPMENT"
+  | "DATA_ENGINEERING"
+  | "DEVOPS_ENGINEERING"
+  | "FRONTEND_DEVELOPMENT"
+  | "FULL_STACK_DEVELOPMENT"
+  | "QA_TESTING"
+  | "SECURITY_ENGINEERING"
+  | "SMART_CONTRACT_DEVELOPMENT"
+  | "TECHNICAL_WRITING"
+  | "UI_UX_DESIGN";
+
+export type BuilderStatus =
+  | "ACTIVE"
+  | "ARCHIVED"
+  | "COMPLETED"
+  | "INACTIVE"
+  | "ON_HOLD";
+
+export type BuilderStatusInput =
+  | "ACTIVE"
+  | "ARCHIVED"
+  | "COMPLETED"
+  | "INACTIVE"
+  | "ON_HOLD";
+
+export type EditLinkInput = {
+  id: Scalars["OID"]["input"];
+  label?: InputMaybe<Scalars["String"]["input"]>;
+  url: Scalars["URL"]["input"];
+};
+
+export type RemoveContributorInput = {
+  contributorPHID: Scalars["PHID"]["input"];
+};
+
+export type RemoveLinkInput = {
+  id: Scalars["OID"]["input"];
+};
+
+export type RemoveScopeInput = {
+  scope?: InputMaybe<BuilderScopeInput>;
+};
+
+export type RemoveSkillInput = {
+  skill?: InputMaybe<BuilderSkillInput>;
 };
 
 export type UpdateProfileInput = {
+  code?: InputMaybe<Scalars["String"]["input"]>;
   description?: InputMaybe<Scalars["String"]["input"]>;
   icon?: InputMaybe<Scalars["URL"]["input"]>;
   id?: InputMaybe<Scalars["PHID"]["input"]>;
   name?: InputMaybe<Scalars["String"]["input"]>;
   slug?: InputMaybe<Scalars["String"]["input"]>;
+  status?: InputMaybe<BuilderStatusInput>;
+  type?: InputMaybe<TeamTypeInput>;
 };
+
+export type TeamType = "INDIVIDUAL" | "TEAM";
+
+export type TeamTypeInput = "INDIVIDUAL" | "TEAM";

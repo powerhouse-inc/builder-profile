@@ -22,15 +22,23 @@ import {
 
 export const initialGlobalState: BuilderProfileGlobalState = {
   id: null,
+  code: null,
   slug: null,
   name: null,
   icon: null,
   description: null,
+  lastModified: null,
+  type: "INDIVIDUAL",
+  contributors: [],
+  status: null,
+  skilss: [],
+  scopes: [],
+  links: [],
 };
 export const initialLocalState: BuilderProfileLocalState = {};
 
 export const utils: DocumentModelUtils<BuilderProfilePHState> = {
-  fileExtension: ".phdm",
+  fileExtension: "",
   createState(state) {
     return {
       ...defaultBaseState(),

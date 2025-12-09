@@ -14,4 +14,4 @@ export * from "./reducer.js";
 export * from "./schema/index.js";
 export * from "./document-type.js";
 export * from "./document-schema.js";
-export * from "./builder/operations.js";
+export * from "./builders/operations.js";

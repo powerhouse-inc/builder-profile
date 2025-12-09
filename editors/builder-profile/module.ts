@@ -6,7 +6,7 @@ export const BuilderProfile: EditorModule = {
   Component: lazy(() => import("./editor.js")),
   documentTypes: ["powerhouse/builder-profile"],
   config: {
-    id: "builder-profile-editor",
+    id: "builder-profile",
     name: "builder-profile",
   },
 };

@@ -1,12 +1,17 @@
 {
-    "name": "",
-    "description": "",
-    "category": "",
+    "name": "powerhouse/builder-profile",
+    "description": "builder profile",
+    "category": "Project Management",
     "publisher": {
         "name": "",
         "url": ""
     },
-    "documentModels": [],
+    "documentModels": [
+        {
+            "id": "powerhouse/builder-profile",
+            "name": "Builder Profile"
+        }
+    ],
     "editors": [],
     "apps": [],
     "subgraphs": [],

@@ -1,0 +1,67 @@
+import { type SignalDispatch } from "document-model";
+import {
+  type UpdateProfileAction,
+  type AddSkillAction,
+  type RemoveSkillAction,
+  type AddScopeAction,
+  type RemoveScopeAction,
+  type AddLinkAction,
+  type EditLinkAction,
+  type RemoveLinkAction,
+  type AddContributorAction,
+  type RemoveContributorAction,
+} from "./actions.js";
+import { type BuilderProfileState } from "../types.js";
+
+export interface BuilderProfileBuildersOperations {
+  updateProfileOperation: (
+    state: BuilderProfileState,
+    action: UpdateProfileAction,
+    dispatch?: SignalDispatch,
+  ) => void;
+  addSkillOperation: (
+    state: BuilderProfileState,
+    action: AddSkillAction,
+    dispatch?: SignalDispatch,
+  ) => void;
+  removeSkillOperation: (
+    state: BuilderProfileState,
+    action: RemoveSkillAction,
+    dispatch?: SignalDispatch,
+  ) => void;
+  addScopeOperation: (
+    state: BuilderProfileState,
+    action: AddScopeAction,
+    dispatch?: SignalDispatch,
+  ) => void;
+  removeScopeOperation: (
+    state: BuilderProfileState,
+    action: RemoveScopeAction,
+    dispatch?: SignalDispatch,
+  ) => void;
+  addLinkOperation: (
+    state: BuilderProfileState,
+    action: AddLinkAction,
+    dispatch?: SignalDispatch,
+  ) => void;
+  editLinkOperation: (
+    state: BuilderProfileState,
+    action: EditLinkAction,
+    dispatch?: SignalDispatch,
+  ) => void;
+  removeLinkOperation: (
+    state: BuilderProfileState,
+    action: RemoveLinkAction,
+    dispatch?: SignalDispatch,
+  ) => void;
+  addContributorOperation: (
+    state: BuilderProfileState,
+    action: AddContributorAction,
+    dispatch?: SignalDispatch,
+  ) => void;
+  removeContributorOperation: (
+    state: BuilderProfileState,
+    action: RemoveContributorAction,
+    dispatch?: SignalDispatch,
+  ) => void;
+}

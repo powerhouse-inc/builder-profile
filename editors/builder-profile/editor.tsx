@@ -1,348 +1,374 @@
-import { TextInput, Textarea, Icon } from "@powerhousedao/document-engineering";
-import { toast, ToastContainer, DocumentToolbar } from "@powerhousedao/design-system/connect";
+import { TextInput, Textarea } from "@powerhousedao/document-engineering";
+import { User, Users, Settings, FileText, Copy, Info } from "lucide-react";
+import {
+  toast,
+  ToastContainer,
+  DocumentToolbar,
+} from "@powerhousedao/design-system/connect";
 import { actions } from "../../document-models/builder-profile/index.js";
-import { useCallback, useState, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useSelectedBuilderProfileDocument } from "../../document-models/builder-profile/hooks.js";
-import { setSelectedNode, useParentFolderForSelectedNode } from "@powerhousedao/reactor-browser";
+import {
+  setSelectedNode,
+  useParentFolderForSelectedNode,
+} from "@powerhousedao/reactor-browser";
+import type {
+  BuilderSkill,
+  BuilderScope,
+  BuilderStatus,
+  TeamType,
+} from "../../document-models/builder-profile/gen/types.js";
+import { SkillsSection } from "./components/SkillsSection.js";
+import { ScopesSection } from "./components/ScopesSection.js";
+import { LinksSection } from "./components/LinksSection.js";
+import { ContributorsSection } from "./components/ContributorsSection.js";
+import { ProfilePreview } from "./components/ProfilePreview.js";
+import { ImageUrlInput } from "./components/ImageUrlInput.js";
 
-// Image Modal Component
-function ImageModal({
-  isOpen,
-  onClose,
-  imageUrl,
-  imageAlt,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-  imageUrl: string;
-  imageAlt: string;
-}) {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageDimensions, setImageDimensions] = useState({
-    width: 0,
-    height: 0,
-  });
-
-  if (!isOpen) return null;
-
-  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    const img = e.target as HTMLImageElement;
-    setImageDimensions({ width: img.naturalWidth, height: img.naturalHeight });
-    setImageLoaded(true);
-  };
-
-  // Calculate modal size based on image dimensions with padding
-  const getModalSize = () => {
-    if (!imageLoaded) return { width: "auto", height: "auto" };
-
-    const maxWidth = Math.min(
-      imageDimensions.width + 100,
-      window.innerWidth * 0.8
-    );
-    const maxHeight = Math.min(
-      imageDimensions.height + 100,
-      window.innerHeight * 0.8
-    );
-
-    return {
-      width: `${maxWidth}px`,
-      height: `${maxHeight}px`,
-    };
-  };
-
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm"
-      onClick={onClose}
-    >
-      <div
-        className="relative bg-gray-900 rounded-lg shadow-2xl border-2 border-gray-700"
-        style={getModalSize()}
-      >
-        <button
-          onClick={onClose}
-          className="absolute -top-3 -right-3 z-10 w-8 h-8 bg-gray-800 hover:bg-gray-900 rounded-full flex items-center justify-center text-white transition-all duration-200 shadow-lg"
-        >
-          <Icon name="ArrowLeft" size={16} />
-        </button>
-        <div className="w-full h-full flex items-center justify-center p-8">
-          <img
-            src={imageUrl}
-            alt={imageAlt}
-            className={`max-w-full max-h-full object-contain rounded-lg ${
-              imageLoaded ? "opacity-100" : "opacity-0"
-            } transition-opacity duration-200`}
-            onClick={(e) => e.stopPropagation()}
-            onLoad={handleImageLoad}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Image URL input component with preview
-function ImageUrlInput({
-  label,
-  value,
-  onChange,
-  placeholder,
-  fileSize = "200KB",
-}: {
+const STATUS_OPTIONS: {
+  value: BuilderStatus;
   label: string;
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-  fileSize?: string;
-}) {
-  const [imageError, setImageError] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Reset image error when value changes
-  useEffect(() => {
-    setImageError(false);
-  }, [value]);
-
-  const handleImageClick = () => {
-    if (
-      value &&
-      !imageError &&
-      (value.startsWith("http://") || value.startsWith("https://"))
-    ) {
-      setIsModalOpen(true);
-    }
-  };
-
-  return (
-    <>
-      <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700">
-          {label}
-        </label>
-        <div className="border border-gray-300 rounded-lg p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div
-                className={`flex-shrink-0 w-12 h-12 bg-gray-100 rounded border flex items-center justify-center overflow-hidden ${
-                  value &&
-                  !imageError &&
-                  (value.startsWith("http://") || value.startsWith("https://"))
-                    ? "cursor-pointer hover:opacity-80 transition-opacity duration-200"
-                    : ""
-                }`}
-                onClick={handleImageClick}
-              >
-                {value &&
-                !imageError &&
-                (value.startsWith("http://") ||
-                  value.startsWith("https://")) ? (
-                  <img
-                    src={value}
-                    alt={`${label} preview`}
-                    className="w-full h-full object-cover"
-                    onError={() => setImageError(true)}
-                    onLoad={() => setImageError(false)}
-                  />
-                ) : (
-                  <Icon name="Image" size={24} className="text-gray-400" />
-                )}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-xs text-gray-500">
-                  File Type: jpg | File Size: {value ? fileSize : "0KB"}
-                  {imageError && value && (
-                    <div className="text-red-500 mt-1">
-                      ⚠ Failed to load image
-                    </div>
-                  )}
-                  {value &&
-                    !imageError &&
-                    (value.startsWith("http://") ||
-                      value.startsWith("https://")) && (
-                      <div className="text-blue-600 mt-1">
-                        💡 Click image to view full size
-                      </div>
-                    )}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="mt-3">
-            <TextInput
-              className="w-full"
-              defaultValue={value || ""}
-              onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
-                if (e.target.value !== value) {
-                  onChange(e.target.value);
-                }
-              }}
-              placeholder={placeholder || "Enter image URL"}
-            />
-          </div>
-        </div>
-      </div>
-
-      <ImageModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        imageUrl={value}
-        imageAlt={`${label} full size`}
-      />
-    </>
-  );
-}
+  color: string;
+}[] = [
+  { value: "ACTIVE", label: "Active", color: "bg-emerald-500" },
+  { value: "INACTIVE", label: "Inactive", color: "bg-slate-400" },
+  { value: "ON_HOLD", label: "On Hold", color: "bg-amber-500" },
+  { value: "COMPLETED", label: "Completed", color: "bg-sky-500" },
+  { value: "ARCHIVED", label: "Archived", color: "bg-slate-300" },
+];
 
 export default function Editor() {
-  // Getting dispatch from selected document
   const [doc, dispatch] = useSelectedBuilderProfileDocument();
   const state = doc?.state.global;
 
-  // Get the parent folder node for the currently selected node
   const parentFolder = useParentFolderForSelectedNode();
-  // Set the selected node to the parent folder node (close the editor)
+
   function handleClose() {
     setSelectedNode(parentFolder?.id);
   }
 
-  // Track if we've already attempted to generate an ID
   const idGeneratedRef = useRef(false);
 
   // Auto-generate ID if not present (only once)
   useEffect(() => {
     if (!state?.id && !idGeneratedRef.current && dispatch) {
-      idGeneratedRef.current = true; // Mark as attempted
+      idGeneratedRef.current = true;
       dispatch(
         actions.updateProfile({
           id: doc.header.id,
-        })
+        }),
       );
     }
-  }, [state?.id, dispatch]);
+  }, [state?.id, dispatch, doc?.header.id]);
+
+  // Format date as "09 DEC 2025 10:52:30"
+  const formatLastModified = (isoString: string) => {
+    const date = new Date(isoString);
+    const day = date.getDate().toString().padStart(2, "0");
+    const months = [
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP",
+      "OCT",
+      "NOV",
+      "DEC",
+    ];
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const seconds = date.getSeconds().toString().padStart(2, "0");
+    return `${day} ${month} ${year} ${hours}:${minutes}:${seconds}`;
+  };
 
   // Generate slug from name
   const generateSlug = useCallback((name: string) => {
     return name
       .toLowerCase()
       .trim()
-      .replace(/[^a-z0-9\s-]/g, "") // Remove special characters except spaces and hyphens
-      .replace(/\s+/g, "-") // Replace spaces with hyphens
-      .replace(/-+/g, "-") // Replace multiple hyphens with single hyphen
-      .replace(/^-|-$/g, ""); // Remove leading/trailing hyphens
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
   }, []);
 
-  // Handle field changes using the UPDATE_PROFILE operation
+  // Handle basic profile field changes
   const handleFieldChange = useCallback(
     (field: string, value: string | null) => {
       if (!dispatch) {
-        console.error("Dispatch function not available");
         toast(`Failed to update ${field} - no dispatch function`, {
           type: "error",
         });
         return;
       }
 
-      // If updating name and value is not empty, also update slug
       if (field === "name" && value && value.trim()) {
         const slug = generateSlug(value);
-        dispatch(
-          actions.updateProfile({
-            name: value,
-            slug: slug,
-          })
-        );
+        dispatch(actions.updateProfile({ name: value, slug }));
       } else {
-        // Only update the changed field along with id
-        const updateAction = actions.updateProfile({
-          [field]: value,
-        });
-        dispatch(updateAction);
+        dispatch(actions.updateProfile({ [field]: value }));
       }
     },
-    [dispatch, generateSlug]
+    [dispatch, generateSlug],
+  );
+
+  // Handle status change
+  const handleStatusChange = useCallback(
+    (status: BuilderStatus) => {
+      if (!dispatch) return;
+      dispatch(actions.updateProfile({ status }));
+    },
+    [dispatch],
+  );
+
+  // Handle type change
+  const handleTypeChange = useCallback(
+    (type: TeamType) => {
+      if (!dispatch) return;
+      dispatch(actions.updateProfile({ type }));
+    },
+    [dispatch],
+  );
+
+  // Skill handlers
+  const handleAddSkill = useCallback(
+    (skill: BuilderSkill) => {
+      if (!dispatch) return;
+      dispatch(actions.addSkill({ skill }));
+    },
+    [dispatch],
+  );
+
+  const handleRemoveSkill = useCallback(
+    (skill: BuilderSkill) => {
+      if (!dispatch) return;
+      dispatch(actions.removeSkill({ skill }));
+    },
+    [dispatch],
+  );
+
+  // Scope handlers
+  const handleAddScope = useCallback(
+    (scope: BuilderScope) => {
+      if (!dispatch) return;
+      dispatch(actions.addScope({ scope }));
+    },
+    [dispatch],
+  );
+
+  const handleRemoveScope = useCallback(
+    (scope: BuilderScope) => {
+      if (!dispatch) return;
+      dispatch(actions.removeScope({ scope }));
+    },
+    [dispatch],
+  );
+
+  // Link handlers
+  const handleAddLink = useCallback(
+    (link: { id: string; url: string; label?: string }) => {
+      if (!dispatch) return;
+      dispatch(
+        actions.addLink({ id: link.id, url: link.url, label: link.label }),
+      );
+    },
+    [dispatch],
+  );
+
+  const handleEditLink = useCallback(
+    (link: { id: string; url: string; label?: string }) => {
+      if (!dispatch) return;
+      dispatch(
+        actions.editLink({ id: link.id, url: link.url, label: link.label }),
+      );
+    },
+    [dispatch],
+  );
+
+  const handleRemoveLink = useCallback(
+    (id: string) => {
+      if (!dispatch) return;
+      dispatch(actions.removeLink({ id }));
+    },
+    [dispatch],
+  );
+
+  // Contributor handlers
+  const handleAddContributor = useCallback(
+    (contributorPHID: string) => {
+      if (!dispatch) return;
+      dispatch(actions.addContributor({ contributorPHID }));
+    },
+    [dispatch],
+  );
+
+  const handleRemoveContributor = useCallback(
+    (contributorPHID: string) => {
+      if (!dispatch) return;
+      dispatch(actions.removeContributor({ contributorPHID }));
+    },
+    [dispatch],
   );
 
   return (
-    <div className="w-full bg-gray-50 min-h-screen">
+    <div className="w-full min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+      <style>
+        {`
+          .builder-editor input, .builder-editor textarea, .builder-editor select {
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          }
+          .builder-editor .section-card {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.02);
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+          }
+          .builder-editor .section-card:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.04);
+          }
+          .builder-editor .field-label {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: #374151;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.5rem;
+            display: block;
+          }
+          .builder-editor .field-hint {
+            font-size: 0.75rem;
+            color: #9CA3AF;
+            margin-top: 0.375rem;
+            letter-spacing: -0.01em;
+          }
+          .builder-editor .meta-value {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+            font-size: 0.8125rem;
+            color: #6B7280;
+            background: #F9FAFB;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            border: 1px solid #E5E7EB;
+          }
+          .builder-editor .type-toggle {
+            display: flex;
+            background: #F3F4F6;
+            border-radius: 10px;
+            padding: 4px;
+            gap: 4px;
+          }
+          .builder-editor .type-toggle button {
+            flex: 1;
+            padding: 0.625rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #6B7280;
+            background: transparent;
+          }
+          .builder-editor .type-toggle button.active {
+            background: white;
+            color: #111827;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+          }
+          .builder-editor .type-toggle button:not(.active):hover {
+            color: #374151;
+            background: rgba(255, 255, 255, 0.5);
+          }
+          .builder-editor .status-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 1.25em 1.25em;
+            padding-right: 2.5rem;
+          }
+        `}
+      </style>
+
       <DocumentToolbar document={doc} onClose={handleClose} />
-      <div className="p-6 max-w-4xl mx-auto">
-        {/* Header Section */}
-        <div className="bg-white rounded-lg p-6 mb-6 shadow-sm">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Builder Profile
-          </h1>
-          <p className="text-gray-600">
-            Create and manage your builder profile information
-          </p>
+
+      <div className="builder-editor p-6 max-w-4xl mx-auto space-y-6 pb-12">
+        {/* Header */}
+        <div className="section-card p-8">
+          <div>
+            <h1 className="text-2xl font-semibold text-slate-900 tracking-tight">
+              Builder Profile
+            </h1>
+            <p className="text-slate-500 mt-1 text-sm">
+              Configure your builder identity and capabilities
+            </p>
+          </div>
         </div>
 
-        {/* Profile Preview Section */}
-        {state && (state.name || state.icon || state.description) && (
-          <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">
-              Profile Preview
-            </h3>
-            <div className="border border-gray-200 rounded-lg p-4">
-              <div className="flex items-start space-x-4">
-                <div className="flex-shrink-0">
-                  {state.icon ? (
-                    <img
-                      src={state.icon}
-                      alt="Profile icon"
-                      className="w-16 h-16 rounded-full object-cover border-2 border-gray-200"
-                    />
-                  ) : (
-                    <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
-                      <Icon name="Image" size={24} className="text-gray-400" />
-                    </div>
-                  )}
-                </div>
-                <div className="flex-1">
-                  <h4 className="text-lg font-semibold text-gray-900">
-                    {state.name || "Unnamed Builder"}
-                  </h4>
-                  {state.slug && (
-                    <p className="text-sm text-gray-500 mb-2">@{state.slug}</p>
-                  )}
-                  {state.description && (
-                    <p className="text-gray-700">{state.description}</p>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        {/* Profile Preview */}
+        {state && <ProfilePreview state={state} />}
 
-        {/* Main Form Section */}
-        <div className="bg-white rounded-lg p-6 shadow-sm">
-          <div className="space-y-6">
-            {/* ID */}
+        {/* Metadata Section */}
+        <div className="section-card p-6">
+          <h3 className="text-lg font-semibold text-slate-900 mb-6 flex items-center gap-2">
+            <span className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
+              <Info size={18} className="text-slate-600" />
+            </span>
+            Metadata
+          </h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Builder ID */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Builder ID:
-              </label>
-              <div className="text-sm text-gray-500 flex items-center">
-                <span className="mr-2">{doc?.header.id}</span>
+              <label className="field-label">Builder ID</label>
+              <div className="flex items-center gap-2">
+                <code className="meta-value flex-1 truncate">
+                  {doc?.header.id}
+                </code>
                 <button
                   type="button"
-                  className="ml-1 p-1 rounded transition active:bg-gray-400 hover:bg-gray-200"
+                  className="p-2 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors"
                   title="Copy Builder ID"
                   onClick={() => {
-                    navigator.clipboard.writeText(doc?.header.id || "");
-                    toast("Copied Builder ID!", {
-                      type: "success",
-                    });
+                    void navigator.clipboard.writeText(doc?.header.id || "");
+                    toast("Copied Builder ID!", { type: "success" });
                   }}
                 >
-                  <Icon name="Copy" size={16} className="text-gray-400" />
+                  <Copy size={16} className="text-slate-500" />
                 </button>
               </div>
             </div>
 
+            {/* Last Modified */}
+            <div>
+              <label className="field-label">Last Modified</label>
+              <div className="meta-value">
+                {state?.lastModified
+                  ? formatLastModified(state.lastModified)
+                  : "Never modified"}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Identity Section */}
+        <div className="section-card p-6">
+          <h3 className="text-lg font-semibold text-slate-900 mb-6 flex items-center gap-2">
+            <span className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center">
+              <User size={18} className="text-indigo-600" />
+            </span>
+            Identity
+          </h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Builder Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Builder Name:
-              </label>
+              <label className="field-label">Builder Name</label>
               <TextInput
                 className="w-full"
                 defaultValue={state?.name || ""}
@@ -351,15 +377,29 @@ export default function Editor() {
                     handleFieldChange("name", e.target.value);
                   }
                 }}
-                placeholder="Enter your name"
+                placeholder="Enter your name or team name"
               />
             </div>
 
-            {/* Slug */}
+            {/* Code */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Profile Slug:
-              </label>
+              <label className="field-label">Code</label>
+              <TextInput
+                className="w-full"
+                defaultValue={state?.code || ""}
+                onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
+                  if (e.target.value !== state?.code) {
+                    handleFieldChange("code", e.target.value);
+                  }
+                }}
+                placeholder="Short identifier"
+              />
+              <p className="field-hint">Unique code for quick reference</p>
+            </div>
+
+            {/* Slug - Full width */}
+            <div className="md:col-span-2">
+              <label className="field-label">Profile Slug</label>
               <TextInput
                 className="w-full"
                 value={state?.slug || ""}
@@ -368,42 +408,150 @@ export default function Editor() {
                 }}
                 placeholder="your-profile-slug"
               />
-              <p className="text-xs text-gray-500 mt-1">
-                Used for your profile URL (lowercase, no spaces)
+              <p className="field-hint">
+                Auto-generated from name. Lowercase, hyphens only.
               </p>
             </div>
 
-            {/* Icon URL */}
-            <ImageUrlInput
-              label="Profile Icon:"
-              value={state?.icon || ""}
-              onChange={(value) => handleFieldChange("icon", value)}
-              placeholder="BuilderIcon.jpg"
-              fileSize="200KB"
-            />
-
-            {/* Description */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Description:
-              </label>
-              <Textarea
-                className="w-full"
-                defaultValue={state?.description || ""}
-                onBlur={(e: React.FocusEvent<HTMLTextAreaElement>) => {
-                  if (e.target.value !== state?.description) {
-                    handleFieldChange("description", e.target.value);
-                  }
-                }}
-                placeholder="Tell us about yourself as a builder..."
-                rows={4}
-                autoExpand
+            {/* Profile Icon */}
+            <div className="md:col-span-2">
+              <ImageUrlInput
+                label="Profile Image"
+                value={state?.icon || ""}
+                onChange={(value) => handleFieldChange("icon", value)}
+                placeholder="https://example.com/avatar.jpg"
               />
             </div>
           </div>
         </div>
 
-        {/* Toast Container */}
+        {/* Status & Type Section */}
+        <div className="section-card p-6">
+          <h3 className="text-lg font-semibold text-slate-900 mb-6 flex items-center gap-2">
+            <span className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
+              <Settings size={18} className="text-amber-600" />
+            </span>
+            Status & Type
+          </h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Status */}
+            <div>
+              <label className="field-label">Current Status</label>
+              <select
+                className="status-select w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white"
+                value={state?.status || ""}
+                onChange={(e) => {
+                  if (e.target.value) {
+                    handleStatusChange(e.target.value as BuilderStatus);
+                  }
+                }}
+              >
+                <option value="" disabled>
+                  Select status...
+                </option>
+                {STATUS_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Profile Type Toggle */}
+            <div>
+              <label className="field-label">Profile Type</label>
+              <div className="type-toggle">
+                <button
+                  type="button"
+                  onClick={() => handleTypeChange("INDIVIDUAL")}
+                  className={state?.type === "INDIVIDUAL" ? "active" : ""}
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    <User size={16} />
+                    Individual
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleTypeChange("TEAM")}
+                  className={state?.type === "TEAM" ? "active" : ""}
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    <Users size={16} />
+                    Team
+                  </span>
+                </button>
+              </div>
+              <p className="field-hint">
+                {state?.type === "TEAM"
+                  ? "Teams can add contributors to their profile"
+                  : "Individual profiles represent a single builder"}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Description Section */}
+        <div className="section-card p-6">
+          <h3 className="text-lg font-semibold text-slate-900 mb-6 flex items-center gap-2">
+            <span className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
+              <FileText size={18} className="text-emerald-600" />
+            </span>
+            About
+          </h3>
+
+          <div>
+            <label className="field-label">Description</label>
+            <Textarea
+              className="w-full"
+              defaultValue={state?.description || ""}
+              onBlur={(e: React.FocusEvent<HTMLTextAreaElement>) => {
+                if (e.target.value !== state?.description) {
+                  handleFieldChange("description", e.target.value);
+                }
+              }}
+              placeholder="Describe your expertise, focus areas, and what you bring to the ecosystem..."
+              rows={4}
+              autoExpand
+            />
+            <p className="field-hint">
+              A compelling description helps others understand your capabilities
+            </p>
+          </div>
+        </div>
+
+        {/* Skills Section */}
+        <SkillsSection
+          skills={state?.skilss || []}
+          onAddSkill={handleAddSkill}
+          onRemoveSkill={handleRemoveSkill}
+        />
+
+        {/* Scopes Section */}
+        <ScopesSection
+          scopes={state?.scopes || []}
+          onAddScope={handleAddScope}
+          onRemoveScope={handleRemoveScope}
+        />
+
+        {/* Links Section */}
+        <LinksSection
+          links={state?.links || []}
+          onAddLink={handleAddLink}
+          onEditLink={handleEditLink}
+          onRemoveLink={handleRemoveLink}
+        />
+
+        {/* Contributors Section - Only shown for TEAM type */}
+        {state?.type === "TEAM" && (
+          <ContributorsSection
+            contributors={state.contributors}
+            onAddContributor={handleAddContributor}
+            onRemoveContributor={handleRemoveContributor}
+          />
+        )}
+
         <ToastContainer position="bottom-right" />
       </div>
     </div>

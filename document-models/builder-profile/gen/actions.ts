@@ -1,5 +1,5 @@
-import type { BuilderProfileBuilderAction } from "./builder/actions.js";
+import type { BuilderProfileBuildersAction } from "./builders/actions.js";
 
-export * from "./builder/actions.js";
+export * from "./builders/actions.js";
 
-export type BuilderProfileAction = BuilderProfileBuilderAction;
+export type BuilderProfileAction = BuilderProfileBuildersAction;
