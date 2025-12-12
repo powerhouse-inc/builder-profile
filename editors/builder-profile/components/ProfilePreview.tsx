@@ -127,13 +127,13 @@ export function ProfilePreview({ state }: ProfilePreviewProps) {
         )}
 
         {/* Skills */}
-        {state.skilss && state.skilss.length > 0 && (
+        {state.skils && state.skils.length > 0 && (
           <div className="mb-4">
             <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
               Skills
             </p>
             <div className="flex flex-wrap gap-1.5">
-              {state.skilss.map((skill) => (
+              {state.skils.map((skill) => (
                 <span
                   key={skill}
                   className="px-2.5 py-1 rounded-lg text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-100"
