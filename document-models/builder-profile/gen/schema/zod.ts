@@ -152,7 +152,7 @@ export function BuilderProfileStateSchema(): z.ZodObject<
     links: z.array(BuilderLinkSchema()),
     name: z.string().nullable(),
     scopes: z.array(BuilderScopeSchema),
-    skilss: z.array(BuilderSkillSchema),
+    skils: z.array(BuilderSkillSchema),
     slug: z.string().nullable(),
     status: BuilderStatusSchema.nullable(),
     type: TeamTypeSchema,
