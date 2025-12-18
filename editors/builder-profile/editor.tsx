@@ -24,6 +24,7 @@ import { LinksSection } from "./components/LinksSection.js";
 import { ContributorsSection } from "./components/ContributorsSection.js";
 import { ProfilePreview } from "./components/ProfilePreview.js";
 import { ImageUrlInput } from "./components/ImageUrlInput.js";
+import { MarkdownEditor } from "./components/markdown-editor.js";
 
 const STATUS_OPTIONS: {
   value: BuilderStatus;
@@ -56,7 +57,7 @@ export default function Editor() {
       dispatch(
         actions.updateProfile({
           id: doc.header.id,
-        }),
+        })
       );
     }
   }, [state?.id, dispatch, doc?.header.id]);
@@ -115,7 +116,7 @@ export default function Editor() {
         dispatch(actions.updateProfile({ [field]: value }));
       }
     },
-    [dispatch, generateSlug],
+    [dispatch, generateSlug]
   );
 
   // Handle status change
@@ -124,7 +125,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.updateProfile({ status }));
     },
-    [dispatch],
+    [dispatch]
   );
 
   // Handle type change
@@ -133,7 +134,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.updateProfile({ type }));
     },
-    [dispatch],
+    [dispatch]
   );
 
   // Skill handlers
@@ -142,7 +143,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.addSkill({ skill }));
     },
-    [dispatch],
+    [dispatch]
   );
 
   const handleRemoveSkill = useCallback(
@@ -150,7 +151,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.removeSkill({ skill }));
     },
-    [dispatch],
+    [dispatch]
   );
 
   // Scope handlers
@@ -159,7 +160,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.addScope({ scope }));
     },
-    [dispatch],
+    [dispatch]
   );
 
   const handleRemoveScope = useCallback(
@@ -167,7 +168,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.removeScope({ scope }));
     },
-    [dispatch],
+    [dispatch]
   );
 
   // Link handlers
@@ -175,20 +176,20 @@ export default function Editor() {
     (link: { id: string; url: string; label?: string }) => {
       if (!dispatch) return;
       dispatch(
-        actions.addLink({ id: link.id, url: link.url, label: link.label }),
+        actions.addLink({ id: link.id, url: link.url, label: link.label })
       );
     },
-    [dispatch],
+    [dispatch]
   );
 
   const handleEditLink = useCallback(
     (link: { id: string; url: string; label?: string }) => {
       if (!dispatch) return;
       dispatch(
-        actions.editLink({ id: link.id, url: link.url, label: link.label }),
+        actions.editLink({ id: link.id, url: link.url, label: link.label })
       );
     },
-    [dispatch],
+    [dispatch]
   );
 
   const handleRemoveLink = useCallback(
@@ -196,7 +197,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.removeLink({ id }));
     },
-    [dispatch],
+    [dispatch]
   );
 
   // Contributor handlers
@@ -205,7 +206,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.addContributor({ contributorPHID }));
     },
-    [dispatch],
+    [dispatch]
   );
 
   const handleRemoveContributor = useCallback(
@@ -213,7 +214,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.removeContributor({ contributorPHID }));
     },
-    [dispatch],
+    [dispatch]
   );
 
   return (
@@ -502,18 +503,14 @@ export default function Editor() {
           </h3>
 
           <div>
-            <label className="field-label">Description</label>
-            <Textarea
-              className="w-full"
-              defaultValue={state?.description || ""}
-              onBlur={(e: React.FocusEvent<HTMLTextAreaElement>) => {
-                if (e.target.value !== state?.description) {
-                  handleFieldChange("description", e.target.value);
-                }
-              }}
-              placeholder="Describe your expertise, focus areas, and what you bring to the ecosystem..."
-              rows={4}
-              autoExpand
+            <MarkdownEditor
+              label="What is the builder profile about?"
+              height={350}
+              value={state?.description || ""}
+              onChange={() => {}}
+              onBlur={(value: string) =>
+                handleFieldChange("description", value)
+              }
             />
             <p className="field-hint">
               A compelling description helps others understand your capabilities
