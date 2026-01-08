@@ -57,7 +57,7 @@ export default function Editor() {
       dispatch(
         actions.updateProfile({
           id: doc.header.id,
-        })
+        }),
       );
     }
   }, [state?.id, dispatch, doc?.header.id]);
@@ -116,7 +116,7 @@ export default function Editor() {
         dispatch(actions.updateProfile({ [field]: value }));
       }
     },
-    [dispatch, generateSlug]
+    [dispatch, generateSlug],
   );
 
   // Handle status change
@@ -125,7 +125,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.updateProfile({ status }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // Handle type change
@@ -134,7 +134,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.updateProfile({ type }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // Skill handlers
@@ -143,7 +143,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.addSkill({ skill }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleRemoveSkill = useCallback(
@@ -151,7 +151,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.removeSkill({ skill }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // Scope handlers
@@ -160,7 +160,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.addScope({ scope }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleRemoveScope = useCallback(
@@ -168,7 +168,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.removeScope({ scope }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // Link handlers
@@ -176,20 +176,20 @@ export default function Editor() {
     (link: { id: string; url: string; label?: string }) => {
       if (!dispatch) return;
       dispatch(
-        actions.addLink({ id: link.id, url: link.url, label: link.label })
+        actions.addLink({ id: link.id, url: link.url, label: link.label }),
       );
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleEditLink = useCallback(
     (link: { id: string; url: string; label?: string }) => {
       if (!dispatch) return;
       dispatch(
-        actions.editLink({ id: link.id, url: link.url, label: link.label })
+        actions.editLink({ id: link.id, url: link.url, label: link.label }),
       );
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleRemoveLink = useCallback(
@@ -197,7 +197,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.removeLink({ id }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // Contributor handlers
@@ -206,7 +206,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.addContributor({ contributorPHID }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleRemoveContributor = useCallback(
@@ -214,7 +214,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.removeContributor({ contributorPHID }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   return (

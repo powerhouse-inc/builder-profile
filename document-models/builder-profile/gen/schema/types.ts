@@ -67,11 +67,11 @@ export type AddLinkInput = {
 };
 
 export type AddScopeInput = {
-  scope?: InputMaybe<BuilderScopeInput | `${BuilderScopeInput}`>;
+  scope?: InputMaybe<BuilderScopeInput>;
 };
 
 export type AddSkillInput = {
-  skill?: InputMaybe<BuilderSkillInput | `${BuilderSkillInput}`>;
+  skill?: InputMaybe<BuilderSkillInput>;
 };
 
 export type BuilderLink = {
@@ -89,11 +89,11 @@ export type BuilderProfileState = {
   lastModified: Maybe<Scalars["DateTime"]["output"]>;
   links: Array<BuilderLink>;
   name: Maybe<Scalars["String"]["output"]>;
-  scopes: Array<BuilderScope | `${BuilderScope}`>;
-  skils: Array<BuilderSkill | `${BuilderSkill}`>;
+  scopes: Array<BuilderScope>;
+  skils: Array<BuilderSkill>;
   slug: Maybe<Scalars["String"]["output"]>;
-  status: Maybe<BuilderStatus | `${BuilderStatus}`>;
-  type: TeamType | `${TeamType}`;
+  status: Maybe<BuilderStatus>;
+  type: TeamType;
 };
 
 export type BuilderScope =
@@ -167,11 +167,11 @@ export type RemoveLinkInput = {
 };
 
 export type RemoveScopeInput = {
-  scope?: InputMaybe<BuilderScopeInput | `${BuilderScopeInput}`>;
+  scope?: InputMaybe<BuilderScopeInput>;
 };
 
 export type RemoveSkillInput = {
-  skill?: InputMaybe<BuilderSkillInput | `${BuilderSkillInput}`>;
+  skill?: InputMaybe<BuilderSkillInput>;
 };
 
 export type UpdateProfileInput = {
@@ -181,8 +181,8 @@ export type UpdateProfileInput = {
   id?: InputMaybe<Scalars["PHID"]["input"]>;
   name?: InputMaybe<Scalars["String"]["input"]>;
   slug?: InputMaybe<Scalars["String"]["input"]>;
-  status?: InputMaybe<BuilderStatusInput | `${BuilderStatusInput}`>;
-  type?: InputMaybe<TeamTypeInput | `${TeamTypeInput}`>;
+  status?: InputMaybe<BuilderStatusInput>;
+  type?: InputMaybe<TeamTypeInput>;
 };
 
 export type TeamType = "INDIVIDUAL" | "TEAM";
