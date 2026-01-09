@@ -4,6 +4,7 @@ import type {
   BuilderSkill,
   BuilderScope,
 } from "../../../document-models/builder-profile/gen/types.js";
+import { MarkdownPreview } from "./MarkdownPreview.js";
 
 const SKILL_LABELS: Record<BuilderSkill, string> = {
   FRONTEND_DEVELOPMENT: "Frontend",
@@ -121,19 +122,19 @@ export function ProfilePreview({ state }: ProfilePreviewProps) {
 
         {/* Description */}
         {state.description && (
-          <p className="text-slate-600 text-sm leading-relaxed mb-5">
-            {state.description}
-          </p>
+          <div className="mb-5">
+            <MarkdownPreview content={state.description} maxLength={300} />
+          </div>
         )}
 
         {/* Skills */}
-        {state.skils && state.skils.length > 0 && (
+        {state.skills && state.skills.length > 0 && (
           <div className="mb-4">
             <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
               Skills
             </p>
             <div className="flex flex-wrap gap-1.5">
-              {state.skils.map((skill) => (
+              {state.skills.map((skill) => (
                 <span
                   key={skill}
                   className="px-2.5 py-1 rounded-lg text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-100"

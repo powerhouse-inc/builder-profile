@@ -23,7 +23,7 @@ export function defaultGlobalState(): BuilderProfileGlobalState {
     type: "INDIVIDUAL",
     contributors: [],
     status: null,
-    skils: [],
+    skills: [],
     scopes: [],
     links: [],
   };

@@ -90,7 +90,7 @@ export type BuilderProfileState = {
   links: Array<BuilderLink>;
   name: Maybe<Scalars["String"]["output"]>;
   scopes: Array<BuilderScope>;
-  skils: Array<BuilderSkill>;
+  skills: Array<BuilderSkill>;
   slug: Maybe<Scalars["String"]["output"]>;
   status: Maybe<BuilderStatus>;
   type: TeamType;

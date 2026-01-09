@@ -18,8 +18,8 @@ export const builderProfileBuildersOperations: BuilderProfileBuildersOperations 
     },
     addSkillOperation(state, action) {
       if (action.input.skill) {
-        if (!state.skils.includes(action.input.skill)) {
-          state.skils.push(action.input.skill);
+        if (!state.skills.includes(action.input.skill)) {
+          state.skills.push(action.input.skill);
         }
       }
       // Convert UTC timestamp (ms) to ISO string for storage
@@ -27,9 +27,9 @@ export const builderProfileBuildersOperations: BuilderProfileBuildersOperations 
     },
     removeSkillOperation(state, action) {
       if (action.input.skill) {
-        const index = state.skils.indexOf(action.input.skill);
+        const index = state.skills.indexOf(action.input.skill);
         if (index !== -1) {
-          state.skils.splice(index, 1);
+          state.skills.splice(index, 1);
         }
       }
       // Convert UTC timestamp (ms) to ISO string for storage

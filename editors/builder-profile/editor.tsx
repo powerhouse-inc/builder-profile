@@ -520,7 +520,7 @@ export default function Editor() {
 
         {/* Skills Section */}
         <SkillsSection
-          skills={state?.skils || []}
+          skills={state?.skills || []}
           onAddSkill={handleAddSkill}
           onRemoveSkill={handleRemoveSkill}
         />

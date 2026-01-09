@@ -26,7 +26,7 @@ type BuilderProfileState {
   type: teamType!
   contributors: [PHID!]!
   status: BuilderStatus
-  skils: [BuilderSkill!]!
+  skills: [BuilderSkill!]!
   scopes: [BuilderScope!]!
   links: [BuilderLink!]!
 }
