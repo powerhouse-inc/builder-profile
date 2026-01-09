@@ -143,6 +143,7 @@ export function BuilderProfileStateSchema(): z.ZodObject<
 > {
   return z.object({
     __typename: z.literal("BuilderProfileState").optional(),
+    about: z.string().nullable(),
     code: z.string().nullable(),
     contributors: z.array(z.string()),
     description: z.string().nullable(),
@@ -203,6 +204,7 @@ export function UpdateProfileInputSchema(): z.ZodObject<
   Properties<UpdateProfileInput>
 > {
   return z.object({
+    about: z.string().nullish(),
     code: z.string().nullish(),
     description: z.string().nullish(),
     icon: z.string().url().nullish(),

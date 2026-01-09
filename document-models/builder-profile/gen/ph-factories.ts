@@ -19,6 +19,7 @@ export function defaultGlobalState(): BuilderProfileGlobalState {
     name: null,
     icon: null,
     description: null,
+    about: null,
     lastModified: null,
     type: "INDIVIDUAL",
     contributors: [],

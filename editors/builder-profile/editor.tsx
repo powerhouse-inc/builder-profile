@@ -6,7 +6,7 @@ import {
   DocumentToolbar,
 } from "@powerhousedao/design-system/connect";
 import { actions } from "../../document-models/builder-profile/index.js";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelectedBuilderProfileDocument } from "../../document-models/builder-profile/hooks.js";
 import {
   setSelectedNode,
@@ -38,6 +38,8 @@ const STATUS_OPTIONS: {
   { value: "ARCHIVED", label: "Archived", color: "bg-slate-300" },
 ];
 
+const DESCRIPTION_MAX_LENGTH = 350;
+
 export default function Editor() {
   const [doc, dispatch] = useSelectedBuilderProfileDocument();
   const state = doc?.state.global;
@@ -49,6 +51,14 @@ export default function Editor() {
   }
 
   const idGeneratedRef = useRef(false);
+  const [descriptionValue, setDescriptionValue] = useState(
+    state?.description || "",
+  );
+
+  // Sync description state when document changes
+  useEffect(() => {
+    setDescriptionValue(state?.description || "");
+  }, [state?.description]);
 
   // Auto-generate ID if not present (only once)
   useEffect(() => {
@@ -499,22 +509,77 @@ export default function Editor() {
             <span className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
               <FileText size={18} className="text-emerald-600" />
             </span>
-            About
+            Description & About
           </h3>
 
-          <div>
-            <MarkdownEditor
-              label="What is the builder profile about?"
-              height={350}
-              value={state?.description || ""}
-              onChange={() => {}}
-              onBlur={(value: string) =>
-                handleFieldChange("description", value)
-              }
-            />
-            <p className="field-hint">
-              A compelling description helps others understand your capabilities
-            </p>
+          <div className="space-y-6">
+            {/* Short Description */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className="field-label mb-0">Short Description</label>
+                <span
+                  className={`text-xs font-medium ${
+                    descriptionValue.length > DESCRIPTION_MAX_LENGTH
+                      ? "text-red-500"
+                      : descriptionValue.length > DESCRIPTION_MAX_LENGTH * 0.9
+                        ? "text-amber-500"
+                        : "text-slate-400"
+                  }`}
+                >
+                  {descriptionValue.length}/{DESCRIPTION_MAX_LENGTH}
+                </span>
+              </div>
+              <Textarea
+                className={`w-full ${
+                  descriptionValue.length > DESCRIPTION_MAX_LENGTH
+                    ? "border-red-300 focus:ring-red-500 focus:border-red-500"
+                    : ""
+                }`}
+                value={descriptionValue}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                  setDescriptionValue(e.target.value);
+                }}
+                onBlur={(e: React.FocusEvent<HTMLTextAreaElement>) => {
+                  if (e.target.value !== state?.description) {
+                    if (e.target.value.length > DESCRIPTION_MAX_LENGTH) {
+                      toast(
+                        `Description exceeds ${DESCRIPTION_MAX_LENGTH} character limit`,
+                        { type: "error" },
+                      );
+                      return;
+                    }
+                    handleFieldChange("description", e.target.value);
+                  }
+                }}
+                placeholder="A brief summary of your builder profile"
+                rows={3}
+                maxLength={DESCRIPTION_MAX_LENGTH + 50}
+              />
+              {descriptionValue.length > DESCRIPTION_MAX_LENGTH && (
+                <p className="text-xs text-red-500 mt-1">
+                  Description exceeds {DESCRIPTION_MAX_LENGTH} character limit.
+                  Please shorten it to save.
+                </p>
+              )}
+              <p className="field-hint">
+                A short, plain-text description shown in previews and listings
+              </p>
+            </div>
+
+            {/* About (Markdown) */}
+            <div>
+              <MarkdownEditor
+                label="About"
+                height={350}
+                value={state?.about || ""}
+                onChange={() => {}}
+                onBlur={(value: string) => handleFieldChange("about", value)}
+              />
+              <p className="field-hint">
+                A detailed description with markdown formatting to showcase your
+                capabilities
+              </p>
+            </div>
           </div>
         </div>
 

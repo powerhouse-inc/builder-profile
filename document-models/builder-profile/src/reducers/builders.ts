@@ -8,8 +8,15 @@ export const builderProfileBuildersOperations: BuilderProfileBuildersOperations 
       if (action.input.slug) state.slug = action.input.slug;
       if (action.input.name) state.name = action.input.name;
       if (action.input.icon) state.icon = action.input.icon;
-      if (action.input.description)
+      if (action.input.description) {
+        if (action.input.description.length > 350) {
+          throw new Error(
+            `Description exceeds maximum length of 350 characters (${action.input.description.length} provided)`,
+          );
+        }
         state.description = action.input.description;
+      }
+      if (action.input.about) state.about = action.input.about;
       if (action.input.status) state.status = action.input.status;
       if (action.input.type) state.type = action.input.type;
 

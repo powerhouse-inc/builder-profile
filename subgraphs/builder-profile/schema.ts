@@ -82,6 +82,7 @@ export const schema: DocumentNode = gql`
     name: String
     icon: URL
     description: String
+    about: String
     status: BuilderProfile_BuilderStatusInput
     type: BuilderProfile_teamTypeInput
   }

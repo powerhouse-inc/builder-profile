@@ -120,10 +120,17 @@ export function ProfilePreview({ state }: ProfilePreviewProps) {
           )}
         </div>
 
-        {/* Description */}
+        {/* Short Description */}
         {state.description && (
+          <p className="text-sm text-slate-600 mb-4 leading-relaxed">
+            {state.description}
+          </p>
+        )}
+
+        {/* About (Markdown) */}
+        {state.about && (
           <div className="mb-5">
-            <MarkdownPreview content={state.description} maxLength={300} />
+            <MarkdownPreview content={state.about} maxLength={300} />
           </div>
         )}
 
