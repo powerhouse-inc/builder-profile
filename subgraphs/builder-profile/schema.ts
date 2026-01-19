@@ -92,54 +92,20 @@ export const schema: DocumentNode = gql`
     type: BuilderProfile_teamTypeInput
   }
 
-  enum BuilderProfile_teamTypeInput {
-    INDIVIDUAL
-    TEAM
-  }
-
-  enum BuilderProfile_BuilderStatusInput {
-    ACTIVE
-    INACTIVE
-    ON_HOLD
-    COMPLETED
-    ARCHIVED
-  }
-
   input BuilderProfile_AddSkillInput {
     skill: BuilderProfile_BuilderSkillInput
   }
 
-  enum BuilderProfile_BuilderSkillInput {
-    FRONTEND_DEVELOPMENT
-    BACKEND_DEVELOPMENT
-    FULL_STACK_DEVELOPMENT
-    DEVOPS_ENGINEERING
-    SMART_CONTRACT_DEVELOPMENT
-    UI_UX_DESIGN
-    TECHNICAL_WRITING
-    QA_TESTING
-    DATA_ENGINEERING
-    SECURITY_ENGINEERING
-  }
   input BuilderProfile_RemoveSkillInput {
-    skill: BuilderSkillInput
+    skill: BuilderProfile_BuilderSkillInput
   }
 
   input BuilderProfile_AddScopeInput {
     scope: BuilderProfile_BuilderScopeInput
   }
 
-  enum BuilderProfile_BuilderScopeInput {
-    ACC
-    STA
-    SUP
-    STABILITY_SCOPE
-    SUPPORT_SCOPE
-    PROTOCOL_SCOPE
-    GOVERNANCE_SCOPE
-  }
   input BuilderProfile_RemoveScopeInput {
-    scope: BuilderScopeInput
+    scope: BuilderProfile_BuilderScopeInput
   }
   input BuilderProfile_AddLinkInput {
     id: OID!

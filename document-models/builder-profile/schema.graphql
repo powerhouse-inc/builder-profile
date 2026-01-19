@@ -75,6 +75,41 @@ type BuilderLink {
   label: String
 }
 
+enum teamTypeInput {
+  INDIVIDUAL
+  TEAM
+}
+
+enum BuilderStatusInput {
+  ACTIVE
+  INACTIVE
+  ON_HOLD
+  COMPLETED
+  ARCHIVED
+}
+
+enum BuilderSkillInput {
+  FRONTEND_DEVELOPMENT
+  BACKEND_DEVELOPMENT
+  FULL_STACK_DEVELOPMENT
+  DEVOPS_ENGINEERING
+  SMART_CONTRACT_DEVELOPMENT
+  UI_UX_DESIGN
+  TECHNICAL_WRITING
+  QA_TESTING
+  DATA_ENGINEERING
+  SECURITY_ENGINEERING
+}
+
+enum BuilderScopeInput {
+  ACC
+  STA
+  SUP
+  STABILITY_SCOPE
+  SUPPORT_SCOPE
+  PROTOCOL_SCOPE
+  GOVERNANCE_SCOPE
+}
 
 
 
@@ -92,36 +127,14 @@ input UpdateProfileInput {
   type: teamTypeInput
 }
 
-enum teamTypeInput {
-  INDIVIDUAL
-  TEAM
-}
 
-enum BuilderStatusInput {
-  ACTIVE
-  INACTIVE
-  ON_HOLD
-  COMPLETED
-  ARCHIVED
-}
 
 
 input AddSkillInput {
   skill: BuilderSkillInput
 }
 
-enum BuilderSkillInput {
-  FRONTEND_DEVELOPMENT
-  BACKEND_DEVELOPMENT
-  FULL_STACK_DEVELOPMENT
-  DEVOPS_ENGINEERING
-  SMART_CONTRACT_DEVELOPMENT
-  UI_UX_DESIGN
-  TECHNICAL_WRITING
-  QA_TESTING
-  DATA_ENGINEERING
-  SECURITY_ENGINEERING
-}
+
 
 input RemoveSkillInput {
   skill: BuilderSkillInput
@@ -133,15 +146,7 @@ input AddScopeInput {
   scope: BuilderScopeInput
 }
 
-enum BuilderScopeInput {
-  ACC
-  STA
-  SUP
-  STABILITY_SCOPE
-  SUPPORT_SCOPE
-  PROTOCOL_SCOPE
-  GOVERNANCE_SCOPE
-}
+
 
 input RemoveScopeInput {
   scope: BuilderScopeInput
