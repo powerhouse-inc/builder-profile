@@ -227,6 +227,18 @@ export default function Editor() {
     [dispatch],
   );
 
+  // Operator handler
+  const handleSetOperator = useCallback(
+    (isOperator: boolean) => {
+      if (!dispatch) return;
+      dispatch(actions.setOperator({ isOperator }));
+    },
+    [dispatch],
+  );
+
+  // Dynamic role label based on isOperator flag
+  const roleLabel = state?.isOperator ? "Operator" : "Builder";
+
   return (
     <div className="w-full min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
       <style>
@@ -303,21 +315,94 @@ export default function Editor() {
             background-size: 1.25em 1.25em;
             padding-right: 2.5rem;
           }
+          .builder-editor .role-toggle {
+            display: flex;
+            background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+            border-radius: 12px;
+            padding: 3px;
+            gap: 3px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+          }
+          .builder-editor .role-toggle button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.5rem 0.875rem;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            border-radius: 9px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #64748B;
+            background: transparent;
+            white-space: nowrap;
+          }
+          .builder-editor .role-toggle button .role-icon {
+            font-size: 0.875rem;
+            transition: transform 0.2s ease;
+          }
+          .builder-editor .role-toggle button:hover:not(.active) {
+            color: #475569;
+            background: rgba(255, 255, 255, 0.6);
+          }
+          .builder-editor .role-toggle button.active {
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+          }
+          .builder-editor .role-toggle button.active.builder {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+          }
+          .builder-editor .role-toggle button.active.operator {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+          }
+          .builder-editor .role-toggle button.active .role-icon {
+            transform: scale(1.1);
+          }
         `}
       </style>
 
       <DocumentToolbar document={doc} onClose={handleClose} />
 
       <div className="builder-editor p-6 max-w-4xl mx-auto space-y-6 pb-12">
-        {/* Header */}
+        {/* Header with Role Toggle */}
         <div className="section-card p-8">
-          <div>
-            <h1 className="text-2xl font-semibold text-slate-900 tracking-tight">
-              Builder Profile
-            </h1>
-            <p className="text-slate-500 mt-1 text-sm">
-              Configure your builder identity and capabilities
-            </p>
+          <div className="flex items-start justify-between gap-6">
+            <div>
+              <h1 className="text-2xl font-semibold text-slate-900 tracking-tight">
+                {roleLabel} Profile
+              </h1>
+              <p className="text-slate-500 mt-1 text-sm">
+                Configure your {roleLabel.toLowerCase()} identity and
+                capabilities
+              </p>
+            </div>
+
+            {/* Role Toggle */}
+            <div className="flex flex-col items-end gap-1.5">
+              <div className="role-toggle">
+                <button
+                  type="button"
+                  onClick={() => handleSetOperator(false)}
+                  className={!state?.isOperator ? "active builder" : ""}
+                >
+                  <span className="role-icon">🔨</span>
+                  Builder
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSetOperator(true)}
+                  className={state?.isOperator ? "active operator" : ""}
+                >
+                  <span className="role-icon">⚡</span>
+                  Operator
+                </button>
+              </div>
+              <p className="text-xs text-slate-400 text-right max-w-[180px]">
+                {state?.isOperator ? "Sells & buys services" : "Buys services"}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -334,9 +419,9 @@ export default function Editor() {
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Builder ID */}
+            {/* Builder/Operator ID */}
             <div>
-              <label className="field-label">Builder ID</label>
+              <label className="field-label">{roleLabel} ID</label>
               <div className="flex items-center gap-2">
                 <code className="meta-value flex-1 truncate">
                   {doc?.header.id}
@@ -344,10 +429,10 @@ export default function Editor() {
                 <button
                   type="button"
                   className="p-2 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors"
-                  title="Copy Builder ID"
+                  title={`Copy ${roleLabel} ID`}
                   onClick={() => {
                     void navigator.clipboard.writeText(doc?.header.id || "");
-                    toast("Copied Builder ID!", { type: "success" });
+                    toast(`Copied ${roleLabel} ID!`, { type: "success" });
                   }}
                 >
                   <Copy size={16} className="text-slate-500" />
@@ -377,9 +462,9 @@ export default function Editor() {
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Builder Name */}
+            {/* Builder/Operator Name */}
             <div>
-              <label className="field-label">Builder Name</label>
+              <label className="field-label">{roleLabel} Name</label>
               <TextInput
                 className="w-full"
                 defaultValue={state?.name || ""}
@@ -497,7 +582,7 @@ export default function Editor() {
               <p className="field-hint">
                 {state?.type === "TEAM"
                   ? "Teams can add contributors to their profile"
-                  : "Individual profiles represent a single builder"}
+                  : `Individual profiles represent a single ${roleLabel.toLowerCase()}`}
               </p>
             </div>
           </div>
@@ -551,7 +636,7 @@ export default function Editor() {
                     handleFieldChange("description", e.target.value);
                   }
                 }}
-                placeholder="A brief summary of your builder profile"
+                placeholder={`A brief summary of your ${roleLabel.toLowerCase()} profile`}
                 rows={3}
                 maxLength={DESCRIPTION_MAX_LENGTH + 50}
               />

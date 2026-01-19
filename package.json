@@ -1,7 +1,7 @@
 {
   "name": "@powerhousedao/builder-profile",
   "description": "Builder profile document model",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "license": "AGPL-3.0-only",
   "type": "module",
   "files": [
@@ -66,6 +66,7 @@
     "@powerhousedao/common": "^5.1.0",
     "@powerhousedao/design-system": "^5.1.0",
     "@powerhousedao/document-engineering": "^1.40.0",
+    "@powerhousedao/vetra": "^5.1.0",
     "@uiw/react-md-editor": "^4.0.11",
     "document-model": "^5.1.0",
     "error": "^10.4.0",

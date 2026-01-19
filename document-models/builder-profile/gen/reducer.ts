@@ -18,6 +18,7 @@ import {
   RemoveLinkInputSchema,
   AddContributorInputSchema,
   RemoveContributorInputSchema,
+  SetOperatorInputSchema,
 } from "./schema/zod.js";
 
 const stateReducer: StateReducer<BuilderProfilePHState> = (
@@ -114,6 +115,15 @@ const stateReducer: StateReducer<BuilderProfilePHState> = (
     case "REMOVE_CONTRIBUTOR":
       RemoveContributorInputSchema().parse(action.input);
       builderProfileBuildersOperations.removeContributorOperation(
+        (state as any)[action.scope],
+        action as any,
+        dispatch,
+      );
+      break;
+
+    case "SET_OPERATOR":
+      SetOperatorInputSchema().parse(action.input);
+      builderProfileBuildersOperations.setOperatorOperation(
         (state as any)[action.scope],
         action as any,
         dispatch,

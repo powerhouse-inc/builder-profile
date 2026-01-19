@@ -29,6 +29,7 @@ export const initialGlobalState: BuilderProfileGlobalState = {
   description: null,
   about: null,
   lastModified: null,
+  isOperator: false,
   type: "INDIVIDUAL",
   contributors: [],
   status: null,

@@ -112,4 +112,7 @@ export const builderProfileBuildersOperations: BuilderProfileBuildersOperations 
       // Convert UTC timestamp (ms) to ISO string for storage
       state.lastModified = new Date(action.timestampUtcMs).toISOString();
     },
+    setOperatorOperation(state, action) {
+      state.isOperator = action.input.isOperator;
+    },
   };

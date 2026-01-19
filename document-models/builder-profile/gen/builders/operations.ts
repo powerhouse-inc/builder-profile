@@ -10,6 +10,7 @@ import {
   type RemoveLinkAction,
   type AddContributorAction,
   type RemoveContributorAction,
+  type SetOperatorAction,
 } from "./actions.js";
 import { type BuilderProfileState } from "../types.js";
 
@@ -62,6 +63,11 @@ export interface BuilderProfileBuildersOperations {
   removeContributorOperation: (
     state: BuilderProfileState,
     action: RemoveContributorAction,
+    dispatch?: SignalDispatch,
+  ) => void;
+  setOperatorOperation: (
+    state: BuilderProfileState,
+    action: SetOperatorAction,
     dispatch?: SignalDispatch,
   ) => void;
 }

@@ -10,6 +10,7 @@ import type {
   RemoveLinkInput,
   AddContributorInput,
   RemoveContributorInput,
+  SetOperatorInput,
 } from "../types.js";
 
 export type UpdateProfileAction = Action & {
@@ -49,6 +50,10 @@ export type RemoveContributorAction = Action & {
   type: "REMOVE_CONTRIBUTOR";
   input: RemoveContributorInput;
 };
+export type SetOperatorAction = Action & {
+  type: "SET_OPERATOR";
+  input: SetOperatorInput;
+};
 
 export type BuilderProfileBuildersAction =
   | UpdateProfileAction
@@ -60,4 +65,5 @@ export type BuilderProfileBuildersAction =
   | EditLinkAction
   | RemoveLinkAction
   | AddContributorAction
-  | RemoveContributorAction;
+  | RemoveContributorAction
+  | SetOperatorAction;

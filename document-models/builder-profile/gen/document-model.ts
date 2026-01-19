@@ -136,6 +136,17 @@ export const documentModel: DocumentModelGlobalState = {
               scope: "global",
               template: "",
             },
+            {
+              description: "",
+              errors: [],
+              examples: [],
+              id: "0d82e651-c052-4756-b34a-b209416d17ea",
+              name: "SET_OPERATOR",
+              reducer: "",
+              schema: "input SetOperatorInput {\n  isOperator: Boolean!\n}",
+              scope: "global",
+              template: "",
+            },
           ],
         },
       ],
@@ -143,9 +154,9 @@ export const documentModel: DocumentModelGlobalState = {
         global: {
           examples: [],
           initialValue:
-            '"{\\n  \\"id\\": null,\\n  \\"code\\": null,\\n  \\"slug\\": null,\\n  \\"name\\": null,\\n  \\"icon\\": null,\\n  \\"description\\": null,\\n  \\"about\\": null,\\n  \\"lastModified\\": null,\\n  \\"type\\": \\"INDIVIDUAL\\",\\n  \\"contributors\\": [],\\n  \\"status\\": null,\\n  \\"skills\\": [],\\n  \\"scopes\\": [],\\n  \\"links\\": []\\n}"',
+            '"{\\n  \\"id\\": null,\\n  \\"code\\": null,\\n  \\"slug\\": null,\\n  \\"name\\": null,\\n  \\"icon\\": null,\\n  \\"description\\": null,\\n  \\"about\\": null,\\n  \\"lastModified\\": null,\\n  \\"isOperator\\": false,\\n  \\"type\\": \\"INDIVIDUAL\\",\\n  \\"contributors\\": [],\\n  \\"status\\": null,\\n  \\"skills\\": [],\\n  \\"scopes\\": [],\\n  \\"links\\": []\\n}"',
           schema:
-            "type BuilderProfileState {\n  id: PHID\n  code: String\n  slug: String\n  name: String\n  icon: URL\n  description: String\n  about: String\n  lastModified: DateTime\n  type: teamType!\n  contributors: [PHID!]!\n  status: BuilderStatus\n  skills: [BuilderSkill!]!\n  scopes: [BuilderScope!]!\n  links: [BuilderLink!]!\n}\n\nenum teamType {\n  INDIVIDUAL\n  TEAM\n}\n\nenum BuilderStatus {\n  ACTIVE\n  INACTIVE\n  ON_HOLD\n  COMPLETED\n  ARCHIVED\n}\n\nenum BuilderSkill {\n  FRONTEND_DEVELOPMENT\n  BACKEND_DEVELOPMENT\n  FULL_STACK_DEVELOPMENT\n  DEVOPS_ENGINEERING\n  SMART_CONTRACT_DEVELOPMENT\n  UI_UX_DESIGN\n  TECHNICAL_WRITING\n  QA_TESTING\n  DATA_ENGINEERING\n  SECURITY_ENGINEERING\n}\n\nenum BuilderScope {\n  ACC\n  STA\n  SUP\n  STABILITY_SCOPE\n  SUPPORT_SCOPE\n  PROTOCOL_SCOPE\n  GOVERNANCE_SCOPE\n}\n\ntype BuilderLink {\n  id: OID!\n  url: URL!\n  label: String\n}\n",
+            "type BuilderProfileState {\n  id: PHID\n  code: String\n  slug: String\n  name: String\n  icon: URL\n  description: String\n  about: String\n  lastModified: DateTime\n  isOperator: Boolean!\n  type: teamType!\n  contributors: [PHID!]!\n  status: BuilderStatus\n  skills: [BuilderSkill!]!\n  scopes: [BuilderScope!]!\n  links: [BuilderLink!]!\n}\n\nenum teamType {\n  INDIVIDUAL\n  TEAM\n}\n\nenum BuilderStatus {\n  ACTIVE\n  INACTIVE\n  ON_HOLD\n  COMPLETED\n  ARCHIVED\n}\n\nenum BuilderSkill {\n  FRONTEND_DEVELOPMENT\n  BACKEND_DEVELOPMENT\n  FULL_STACK_DEVELOPMENT\n  DEVOPS_ENGINEERING\n  SMART_CONTRACT_DEVELOPMENT\n  UI_UX_DESIGN\n  TECHNICAL_WRITING\n  QA_TESTING\n  DATA_ENGINEERING\n  SECURITY_ENGINEERING\n}\n\nenum BuilderScope {\n  ACC\n  STA\n  SUP\n  STABILITY_SCOPE\n  SUPPORT_SCOPE\n  PROTOCOL_SCOPE\n  GOVERNANCE_SCOPE\n}\n\ntype BuilderLink {\n  id: OID!\n  url: URL!\n  label: String\n}\n",
         },
         local: {
           examples: [],

@@ -10,6 +10,7 @@ import {
   RemoveLinkInputSchema,
   AddContributorInputSchema,
   RemoveContributorInputSchema,
+  SetOperatorInputSchema,
 } from "../schema/zod.js";
 import type {
   UpdateProfileInput,
@@ -22,6 +23,7 @@ import type {
   RemoveLinkInput,
   AddContributorInput,
   RemoveContributorInput,
+  SetOperatorInput,
 } from "../types.js";
 import type {
   UpdateProfileAction,
@@ -34,6 +36,7 @@ import type {
   RemoveLinkAction,
   AddContributorAction,
   RemoveContributorAction,
+  SetOperatorAction,
 } from "./actions.js";
 
 export const updateProfile = (input: UpdateProfileInput) =>
@@ -123,5 +126,14 @@ export const removeContributor = (input: RemoveContributorInput) =>
     { ...input },
     undefined,
     RemoveContributorInputSchema,
+    "global",
+  );
+
+export const setOperator = (input: SetOperatorInput) =>
+  createAction<SetOperatorAction>(
+    "SET_OPERATOR",
+    { ...input },
+    undefined,
+    SetOperatorInputSchema,
     "global",
   );

@@ -18,6 +18,7 @@ import type {
   RemoveLinkInput,
   AddContributorInput,
   RemoveContributorInput,
+  SetOperatorInput,
 } from "@powerhousedao/builder-profile/document-models/builder-profile";
 
 export const getResolvers = (
@@ -316,6 +317,28 @@ export const getResolvers = (
           throw new Error(
             result.error?.message ?? "Failed to removeContributor",
           );
+        }
+
+        return true;
+      },
+
+      BuilderProfile_setOperator: async (
+        _: unknown,
+        args: { docId: string; input: SetOperatorInput },
+      ) => {
+        const { docId, input } = args;
+        const doc = await reactor.getDocument<BuilderProfileDocument>(docId);
+        if (!doc) {
+          throw new Error("Document not found");
+        }
+
+        const result = await reactor.addAction(
+          docId,
+          actions.setOperator(input),
+        );
+
+        if (result.status !== "SUCCESS") {
+          throw new Error(result.error?.message ?? "Failed to setOperator");
         }
 
         return true;

@@ -70,6 +70,11 @@ export const schema: DocumentNode = gql`
       docId: PHID
       input: BuilderProfile_RemoveContributorInput
     ): Int
+    BuilderProfile_setOperator(
+      driveId: String
+      docId: PHID
+      input: BuilderProfile_SetOperatorInput
+    ): Int
   }
 
   """
@@ -117,7 +122,7 @@ export const schema: DocumentNode = gql`
     SECURITY_ENGINEERING
   }
   input BuilderProfile_RemoveSkillInput {
-    skill: BuilderProfile_BuilderSkillInput
+    skill: BuilderSkillInput
   }
 
   input BuilderProfile_AddScopeInput {
@@ -134,7 +139,7 @@ export const schema: DocumentNode = gql`
     GOVERNANCE_SCOPE
   }
   input BuilderProfile_RemoveScopeInput {
-    scope: BuilderProfile_BuilderScopeInput
+    scope: BuilderScopeInput
   }
   input BuilderProfile_AddLinkInput {
     id: OID!
@@ -154,5 +159,8 @@ export const schema: DocumentNode = gql`
   }
   input BuilderProfile_RemoveContributorInput {
     contributorPHID: PHID!
+  }
+  input BuilderProfile_SetOperatorInput {
+    isOperator: Boolean!
   }
 `;

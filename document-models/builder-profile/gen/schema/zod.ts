@@ -17,6 +17,7 @@ import type {
   RemoveLinkInput,
   RemoveScopeInput,
   RemoveSkillInput,
+  SetOperatorInput,
   UpdateProfileInput,
   TeamType,
   TeamTypeInput,
@@ -149,6 +150,7 @@ export function BuilderProfileStateSchema(): z.ZodObject<
     description: z.string().nullable(),
     icon: z.string().url().nullable(),
     id: z.string().nullable(),
+    isOperator: z.boolean(),
     lastModified: z.string().datetime().nullable(),
     links: z.array(BuilderLinkSchema()),
     name: z.string().nullable(),
@@ -197,6 +199,14 @@ export function RemoveSkillInputSchema(): z.ZodObject<
 > {
   return z.object({
     skill: z.lazy(() => BuilderSkillInputSchema.nullish()),
+  });
+}
+
+export function SetOperatorInputSchema(): z.ZodObject<
+  Properties<SetOperatorInput>
+> {
+  return z.object({
+    isOperator: z.boolean(),
   });
 }
 

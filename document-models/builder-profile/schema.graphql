@@ -24,6 +24,7 @@ type BuilderProfileState {
   description: String
   about: String
   lastModified: DateTime
+  isOperator: Boolean!
   type: teamType!
   contributors: [PHID!]!
   status: BuilderStatus
@@ -168,4 +169,8 @@ input AddContributorInput {
 
 input RemoveContributorInput {
   contributorPHID: PHID!
+}
+
+input SetOperatorInput {
+  isOperator: Boolean!
 }
