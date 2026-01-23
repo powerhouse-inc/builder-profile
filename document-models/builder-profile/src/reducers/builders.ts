@@ -18,7 +18,6 @@ export const builderProfileBuildersOperations: BuilderProfileBuildersOperations 
       }
       if (action.input.about) state.about = action.input.about;
       if (action.input.status) state.status = action.input.status;
-      if (action.input.type) state.type = action.input.type;
 
       // Convert UTC timestamp (ms) to ISO string for storage
       state.lastModified = new Date(action.timestampUtcMs).toISOString();

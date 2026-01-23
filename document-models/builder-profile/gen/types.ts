@@ -3,6 +3,7 @@ import type { BuilderProfileAction } from "./actions.js";
 import type { BuilderProfileState as BuilderProfileGlobalState } from "./schema/types.js";
 
 type BuilderProfileLocalState = Record<PropertyKey, never>;
+
 type BuilderProfilePHState = PHBaseState & {
   global: BuilderProfileGlobalState;
   local: BuilderProfileLocalState;

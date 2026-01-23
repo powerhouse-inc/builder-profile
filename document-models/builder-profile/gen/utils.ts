@@ -30,7 +30,6 @@ export const initialGlobalState: BuilderProfileGlobalState = {
   about: null,
   lastModified: null,
   isOperator: false,
-  type: "INDIVIDUAL",
   contributors: [],
   status: null,
   skills: [],

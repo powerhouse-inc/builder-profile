@@ -1,15 +1,18 @@
 import type { DocumentDispatch } from "@powerhousedao/reactor-browser";
 import {
+  useDocumentById,
   useDocumentsInSelectedDrive,
   useDocumentsInSelectedFolder,
-  useDocumentById,
   useSelectedDocument,
 } from "@powerhousedao/reactor-browser";
 import type {
-  BuilderProfileDocument,
   BuilderProfileAction,
+  BuilderProfileDocument,
 } from "@powerhousedao/builder-profile/document-models/builder-profile";
-import { isBuilderProfileDocument } from "./gen/document-schema.js";
+import {
+  assertIsBuilderProfileDocument,
+  isBuilderProfileDocument,
+} from "./gen/document-schema.js";
 
 /** Hook to get a BuilderProfile document by its id */
 export function useBuilderProfileDocumentById(
@@ -23,12 +26,14 @@ export function useBuilderProfileDocumentById(
 }
 
 /** Hook to get the selected BuilderProfile document */
-export function useSelectedBuilderProfileDocument():
-  | [BuilderProfileDocument, DocumentDispatch<BuilderProfileAction>]
-  | [undefined, undefined] {
+export function useSelectedBuilderProfileDocument(): [
+  BuilderProfileDocument,
+  DocumentDispatch<BuilderProfileAction>,
+] {
   const [document, dispatch] = useSelectedDocument();
-  if (!isBuilderProfileDocument(document)) return [undefined, undefined];
-  return [document, dispatch];
+
+  assertIsBuilderProfileDocument(document);
+  return [document, dispatch] as const;
 }
 
 /** Hook to get all BuilderProfile documents in the selected drive */

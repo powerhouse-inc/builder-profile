@@ -1,5 +1,5 @@
 import { TextInput, Textarea } from "@powerhousedao/document-engineering";
-import { User, Users, Settings, FileText, Copy, Info } from "lucide-react";
+import { Settings, FileText, Copy, Info } from "lucide-react";
 import {
   toast,
   ToastContainer,
@@ -16,7 +16,6 @@ import type {
   BuilderSkill,
   BuilderScope,
   BuilderStatus,
-  TeamType,
 } from "../../document-models/builder-profile/gen/types.js";
 import { SkillsSection } from "./components/SkillsSection.js";
 import { ScopesSection } from "./components/ScopesSection.js";
@@ -53,6 +52,10 @@ export default function Editor() {
   const idGeneratedRef = useRef(false);
   const [descriptionValue, setDescriptionValue] = useState(
     state?.description || "",
+  );
+  const [showRoleDialog, setShowRoleDialog] = useState(false);
+  const [pendingRoleChange, setPendingRoleChange] = useState<boolean | null>(
+    null,
   );
 
   // Sync description state when document changes
@@ -138,15 +141,6 @@ export default function Editor() {
     [dispatch],
   );
 
-  // Handle type change
-  const handleTypeChange = useCallback(
-    (type: TeamType) => {
-      if (!dispatch) return;
-      dispatch(actions.updateProfile({ type }));
-    },
-    [dispatch],
-  );
-
   // Skill handlers
   const handleAddSkill = useCallback(
     (skill: BuilderSkill) => {
@@ -227,14 +221,35 @@ export default function Editor() {
     [dispatch],
   );
 
-  // Operator handler
+  // Operator handler - shows confirmation dialog
   const handleSetOperator = useCallback(
     (isOperator: boolean) => {
       if (!dispatch) return;
-      dispatch(actions.setOperator({ isOperator }));
+      // If trying to change role, show confirmation dialog
+      if (state?.isOperator !== isOperator) {
+        setPendingRoleChange(isOperator);
+        setShowRoleDialog(true);
+      }
     },
-    [dispatch],
+    [dispatch, state?.isOperator],
   );
+
+  // Confirm role change after dialog
+  const confirmRoleChange = useCallback(() => {
+    if (!dispatch || pendingRoleChange === null) return;
+    dispatch(actions.setOperator({ isOperator: pendingRoleChange }));
+    setShowRoleDialog(false);
+    setPendingRoleChange(null);
+    toast(`Switched to ${pendingRoleChange ? "Operator" : "Builder"} profile`, {
+      type: "success",
+    });
+  }, [dispatch, pendingRoleChange]);
+
+  // Cancel role change
+  const cancelRoleChange = useCallback(() => {
+    setShowRoleDialog(false);
+    setPendingRoleChange(null);
+  }, []);
 
   // Dynamic role label based on isOperator flag
   const roleLabel = state?.isOperator ? "Operator" : "Builder";
@@ -278,34 +293,6 @@ export default function Editor() {
             padding: 0.5rem 0.75rem;
             border-radius: 8px;
             border: 1px solid #E5E7EB;
-          }
-          .builder-editor .type-toggle {
-            display: flex;
-            background: #F3F4F6;
-            border-radius: 10px;
-            padding: 4px;
-            gap: 4px;
-          }
-          .builder-editor .type-toggle button {
-            flex: 1;
-            padding: 0.625rem 1rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: #6B7280;
-            background: transparent;
-          }
-          .builder-editor .type-toggle button.active {
-            background: white;
-            color: #111827;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-          }
-          .builder-editor .type-toggle button:not(.active):hover {
-            color: #374151;
-            background: rgba(255, 255, 255, 0.5);
           }
           .builder-editor .status-select {
             appearance: none;
@@ -360,6 +347,119 @@ export default function Editor() {
           .builder-editor .role-toggle button.active .role-icon {
             transform: scale(1.1);
           }
+          .role-dialog-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeIn 0.2s ease-out;
+          }
+          @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+          .role-dialog {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 700px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease-out;
+          }
+          @keyframes slideUp {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          .role-dialog-header {
+            padding: 2rem 2rem 1.5rem 2rem;
+            border-bottom: 1px solid #E5E7EB;
+          }
+          .role-dialog-content {
+            padding: 2rem;
+          }
+          .role-comparison {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+          }
+          .role-card {
+            padding: 1.5rem;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            background: #F9FAFB;
+            transition: all 0.2s ease;
+          }
+          .role-card.highlight {
+            border-color: #3B82F6;
+            background: #EFF6FF;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+          }
+          .role-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+          }
+          .role-icon-large {
+            font-size: 1.5rem;
+          }
+          .role-features {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0 0 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+          }
+          .role-features li {
+            font-size: 0.875rem;
+            color: #475569;
+            padding-left: 0;
+          }
+          .role-dialog-actions {
+            padding: 1.5rem 2rem 2rem 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            border-top: 1px solid #E5E7EB;
+          }
+          .dialog-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9375rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+          }
+          .dialog-button-cancel {
+            background: #F3F4F6;
+            color: #374151;
+          }
+          .dialog-button-cancel:hover {
+            background: #E5E7EB;
+          }
+          .dialog-button-confirm {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+          }
+          .dialog-button-confirm:hover {
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            transform: translateY(-1px);
+          }
         `}
       </style>
 
@@ -371,10 +471,10 @@ export default function Editor() {
           <div className="flex items-start justify-between gap-6">
             <div>
               <h1 className="text-2xl font-semibold text-slate-900 tracking-tight">
-                {roleLabel} Profile
+                {roleLabel} Team Profile
               </h1>
               <p className="text-slate-500 mt-1 text-sm">
-                Configure your {roleLabel.toLowerCase()} identity and
+                Configure your {roleLabel.toLowerCase()} team identity and
                 capabilities
               </p>
             </div>
@@ -456,7 +556,7 @@ export default function Editor() {
         <div className="section-card p-6">
           <h3 className="text-lg font-semibold text-slate-900 mb-6 flex items-center gap-2">
             <span className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center">
-              <User size={18} className="text-indigo-600" />
+              <Info size={18} className="text-indigo-600" />
             </span>
             Identity
           </h3>
@@ -552,38 +652,6 @@ export default function Editor() {
                   </option>
                 ))}
               </select>
-            </div>
-
-            {/* Profile Type Toggle */}
-            <div>
-              <label className="field-label">Profile Type</label>
-              <div className="type-toggle">
-                <button
-                  type="button"
-                  onClick={() => handleTypeChange("INDIVIDUAL")}
-                  className={state?.type === "INDIVIDUAL" ? "active" : ""}
-                >
-                  <span className="flex items-center justify-center gap-2">
-                    <User size={16} />
-                    Individual
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleTypeChange("TEAM")}
-                  className={state?.type === "TEAM" ? "active" : ""}
-                >
-                  <span className="flex items-center justify-center gap-2">
-                    <Users size={16} />
-                    Team
-                  </span>
-                </button>
-              </div>
-              <p className="field-hint">
-                {state?.type === "TEAM"
-                  ? "Teams can add contributors to their profile"
-                  : `Individual profiles represent a single ${roleLabel.toLowerCase()}`}
-              </p>
             </div>
           </div>
         </div>
@@ -690,16 +758,94 @@ export default function Editor() {
           onRemoveLink={handleRemoveLink}
         />
 
-        {/* Contributors Section - Only shown for TEAM type */}
-        {state?.type === "TEAM" && (
-          <ContributorsSection
-            contributors={state.contributors}
-            onAddContributor={handleAddContributor}
-            onRemoveContributor={handleRemoveContributor}
-          />
-        )}
+        {/* Contributors Section */}
+        <ContributorsSection
+          contributors={state.contributors}
+          onAddContributor={handleAddContributor}
+          onRemoveContributor={handleRemoveContributor}
+        />
 
         <ToastContainer position="bottom-right" />
+
+        {/* Role Change Confirmation Dialog */}
+        {showRoleDialog && (
+          <div className="role-dialog-overlay">
+            <div className="role-dialog">
+              <div className="role-dialog-header">
+                <h3 className="text-xl font-semibold text-slate-900">
+                  Switch to {pendingRoleChange ? "Operator" : "Builder"}?
+                </h3>
+              </div>
+
+              <div className="role-dialog-content">
+                <p className="text-slate-600 mb-4">
+                  Before switching, make sure you understand the difference
+                  between these roles:
+                </p>
+
+                <div className="role-comparison">
+                  <div
+                    className={`role-card ${!pendingRoleChange ? "highlight" : ""}`}
+                  >
+                    <div className="role-card-header">
+                      <span className="role-icon-large">🔨</span>
+                      <h4 className="text-lg font-semibold text-slate-900">
+                        Builder
+                      </h4>
+                    </div>
+                    <p className="text-sm text-slate-600 mb-3">
+                      Connect gives you the tools to run your builder operations
+                      effectively. Manage your team members, edit your profile,
+                      find work to complete and purchase supporting services.
+                    </p>
+                    <ul className="role-features">
+                      <li>✓ Sign up to services</li>
+                      <li>✓ Purchase services from Operators</li>
+                      <li>✓ Manage service subscriptions</li>
+                    </ul>
+                  </div>
+
+                  <div
+                    className={`role-card ${pendingRoleChange ? "highlight" : ""}`}
+                  >
+                    <div className="role-card-header">
+                      <span className="role-icon-large">⚡</span>
+                      <h4 className="text-lg font-semibold text-slate-900">
+                        Operator
+                      </h4>
+                    </div>
+                    <p className="text-sm text-slate-600 mb-3">
+                      Everything that a builder team can do PLUS, you have
+                      services to sell to other builders and operators.
+                    </p>
+                    <ul className="role-features">
+                      <li>✓ Create and offer services</li>
+                      <li>✓ Sign up to other services</li>
+                      <li>✓ Both sell and buy services</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div className="role-dialog-actions">
+                <button
+                  type="button"
+                  onClick={cancelRoleChange}
+                  className="dialog-button dialog-button-cancel"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={confirmRoleChange}
+                  className="dialog-button dialog-button-confirm"
+                >
+                  Continue as {pendingRoleChange ? "Operator" : "Builder"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

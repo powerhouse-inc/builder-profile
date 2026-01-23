@@ -1,0 +1,210 @@
+import { generateMock } from "@powerhousedao/codegen";
+import { describe, expect, it } from "vitest";
+import {
+  reducer,
+  utils,
+  isBuilderProfileDocument,
+  updateProfile,
+  addSkill,
+  removeSkill,
+  addScope,
+  removeScope,
+  addLink,
+  editLink,
+  removeLink,
+  addContributor,
+  removeContributor,
+  setOperator,
+  UpdateProfileInputSchema,
+  AddSkillInputSchema,
+  RemoveSkillInputSchema,
+  AddScopeInputSchema,
+  RemoveScopeInputSchema,
+  AddLinkInputSchema,
+  EditLinkInputSchema,
+  RemoveLinkInputSchema,
+  AddContributorInputSchema,
+  RemoveContributorInputSchema,
+  SetOperatorInputSchema,
+} from "@powerhousedao/builder-profile/document-models/builder-profile";
+
+describe("BuildersOperations", () => {
+  it("should handle updateProfile operation", () => {
+    const document = utils.createDocument();
+    const input = generateMock(UpdateProfileInputSchema());
+
+    const updatedDocument = reducer(document, updateProfile(input));
+
+    expect(isBuilderProfileDocument(updatedDocument)).toBe(true);
+    expect(updatedDocument.operations.global).toHaveLength(1);
+    expect(updatedDocument.operations.global[0].action.type).toBe(
+      "UPDATE_PROFILE",
+    );
+    expect(updatedDocument.operations.global[0].action.input).toStrictEqual(
+      input,
+    );
+    expect(updatedDocument.operations.global[0].index).toEqual(0);
+  });
+
+  it("should handle addSkill operation", () => {
+    const document = utils.createDocument();
+    const input = generateMock(AddSkillInputSchema());
+
+    const updatedDocument = reducer(document, addSkill(input));
+
+    expect(isBuilderProfileDocument(updatedDocument)).toBe(true);
+    expect(updatedDocument.operations.global).toHaveLength(1);
+    expect(updatedDocument.operations.global[0].action.type).toBe("ADD_SKILL");
+    expect(updatedDocument.operations.global[0].action.input).toStrictEqual(
+      input,
+    );
+    expect(updatedDocument.operations.global[0].index).toEqual(0);
+  });
+
+  it("should handle removeSkill operation", () => {
+    const document = utils.createDocument();
+    const input = generateMock(RemoveSkillInputSchema());
+
+    const updatedDocument = reducer(document, removeSkill(input));
+
+    expect(isBuilderProfileDocument(updatedDocument)).toBe(true);
+    expect(updatedDocument.operations.global).toHaveLength(1);
+    expect(updatedDocument.operations.global[0].action.type).toBe(
+      "REMOVE_SKILL",
+    );
+    expect(updatedDocument.operations.global[0].action.input).toStrictEqual(
+      input,
+    );
+    expect(updatedDocument.operations.global[0].index).toEqual(0);
+  });
+
+  it("should handle addScope operation", () => {
+    const document = utils.createDocument();
+    const input = generateMock(AddScopeInputSchema());
+
+    const updatedDocument = reducer(document, addScope(input));
+
+    expect(isBuilderProfileDocument(updatedDocument)).toBe(true);
+    expect(updatedDocument.operations.global).toHaveLength(1);
+    expect(updatedDocument.operations.global[0].action.type).toBe("ADD_SCOPE");
+    expect(updatedDocument.operations.global[0].action.input).toStrictEqual(
+      input,
+    );
+    expect(updatedDocument.operations.global[0].index).toEqual(0);
+  });
+
+  it("should handle removeScope operation", () => {
+    const document = utils.createDocument();
+    const input = generateMock(RemoveScopeInputSchema());
+
+    const updatedDocument = reducer(document, removeScope(input));
+
+    expect(isBuilderProfileDocument(updatedDocument)).toBe(true);
+    expect(updatedDocument.operations.global).toHaveLength(1);
+    expect(updatedDocument.operations.global[0].action.type).toBe(
+      "REMOVE_SCOPE",
+    );
+    expect(updatedDocument.operations.global[0].action.input).toStrictEqual(
+      input,
+    );
+    expect(updatedDocument.operations.global[0].index).toEqual(0);
+  });
+
+  it("should handle addLink operation", () => {
+    const document = utils.createDocument();
+    const input = generateMock(AddLinkInputSchema());
+
+    const updatedDocument = reducer(document, addLink(input));
+
+    expect(isBuilderProfileDocument(updatedDocument)).toBe(true);
+    expect(updatedDocument.operations.global).toHaveLength(1);
+    expect(updatedDocument.operations.global[0].action.type).toBe("ADD_LINK");
+    expect(updatedDocument.operations.global[0].action.input).toStrictEqual(
+      input,
+    );
+    expect(updatedDocument.operations.global[0].index).toEqual(0);
+  });
+
+  it("should handle editLink operation", () => {
+    const document = utils.createDocument();
+    const input = generateMock(EditLinkInputSchema());
+
+    const updatedDocument = reducer(document, editLink(input));
+
+    expect(isBuilderProfileDocument(updatedDocument)).toBe(true);
+    expect(updatedDocument.operations.global).toHaveLength(1);
+    expect(updatedDocument.operations.global[0].action.type).toBe("EDIT_LINK");
+    expect(updatedDocument.operations.global[0].action.input).toStrictEqual(
+      input,
+    );
+    expect(updatedDocument.operations.global[0].index).toEqual(0);
+  });
+
+  it("should handle removeLink operation", () => {
+    const document = utils.createDocument();
+    const input = generateMock(RemoveLinkInputSchema());
+
+    const updatedDocument = reducer(document, removeLink(input));
+
+    expect(isBuilderProfileDocument(updatedDocument)).toBe(true);
+    expect(updatedDocument.operations.global).toHaveLength(1);
+    expect(updatedDocument.operations.global[0].action.type).toBe(
+      "REMOVE_LINK",
+    );
+    expect(updatedDocument.operations.global[0].action.input).toStrictEqual(
+      input,
+    );
+    expect(updatedDocument.operations.global[0].index).toEqual(0);
+  });
+
+  it("should handle addContributor operation", () => {
+    const document = utils.createDocument();
+    const input = generateMock(AddContributorInputSchema());
+
+    const updatedDocument = reducer(document, addContributor(input));
+
+    expect(isBuilderProfileDocument(updatedDocument)).toBe(true);
+    expect(updatedDocument.operations.global).toHaveLength(1);
+    expect(updatedDocument.operations.global[0].action.type).toBe(
+      "ADD_CONTRIBUTOR",
+    );
+    expect(updatedDocument.operations.global[0].action.input).toStrictEqual(
+      input,
+    );
+    expect(updatedDocument.operations.global[0].index).toEqual(0);
+  });
+
+  it("should handle removeContributor operation", () => {
+    const document = utils.createDocument();
+    const input = generateMock(RemoveContributorInputSchema());
+
+    const updatedDocument = reducer(document, removeContributor(input));
+
+    expect(isBuilderProfileDocument(updatedDocument)).toBe(true);
+    expect(updatedDocument.operations.global).toHaveLength(1);
+    expect(updatedDocument.operations.global[0].action.type).toBe(
+      "REMOVE_CONTRIBUTOR",
+    );
+    expect(updatedDocument.operations.global[0].action.input).toStrictEqual(
+      input,
+    );
+    expect(updatedDocument.operations.global[0].index).toEqual(0);
+  });
+
+  it("should handle setOperator operation", () => {
+    const document = utils.createDocument();
+    const input = generateMock(SetOperatorInputSchema());
+
+    const updatedDocument = reducer(document, setOperator(input));
+
+    expect(isBuilderProfileDocument(updatedDocument)).toBe(true);
+    expect(updatedDocument.operations.global).toHaveLength(1);
+    expect(updatedDocument.operations.global[0].action.type).toBe(
+      "SET_OPERATOR",
+    );
+    expect(updatedDocument.operations.global[0].action.input).toStrictEqual(
+      input,
+    );
+    expect(updatedDocument.operations.global[0].index).toEqual(0);
+  });
+});

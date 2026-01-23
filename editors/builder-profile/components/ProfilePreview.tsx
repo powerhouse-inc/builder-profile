@@ -1,4 +1,4 @@
-import { Users, Link2 } from "lucide-react";
+import { Link2 } from "lucide-react";
 import type {
   BuilderProfileState,
   BuilderSkill,
@@ -89,11 +89,6 @@ export function ProfilePreview({ state }: ProfilePreviewProps) {
                 <span className="text-3xl font-bold text-white">
                   {state.name?.charAt(0).toUpperCase() || "?"}
                 </span>
-              </div>
-            )}
-            {state.type === "TEAM" && (
-              <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-purple-500 rounded-lg border-2 border-white flex items-center justify-center">
-                <Users size={14} className="text-white" />
               </div>
             )}
           </div>

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as z from "zod";
 import type {
   AddContributorInput,
   AddLinkInput,
@@ -19,12 +19,10 @@ import type {
   RemoveSkillInput,
   SetOperatorInput,
   UpdateProfileInput,
-  TeamType,
-  TeamTypeInput,
 } from "./types.js";
 
 type Properties<T> = Required<{
-  [K in keyof T]: z.ZodType<T[K], any, T[K]>;
+  [K in keyof T]: z.ZodType<T[K]>;
 }>;
 
 type definedNonNullAny = {};
@@ -98,10 +96,6 @@ export const BuilderStatusInputSchema = z.enum([
   "ON_HOLD",
 ]);
 
-export const TeamTypeSchema = z.enum(["INDIVIDUAL", "TEAM"]);
-
-export const TeamTypeInputSchema = z.enum(["INDIVIDUAL", "TEAM"]);
-
 export function AddContributorInputSchema(): z.ZodObject<
   Properties<AddContributorInput>
 > {
@@ -120,13 +114,13 @@ export function AddLinkInputSchema(): z.ZodObject<Properties<AddLinkInput>> {
 
 export function AddScopeInputSchema(): z.ZodObject<Properties<AddScopeInput>> {
   return z.object({
-    scope: z.lazy(() => BuilderScopeInputSchema.nullish()),
+    scope: BuilderScopeInputSchema.nullish(),
   });
 }
 
 export function AddSkillInputSchema(): z.ZodObject<Properties<AddSkillInput>> {
   return z.object({
-    skill: z.lazy(() => BuilderSkillInputSchema.nullish()),
+    skill: BuilderSkillInputSchema.nullish(),
   });
 }
 
@@ -134,7 +128,7 @@ export function BuilderLinkSchema(): z.ZodObject<Properties<BuilderLink>> {
   return z.object({
     __typename: z.literal("BuilderLink").optional(),
     id: z.string(),
-    label: z.string().nullable(),
+    label: z.string().nullish(),
     url: z.string().url(),
   });
 }
@@ -144,21 +138,20 @@ export function BuilderProfileStateSchema(): z.ZodObject<
 > {
   return z.object({
     __typename: z.literal("BuilderProfileState").optional(),
-    about: z.string().nullable(),
-    code: z.string().nullable(),
+    about: z.string().nullish(),
+    code: z.string().nullish(),
     contributors: z.array(z.string()),
-    description: z.string().nullable(),
-    icon: z.string().url().nullable(),
-    id: z.string().nullable(),
+    description: z.string().nullish(),
+    icon: z.string().url().nullish(),
+    id: z.string().nullish(),
     isOperator: z.boolean(),
-    lastModified: z.string().datetime().nullable(),
-    links: z.array(BuilderLinkSchema()),
-    name: z.string().nullable(),
+    lastModified: z.string().datetime().nullish(),
+    links: z.array(z.lazy(() => BuilderLinkSchema())),
+    name: z.string().nullish(),
     scopes: z.array(BuilderScopeSchema),
     skills: z.array(BuilderSkillSchema),
-    slug: z.string().nullable(),
-    status: BuilderStatusSchema.nullable(),
-    type: TeamTypeSchema,
+    slug: z.string().nullish(),
+    status: BuilderStatusSchema.nullish(),
   });
 }
 
@@ -190,7 +183,7 @@ export function RemoveScopeInputSchema(): z.ZodObject<
   Properties<RemoveScopeInput>
 > {
   return z.object({
-    scope: z.lazy(() => BuilderScopeInputSchema.nullish()),
+    scope: BuilderScopeInputSchema.nullish(),
   });
 }
 
@@ -198,7 +191,7 @@ export function RemoveSkillInputSchema(): z.ZodObject<
   Properties<RemoveSkillInput>
 > {
   return z.object({
-    skill: z.lazy(() => BuilderSkillInputSchema.nullish()),
+    skill: BuilderSkillInputSchema.nullish(),
   });
 }
 
@@ -221,7 +214,6 @@ export function UpdateProfileInputSchema(): z.ZodObject<
     id: z.string().nullish(),
     name: z.string().nullish(),
     slug: z.string().nullish(),
-    status: z.lazy(() => BuilderStatusInputSchema.nullish()),
-    type: z.lazy(() => TeamTypeInputSchema.nullish()),
+    status: BuilderStatusInputSchema.nullish(),
   });
 }

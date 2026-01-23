@@ -89,7 +89,6 @@ export const schema: DocumentNode = gql`
     description: String
     about: String
     status: BuilderProfile_BuilderStatusInput
-    type: BuilderProfile_teamTypeInput
   }
 
   input BuilderProfile_AddSkillInput {

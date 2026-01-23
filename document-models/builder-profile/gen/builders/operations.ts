@@ -1,18 +1,18 @@
 import { type SignalDispatch } from "document-model";
-import {
-  type UpdateProfileAction,
-  type AddSkillAction,
-  type RemoveSkillAction,
-  type AddScopeAction,
-  type RemoveScopeAction,
-  type AddLinkAction,
-  type EditLinkAction,
-  type RemoveLinkAction,
-  type AddContributorAction,
-  type RemoveContributorAction,
-  type SetOperatorAction,
+import type {
+  UpdateProfileAction,
+  AddSkillAction,
+  RemoveSkillAction,
+  AddScopeAction,
+  RemoveScopeAction,
+  AddLinkAction,
+  EditLinkAction,
+  RemoveLinkAction,
+  AddContributorAction,
+  RemoveContributorAction,
+  SetOperatorAction,
 } from "./actions.js";
-import { type BuilderProfileState } from "../types.js";
+import type { BuilderProfileState } from "../types.js";
 
 export interface BuilderProfileBuildersOperations {
   updateProfileOperation: (

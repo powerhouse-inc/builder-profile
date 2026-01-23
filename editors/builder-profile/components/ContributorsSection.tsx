@@ -188,7 +188,23 @@ export function ContributorsSection({
   }, [builderProfileNodesWithDriveId]);
 
   // Fetch all builder profile documents from all drives
-  const builderProfileDocuments = useGetDocuments(builderPhids);
+  const getDocuments = useGetDocuments();
+  const [builderProfileDocuments, setBuilderProfileDocuments] = useState<
+    Awaited<ReturnType<typeof getDocuments>>
+  >([]);
+
+  useEffect(() => {
+    if (builderPhids.length > 0) {
+      getDocuments(builderPhids)
+        .then(setBuilderProfileDocuments)
+        .catch((error) => {
+          console.error("Failed to fetch builder profile documents:", error);
+          setBuilderProfileDocuments([]);
+        });
+    } else {
+      setBuilderProfileDocuments([]);
+    }
+  }, [builderPhids, getDocuments]);
 
   // Create a map of PHID to document for quick lookup (local drives)
   const localBuilderProfileMap = useMemo(() => {

@@ -21,7 +21,7 @@ const args = process.argv.slice(2);
 
 if (args.length !== 3) {
   console.error(
-    "Usage: bun migrate_builders.ts <source-mcp-url> <source-drive-id> <target-mcp-url>"
+    "Usage: bun migrate_builders.ts <source-mcp-url> <source-drive-id> <target-mcp-url>",
   );
   console.error("");
   console.error("Example:");
@@ -88,13 +88,12 @@ interface BuilderProfileDocument {
   };
 }
 
-
 let requestId = 1;
 
 // Helper function to make MCP requests
 async function mcpRequest(
   mcpUrl: string,
-  payload: MCPRequest
+  payload: MCPRequest,
 ): Promise<MCPResponse> {
   const response = await fetch(mcpUrl, {
     method: "POST",
@@ -113,12 +112,12 @@ async function mcpRequest(
     const dataLine = lines.find((line) => line.startsWith("data: "));
     if (dataLine) {
       const jsonData = dataLine.substring(6);
-      return JSON.parse(jsonData);
+      return JSON.parse(jsonData) as MCPResponse;
     }
     throw new Error("No data line found in SSE response");
   }
 
-  return JSON.parse(text);
+  return JSON.parse(text) as MCPResponse;
 }
 
 // Get all drive IDs from target MCP
@@ -169,11 +168,16 @@ async function createTargetDrive(name: string): Promise<string> {
 
   const response = await mcpRequest(TARGET_MCP_URL, payload);
   if (response.error) {
-    throw new Error(`Failed to create drive: ${JSON.stringify(response.error)}`);
+    throw new Error(
+      `Failed to create drive: ${JSON.stringify(response.error)}`,
+    );
   }
 
   // The drive ID will be the name we provided
-  const result = response.result?.structuredContent as { id?: string; drive?: { id?: string } };
+  const result = response.result?.structuredContent as {
+    id?: string;
+    drive?: { id?: string };
+  };
   const driveId = result?.id || result?.drive?.id || name;
 
   return driveId;
@@ -194,16 +198,20 @@ async function getSourceDocumentIds(driveId: string): Promise<string[]> {
   const response = await mcpRequest(SOURCE_MCP_URL, payload);
   if (response.error) {
     throw new Error(
-      `Failed to get documents: ${JSON.stringify(response.error)}`
+      `Failed to get documents: ${JSON.stringify(response.error)}`,
     );
   }
 
-  const result = response.result?.structuredContent as { documentIds?: string[] };
+  const result = response.result?.structuredContent as {
+    documentIds?: string[];
+  };
   return result?.documentIds || [];
 }
 
 // Get a specific document from source MCP
-async function getSourceDocument(docId: string): Promise<BuilderProfileDocument> {
+async function getSourceDocument(
+  docId: string,
+): Promise<BuilderProfileDocument> {
   const payload: MCPRequest = {
     jsonrpc: "2.0",
     method: "tools/call",
@@ -217,11 +225,13 @@ async function getSourceDocument(docId: string): Promise<BuilderProfileDocument>
   const response = await mcpRequest(SOURCE_MCP_URL, payload);
   if (response.error) {
     throw new Error(
-      `Failed to get document: ${JSON.stringify(response.error)}`
+      `Failed to get document: ${JSON.stringify(response.error)}`,
     );
   }
 
-  const result = response.result?.structuredContent as { document?: BuilderProfileDocument };
+  const result = response.result?.structuredContent as {
+    document?: BuilderProfileDocument;
+  };
   if (!result?.document) {
     throw new Error(`No document returned for ID: ${docId}`);
   }
@@ -244,12 +254,15 @@ async function createTargetDocument(documentType: string): Promise<string> {
   const response = await mcpRequest(TARGET_MCP_URL, payload);
   if (response.error) {
     throw new Error(
-      `Failed to create document: ${JSON.stringify(response.error)}`
+      `Failed to create document: ${JSON.stringify(response.error)}`,
     );
   }
 
   // Try multiple possible response formats
-  const structured = response.result?.structuredContent as Record<string, unknown>;
+  const structured = response.result?.structuredContent as Record<
+    string,
+    unknown
+  >;
   const docId =
     structured?.id ||
     structured?.documentId ||
@@ -266,7 +279,7 @@ async function createTargetDocument(documentType: string): Promise<string> {
 // Add actions to a document on target MCP
 async function addTargetActions(
   documentId: string,
-  actions: Array<{ type: string; scope: string; input: unknown }>
+  actions: Array<{ type: string; scope: string; input: unknown }>,
 ): Promise<void> {
   const payload: MCPRequest = {
     jsonrpc: "2.0",
@@ -286,7 +299,7 @@ async function addTargetActions(
 
 // Generate actions to populate a builder profile from source state
 function generateMigrationActions(
-  sourceState: BuilderProfileState
+  sourceState: BuilderProfileState,
 ): Array<{ type: string; scope: string; input: unknown }> {
   const actions: Array<{ type: string; scope: string; input: unknown }> = [];
 
@@ -302,7 +315,8 @@ function generateMigrationActions(
   if (sourceState.slug) profileInput.slug = sourceState.slug;
   if (sourceState.name) profileInput.name = sourceState.name;
   if (sourceState.icon) profileInput.icon = sourceState.icon;
-  if (sourceState.description) profileInput.description = sourceState.description;
+  if (sourceState.description)
+    profileInput.description = sourceState.description;
   if (sourceState.about) profileInput.about = sourceState.about;
   if (sourceState.status) profileInput.status = sourceState.status;
 
@@ -403,12 +417,14 @@ async function main() {
     } else {
       console.log(`Creating new drive "${TARGET_DRIVE_NAME}" on target MCP...`);
       targetDriveId = await createTargetDrive(TARGET_DRIVE_NAME);
-      console.log(`✓ Created drive "${TARGET_DRIVE_NAME}" (ID: ${targetDriveId})`);
+      console.log(
+        `✓ Created drive "${TARGET_DRIVE_NAME}" (ID: ${targetDriveId})`,
+      );
     }
 
     // Step 2: Get all document IDs from source drive
     console.log(
-      `\nFetching documents from source drive "${SOURCE_DRIVE_ID}" on source MCP...`
+      `\nFetching documents from source drive "${SOURCE_DRIVE_ID}" on source MCP...`,
     );
     const sourceDocIds = await getSourceDocumentIds(SOURCE_DRIVE_ID);
     console.log(`✓ Found ${sourceDocIds.length} documents in source drive`);
@@ -419,7 +435,9 @@ async function main() {
     }
 
     // Step 3: Fetch each document and filter for builder profiles
-    console.log("\nFetching document details and filtering builder profiles...");
+    console.log(
+      "\nFetching document details and filtering builder profiles...",
+    );
     const builderProfileDocs: Array<{
       id: string;
       doc: BuilderProfileDocument;
@@ -436,7 +454,9 @@ async function main() {
       }
     }
 
-    console.log(`✓ Found ${builderProfileDocs.length} builder profile documents`);
+    console.log(
+      `✓ Found ${builderProfileDocs.length} builder profile documents`,
+    );
 
     if (builderProfileDocs.length === 0) {
       console.log("\n⚠ No builder profile documents found to migrate");
@@ -456,7 +476,7 @@ async function main() {
       const sourceState = sourceDoc.state.global;
 
       console.log(
-        `\n[${i + 1}/${builderProfileDocs.length}] Migrating: ${sourceState.name || sourceDocId}`
+        `\n[${i + 1}/${builderProfileDocs.length}] Migrating: ${sourceState.name || sourceDocId}`,
       );
 
       try {
@@ -467,7 +487,9 @@ async function main() {
         console.log(`  - Skills: ${sourceState.skills?.length || 0}`);
         console.log(`  - Scopes: ${sourceState.scopes?.length || 0}`);
         console.log(`  - Links: ${sourceState.links?.length || 0}`);
-        console.log(`  - Contributors: ${sourceState.contributors?.length || 0}`);
+        console.log(
+          `  - Contributors: ${sourceState.contributors?.length || 0}`,
+        );
 
         // Create new document on target MCP
         const newDocId = await createTargetDocument(BUILDER_PROFILE_DOC_TYPE);
@@ -502,7 +524,9 @@ async function main() {
         }
 
         successCount++;
-        console.log(`  ✓ Migration complete for "${sourceState.name || sourceDocId}"`);
+        console.log(
+          `  ✓ Migration complete for "${sourceState.name || sourceDocId}"`,
+        );
       } catch (error) {
         errorCount++;
         console.error(`  ✗ Error migrating document: ${error}`);

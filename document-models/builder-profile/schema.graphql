@@ -1,9 +1,12 @@
+scalar Unknown
+scalar DateTime
+scalar Attachment
+scalar Address
 scalar Amount_Tokens
 scalar EthereumAddress
-scalar Amount_Percentage
 scalar EmailAddress
+scalar Amount_Percentage
 scalar Date
-scalar DateTime
 scalar URL
 scalar Amount_Money
 scalar OLabel
@@ -15,6 +18,7 @@ scalar Amount_Currency
 scalar Amount_Crypto
 scalar Amount
 scalar Upload
+
 type BuilderProfileState {
   id: PHID
   code: String
@@ -25,7 +29,6 @@ type BuilderProfileState {
   about: String
   lastModified: DateTime
   isOperator: Boolean!
-  type: teamType!
   contributors: [PHID!]!
   status: BuilderStatus
   skills: [BuilderSkill!]!
@@ -33,10 +36,6 @@ type BuilderProfileState {
   links: [BuilderLink!]!
 }
 
-enum teamType {
-  INDIVIDUAL
-  TEAM
-}
 
 enum BuilderStatus {
   ACTIVE
@@ -75,11 +74,6 @@ type BuilderLink {
   label: String
 }
 
-enum teamTypeInput {
-  INDIVIDUAL
-  TEAM
-}
-
 enum BuilderStatusInput {
   ACTIVE
   INACTIVE
@@ -111,8 +105,6 @@ enum BuilderScopeInput {
   GOVERNANCE_SCOPE
 }
 
-
-
 # builders
 
 input UpdateProfileInput {
@@ -124,7 +116,6 @@ input UpdateProfileInput {
   description: String
   about: String
   status: BuilderStatusInput
-  type: teamTypeInput
 }
 
 

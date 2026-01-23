@@ -29,106 +29,138 @@ const stateReducer: StateReducer<BuilderProfilePHState> = (
   if (isDocumentAction(action)) {
     return state;
   }
-
   switch (action.type) {
-    case "UPDATE_PROFILE":
+    case "UPDATE_PROFILE": {
       UpdateProfileInputSchema().parse(action.input);
+
       builderProfileBuildersOperations.updateProfileOperation(
         (state as any)[action.scope],
         action as any,
         dispatch,
       );
-      break;
 
-    case "ADD_SKILL":
+      break;
+    }
+
+    case "ADD_SKILL": {
       AddSkillInputSchema().parse(action.input);
+
       builderProfileBuildersOperations.addSkillOperation(
         (state as any)[action.scope],
         action as any,
         dispatch,
       );
-      break;
 
-    case "REMOVE_SKILL":
+      break;
+    }
+
+    case "REMOVE_SKILL": {
       RemoveSkillInputSchema().parse(action.input);
+
       builderProfileBuildersOperations.removeSkillOperation(
         (state as any)[action.scope],
         action as any,
         dispatch,
       );
-      break;
 
-    case "ADD_SCOPE":
+      break;
+    }
+
+    case "ADD_SCOPE": {
       AddScopeInputSchema().parse(action.input);
+
       builderProfileBuildersOperations.addScopeOperation(
         (state as any)[action.scope],
         action as any,
         dispatch,
       );
-      break;
 
-    case "REMOVE_SCOPE":
+      break;
+    }
+
+    case "REMOVE_SCOPE": {
       RemoveScopeInputSchema().parse(action.input);
+
       builderProfileBuildersOperations.removeScopeOperation(
         (state as any)[action.scope],
         action as any,
         dispatch,
       );
-      break;
 
-    case "ADD_LINK":
+      break;
+    }
+
+    case "ADD_LINK": {
       AddLinkInputSchema().parse(action.input);
+
       builderProfileBuildersOperations.addLinkOperation(
         (state as any)[action.scope],
         action as any,
         dispatch,
       );
-      break;
 
-    case "EDIT_LINK":
+      break;
+    }
+
+    case "EDIT_LINK": {
       EditLinkInputSchema().parse(action.input);
+
       builderProfileBuildersOperations.editLinkOperation(
         (state as any)[action.scope],
         action as any,
         dispatch,
       );
-      break;
 
-    case "REMOVE_LINK":
+      break;
+    }
+
+    case "REMOVE_LINK": {
       RemoveLinkInputSchema().parse(action.input);
+
       builderProfileBuildersOperations.removeLinkOperation(
         (state as any)[action.scope],
         action as any,
         dispatch,
       );
-      break;
 
-    case "ADD_CONTRIBUTOR":
+      break;
+    }
+
+    case "ADD_CONTRIBUTOR": {
       AddContributorInputSchema().parse(action.input);
+
       builderProfileBuildersOperations.addContributorOperation(
         (state as any)[action.scope],
         action as any,
         dispatch,
       );
-      break;
 
-    case "REMOVE_CONTRIBUTOR":
+      break;
+    }
+
+    case "REMOVE_CONTRIBUTOR": {
       RemoveContributorInputSchema().parse(action.input);
+
       builderProfileBuildersOperations.removeContributorOperation(
         (state as any)[action.scope],
         action as any,
         dispatch,
       );
-      break;
 
-    case "SET_OPERATOR":
+      break;
+    }
+
+    case "SET_OPERATOR": {
       SetOperatorInputSchema().parse(action.input);
+
       builderProfileBuildersOperations.setOperatorOperation(
         (state as any)[action.scope],
         action as any,
         dispatch,
       );
+
       break;
+    }
 
     default:
       return state;
