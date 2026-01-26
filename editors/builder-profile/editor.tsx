@@ -1,5 +1,5 @@
 import { TextInput, Textarea } from "@powerhousedao/document-engineering";
-import { Settings, FileText, Copy, Info } from "lucide-react";
+import { Settings, FileText, Copy, Info, X } from "lucide-react";
 import {
   toast,
   ToastContainer,
@@ -771,10 +771,18 @@ export default function Editor() {
         {showRoleDialog && (
           <div className="role-dialog-overlay">
             <div className="role-dialog">
-              <div className="role-dialog-header">
-                <h3 className="text-xl font-semibold text-slate-900">
+              <div className="role-dialog-header relative">
+                <h3 className="text-xl font-semibold text-slate-900 pr-8">
                   Switch to {pendingRoleChange ? "Operator" : "Builder"}?
                 </h3>
+                <button
+                  type="button"
+                  onClick={cancelRoleChange}
+                  className="absolute top-0 right-0 p-2 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+                  aria-label="Close dialog"
+                >
+                  <X size={20} />
+                </button>
               </div>
 
               <div className="role-dialog-content">
@@ -814,11 +822,11 @@ export default function Editor() {
                         Operator
                       </h4>
                     </div>
-                    <p className="text-sm text-slate-600 mb-3">
-                      Everything that a builder team can do PLUS, you have
-                      services to sell to other builders and operators.
-                    </p>
                     <ul className="role-features">
+                      <li>
+                        ✓ Everything that a builder team can do PLUS, you have
+                        services to sell to other builders and operators.
+                      </li>
                       <li>✓ Create and offer services</li>
                       <li>✓ Sign up to other services</li>
                       <li>✓ Both sell and buy services</li>
