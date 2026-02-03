@@ -11,6 +11,7 @@ import type {
   AddContributorAction,
   RemoveContributorAction,
   SetOperatorAction,
+  SetOpHubMemberAction,
 } from "./actions.js";
 import type { BuilderProfileState } from "../types.js";
 
@@ -68,6 +69,11 @@ export interface BuilderProfileBuildersOperations {
   setOperatorOperation: (
     state: BuilderProfileState,
     action: SetOperatorAction,
+    dispatch?: SignalDispatch,
+  ) => void;
+  setOpHubMemberOperation: (
+    state: BuilderProfileState,
+    action: SetOpHubMemberAction,
     dispatch?: SignalDispatch,
   ) => void;
 }

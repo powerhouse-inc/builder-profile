@@ -7,7 +7,7 @@ import {
   type ColumnAlignment,
   PHIDInput,
 } from "@powerhousedao/document-engineering";
-import type { BuilderProfileDocument } from "../../../document-models/builder-profile/index.js";
+import type { BuilderProfileDocument } from "../../../document-models/builder-profile/gen/types.js";
 import { useRemoteBuilderProfiles } from "../hooks/useRemoteBuilderProfiles.js";
 
 type Contributor = {
@@ -65,25 +65,25 @@ function ContributorPHIDInput({
 
       // Check if input matches a profile name exactly (case-insensitive)
       const exactMatchByName = options.find(
-        (opt) => opt.label.toLowerCase() === lowerInput,
+        (opt) => opt.label.toLowerCase() === lowerInput
       );
       if (exactMatchByName) return exactMatchByName.id;
 
       // Check if input matches a profile name partially (first match that starts with input)
       const partialMatchByName = options.find((opt) =>
-        opt.label.toLowerCase().startsWith(lowerInput),
+        opt.label.toLowerCase().startsWith(lowerInput)
       );
       if (partialMatchByName) return partialMatchByName.id;
 
       // Check if only one option contains the input (unambiguous match)
       const containsMatches = options.filter((opt) =>
-        opt.label.toLowerCase().includes(lowerInput),
+        opt.label.toLowerCase().includes(lowerInput)
       );
       if (containsMatches.length === 1) return containsMatches[0].id;
 
       // Check if input matches a profile ID
       const matchById = options.find(
-        (opt) => opt.id.toLowerCase() === lowerInput,
+        (opt) => opt.id.toLowerCase() === lowerInput
       );
       if (matchById) return matchById.id;
 
@@ -94,7 +94,7 @@ function ContributorPHIDInput({
 
       return null;
     },
-    [options],
+    [options]
   );
 
   // Check if a value is a known PHID from options
@@ -102,7 +102,7 @@ function ContributorPHIDInput({
     (value: string): boolean => {
       return options.some((opt) => opt.id === value);
     },
-    [options],
+    [options]
   );
 
   // Save a PHID value (with duplicate prevention)
@@ -113,7 +113,7 @@ function ContributorPHIDInput({
         onSave(phid);
       }
     },
-    [hasSaved, initialPhid, onSave],
+    [hasSaved, initialPhid, onSave]
   );
 
   // Handle blur - try to save based on inputText
@@ -173,7 +173,7 @@ export function ContributorsSection({
         (node): node is FileNode =>
           node.kind === "file" &&
           "documentType" in node &&
-          node.documentType === "powerhouse/builder-profile",
+          node.documentType === "powerhouse/builder-profile"
       );
       return builderProfileNodes.map((node) => ({
         node,
@@ -235,7 +235,7 @@ export function ContributorsSection({
           value: node.id,
           title: name,
         };
-      },
+      }
     );
 
     // Add remote profiles that aren't already in local
@@ -280,7 +280,7 @@ export function ContributorsSection({
 
       return null;
     },
-    [localBuilderProfileMap, remoteProfileMap],
+    [localBuilderProfileMap, remoteProfileMap]
   );
 
   const contributorData = useMemo<Contributor[]>(() => {
@@ -321,7 +321,7 @@ export function ContributorsSection({
             // If a PHID is entered and it's different from current value
             if (phidValue && phidValue !== currentPhid) {
               const existingContributor = contributors.find(
-                (contributor) => contributor === phidValue,
+                (contributor) => contributor === phidValue
               );
 
               if (!existingContributor) {
@@ -347,7 +347,7 @@ export function ContributorsSection({
             const filteredProfiles = builderProfiles.filter(
               (profile) =>
                 profile.label.toLowerCase().includes(userInput.toLowerCase()) ||
-                profile.id.toLowerCase().includes(userInput.toLowerCase()),
+                profile.id.toLowerCase().includes(userInput.toLowerCase())
             );
 
             return Promise.resolve(filteredProfiles);
@@ -420,7 +420,7 @@ export function ContributorsSection({
         },
       },
     ],
-    [contributors, getBuilderProfiles, onAddContributor, onRemoveContributor],
+    [contributors, getBuilderProfiles, onAddContributor, onRemoveContributor]
   );
 
   return (

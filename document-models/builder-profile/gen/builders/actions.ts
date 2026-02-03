@@ -11,6 +11,7 @@ import type {
   AddContributorInput,
   RemoveContributorInput,
   SetOperatorInput,
+  SetOpHubMemberInput,
 } from "../types.js";
 
 export type UpdateProfileAction = Action & {
@@ -54,6 +55,10 @@ export type SetOperatorAction = Action & {
   type: "SET_OPERATOR";
   input: SetOperatorInput;
 };
+export type SetOpHubMemberAction = Action & {
+  type: "SET_OP_HUB_MEMBER";
+  input: SetOpHubMemberInput;
+};
 
 export type BuilderProfileBuildersAction =
   | UpdateProfileAction
@@ -66,4 +71,5 @@ export type BuilderProfileBuildersAction =
   | RemoveLinkAction
   | AddContributorAction
   | RemoveContributorAction
-  | SetOperatorAction;
+  | SetOperatorAction
+  | SetOpHubMemberAction;

@@ -1,5 +1,5 @@
 import { Target, X, Check } from "lucide-react";
-import type { BuilderScope } from "../../../document-models/builder-profile/gen/types.js";
+import type { BuilderScope } from "../../../document-models/builder-profile/gen/types.ts";
 
 const SCOPE_OPTIONS: {
   value: BuilderScope;

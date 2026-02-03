@@ -19,6 +19,7 @@ import {
   AddContributorInputSchema,
   RemoveContributorInputSchema,
   SetOperatorInputSchema,
+  SetOpHubMemberInputSchema,
 } from "./schema/zod.js";
 
 const stateReducer: StateReducer<BuilderProfilePHState> = (
@@ -154,6 +155,18 @@ const stateReducer: StateReducer<BuilderProfilePHState> = (
       SetOperatorInputSchema().parse(action.input);
 
       builderProfileBuildersOperations.setOperatorOperation(
+        (state as any)[action.scope],
+        action as any,
+        dispatch,
+      );
+
+      break;
+    }
+
+    case "SET_OP_HUB_MEMBER": {
+      SetOpHubMemberInputSchema().parse(action.input);
+
+      builderProfileBuildersOperations.setOpHubMemberOperation(
         (state as any)[action.scope],
         action as any,
         dispatch,

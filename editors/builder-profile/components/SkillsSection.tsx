@@ -1,5 +1,5 @@
 import { Sparkles, X, Check } from "lucide-react";
-import type { BuilderSkill } from "../../../document-models/builder-profile/gen/types.js";
+import type { BuilderSkill } from "../../../document-models/builder-profile/gen/types.ts";
 
 const SKILL_OPTIONS: {
   value: BuilderSkill;

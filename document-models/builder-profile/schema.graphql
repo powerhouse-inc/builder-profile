@@ -29,6 +29,7 @@ type BuilderProfileState {
   about: String
   lastModified: DateTime
   isOperator: Boolean!
+  operationalHubMember: OpHubMember!
   contributors: [PHID!]!
   status: BuilderStatus
   skills: [BuilderSkill!]!
@@ -105,6 +106,11 @@ enum BuilderScopeInput {
   GOVERNANCE_SCOPE
 }
 
+type OpHubMember {
+  name: String
+  phid: PHID
+}
+
 # builders
 
 input UpdateProfileInput {
@@ -169,4 +175,9 @@ input RemoveContributorInput {
 
 input SetOperatorInput {
   isOperator: Boolean!
+}
+
+input SetOpHubMemberInput {
+  name: String
+  phid: PHID
 }

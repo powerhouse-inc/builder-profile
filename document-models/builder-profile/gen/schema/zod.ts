@@ -13,10 +13,12 @@ import type {
   BuilderStatus,
   BuilderStatusInput,
   EditLinkInput,
+  OpHubMember,
   RemoveContributorInput,
   RemoveLinkInput,
   RemoveScopeInput,
   RemoveSkillInput,
+  SetOpHubMemberInput,
   SetOperatorInput,
   UpdateProfileInput,
 } from "./types.js";
@@ -148,6 +150,7 @@ export function BuilderProfileStateSchema(): z.ZodObject<
     lastModified: z.string().datetime().nullish(),
     links: z.array(z.lazy(() => BuilderLinkSchema())),
     name: z.string().nullish(),
+    operationalHubMember: z.lazy(() => OpHubMemberSchema()),
     scopes: z.array(BuilderScopeSchema),
     skills: z.array(BuilderSkillSchema),
     slug: z.string().nullish(),
@@ -160,6 +163,14 @@ export function EditLinkInputSchema(): z.ZodObject<Properties<EditLinkInput>> {
     id: z.string(),
     label: z.string().nullish(),
     url: z.string().url(),
+  });
+}
+
+export function OpHubMemberSchema(): z.ZodObject<Properties<OpHubMember>> {
+  return z.object({
+    __typename: z.literal("OpHubMember").optional(),
+    name: z.string().nullish(),
+    phid: z.string().nullish(),
   });
 }
 
@@ -192,6 +203,15 @@ export function RemoveSkillInputSchema(): z.ZodObject<
 > {
   return z.object({
     skill: BuilderSkillInputSchema.nullish(),
+  });
+}
+
+export function SetOpHubMemberInputSchema(): z.ZodObject<
+  Properties<SetOpHubMemberInput>
+> {
+  return z.object({
+    name: z.string().nullish(),
+    phid: z.string().nullish(),
   });
 }
 

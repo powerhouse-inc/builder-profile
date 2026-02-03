@@ -94,6 +94,7 @@ export type BuilderProfileState = {
   lastModified: Maybe<Scalars["DateTime"]["output"]>;
   links: Array<BuilderLink>;
   name: Maybe<Scalars["String"]["output"]>;
+  operationalHubMember: OpHubMember;
   scopes: Array<BuilderScope>;
   skills: Array<BuilderSkill>;
   slug: Maybe<Scalars["String"]["output"]>;
@@ -162,6 +163,11 @@ export type EditLinkInput = {
   url: Scalars["URL"]["input"];
 };
 
+export type OpHubMember = {
+  name: Maybe<Scalars["String"]["output"]>;
+  phid: Maybe<Scalars["PHID"]["output"]>;
+};
+
 export type RemoveContributorInput = {
   contributorPHID: Scalars["PHID"]["input"];
 };
@@ -176,6 +182,11 @@ export type RemoveScopeInput = {
 
 export type RemoveSkillInput = {
   skill?: InputMaybe<BuilderSkillInput>;
+};
+
+export type SetOpHubMemberInput = {
+  name?: InputMaybe<Scalars["String"]["input"]>;
+  phid?: InputMaybe<Scalars["PHID"]["input"]>;
 };
 
 export type SetOperatorInput = {

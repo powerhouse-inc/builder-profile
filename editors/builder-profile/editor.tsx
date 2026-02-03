@@ -6,7 +6,7 @@ import {
   DocumentToolbar,
 } from "@powerhousedao/design-system/connect";
 import { actions } from "../../document-models/builder-profile/index.js";
-import type { SetOpHubMemberInput } from "../../document-models/builder-profile/gen/types.js";
+import type { SetOpHubMemberInput } from "../../document-models/builder-profile/gen/types.ts";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelectedBuilderProfileDocument } from "../../document-models/builder-profile/hooks.js";
 import {
@@ -52,11 +52,11 @@ export default function Editor() {
 
   const idGeneratedRef = useRef(false);
   const [descriptionValue, setDescriptionValue] = useState(
-    state?.description || ""
+    state?.description || "",
   );
   const [showRoleDialog, setShowRoleDialog] = useState(false);
   const [pendingRoleChange, setPendingRoleChange] = useState<boolean | null>(
-    null
+    null,
   );
 
   // Sync description state when document changes
@@ -71,7 +71,7 @@ export default function Editor() {
       dispatch(
         actions.updateProfile({
           id: doc.header.id,
-        })
+        }),
       );
     }
   }, [state?.id, dispatch, doc?.header.id]);
@@ -130,7 +130,7 @@ export default function Editor() {
         dispatch(actions.updateProfile({ [field]: value }));
       }
     },
-    [dispatch, generateSlug]
+    [dispatch, generateSlug],
   );
 
   // Handle status change
@@ -139,7 +139,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.updateProfile({ status }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // Skill handlers
@@ -148,7 +148,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.addSkill({ skill }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleRemoveSkill = useCallback(
@@ -156,7 +156,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.removeSkill({ skill }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // Scope handlers
@@ -165,7 +165,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.addScope({ scope }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleRemoveScope = useCallback(
@@ -173,7 +173,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.removeScope({ scope }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // Link handlers
@@ -181,20 +181,20 @@ export default function Editor() {
     (link: { id: string; url: string; label?: string }) => {
       if (!dispatch) return;
       dispatch(
-        actions.addLink({ id: link.id, url: link.url, label: link.label })
+        actions.addLink({ id: link.id, url: link.url, label: link.label }),
       );
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleEditLink = useCallback(
     (link: { id: string; url: string; label?: string }) => {
       if (!dispatch) return;
       dispatch(
-        actions.editLink({ id: link.id, url: link.url, label: link.label })
+        actions.editLink({ id: link.id, url: link.url, label: link.label }),
       );
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleRemoveLink = useCallback(
@@ -202,7 +202,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.removeLink({ id }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // Contributor handlers
@@ -211,7 +211,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.addContributor({ contributorPHID }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleRemoveContributor = useCallback(
@@ -219,7 +219,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.removeContributor({ contributorPHID }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // Operator handler - shows confirmation dialog
@@ -232,7 +232,7 @@ export default function Editor() {
         setShowRoleDialog(true);
       }
     },
-    [dispatch, state?.isOperator]
+    [dispatch, state?.isOperator],
   );
 
   // Operational Hub Member handler
@@ -241,7 +241,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.setOpHubMember(input));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // Confirm role change after dialog
@@ -758,7 +758,7 @@ export default function Editor() {
                     if (e.target.value.length > DESCRIPTION_MAX_LENGTH) {
                       toast(
                         `Description exceeds ${DESCRIPTION_MAX_LENGTH} character limit`,
-                        { type: "error" }
+                        { type: "error" },
                       );
                       return;
                     }

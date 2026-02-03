@@ -9,7 +9,7 @@
     "documentModels": [
         {
             "id": "powerhouse/builder-profile",
-            "name": "Builder Profile"
+            "name": "BuilderProfile"
         }
     ],
     "editors": [],

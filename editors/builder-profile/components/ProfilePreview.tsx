@@ -3,7 +3,7 @@ import type {
   BuilderProfileState,
   BuilderSkill,
   BuilderScope,
-} from "../../../document-models/builder-profile/gen/types.js";
+} from "../../../document-models/builder-profile/gen/types.ts";
 import { MarkdownPreview } from "./MarkdownPreview.js";
 
 const SKILL_LABELS: Record<BuilderSkill, string> = {

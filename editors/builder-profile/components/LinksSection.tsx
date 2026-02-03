@@ -2,7 +2,7 @@ import { useState } from "react";
 import { TextInput } from "@powerhousedao/document-engineering";
 import { Link2, Plus, Check, X, Pencil, Trash2 } from "lucide-react";
 import { generateId } from "document-model/core";
-import type { BuilderLink } from "../../../document-models/builder-profile/gen/types.js";
+import type { BuilderLink } from "../../../document-models/builder-profile/gen/types.ts";
 
 interface LinksSectionProps {
   links: BuilderLink[];

@@ -11,6 +11,7 @@ import {
   AddContributorInputSchema,
   RemoveContributorInputSchema,
   SetOperatorInputSchema,
+  SetOpHubMemberInputSchema,
 } from "../schema/zod.js";
 import type {
   UpdateProfileInput,
@@ -24,6 +25,7 @@ import type {
   AddContributorInput,
   RemoveContributorInput,
   SetOperatorInput,
+  SetOpHubMemberInput,
 } from "../types.js";
 import type {
   UpdateProfileAction,
@@ -37,6 +39,7 @@ import type {
   AddContributorAction,
   RemoveContributorAction,
   SetOperatorAction,
+  SetOpHubMemberAction,
 } from "./actions.js";
 
 export const updateProfile = (input: UpdateProfileInput) =>
@@ -135,5 +138,14 @@ export const setOperator = (input: SetOperatorInput) =>
     { ...input },
     undefined,
     SetOperatorInputSchema,
+    "global",
+  );
+
+export const setOpHubMember = (input: SetOpHubMemberInput) =>
+  createAction<SetOpHubMemberAction>(
+    "SET_OP_HUB_MEMBER",
+    { ...input },
+    undefined,
+    SetOpHubMemberInputSchema,
     "global",
   );

@@ -22,6 +22,10 @@ export function defaultGlobalState(): BuilderProfileGlobalState {
     about: null,
     lastModified: null,
     isOperator: false,
+    operationalHubMember: {
+      name: null,
+      phid: null,
+    },
     contributors: [],
     status: null,
     skills: [],

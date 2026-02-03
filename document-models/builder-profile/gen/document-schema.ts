@@ -8,15 +8,15 @@ import { BuilderProfileStateSchema } from "./schema/zod.js";
 import type { BuilderProfileDocument, BuilderProfilePHState } from "./types.js";
 
 /** Schema for validating the header object of a BuilderProfile document */
-export const BuilderProfileDocumentHeaderSchema =
+export const BuilderProfileDocumentHeaderSchema: z.ZodType<BuilderProfileDocument["header"]> =
   BaseDocumentHeaderSchema.extend({
     documentType: z.literal(builderProfileDocumentType),
-  });
+  }) as unknown as z.ZodType<BuilderProfileDocument["header"]>;
 
 /** Schema for validating the state object of a BuilderProfile document */
-export const BuilderProfilePHStateSchema = BaseDocumentStateSchema.extend({
-  global: BuilderProfileStateSchema(),
-});
+export const BuilderProfilePHStateSchema: z.ZodType<BuilderProfilePHState> = BaseDocumentStateSchema.extend({
+  global: BuilderProfileStateSchema()
+}) as unknown as z.ZodType<BuilderProfilePHState>;
 
 export const BuilderProfileDocumentSchema = z.object({
   header: BuilderProfileDocumentHeaderSchema,

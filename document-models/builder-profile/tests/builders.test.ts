@@ -15,6 +15,7 @@ import {
   addContributor,
   removeContributor,
   setOperator,
+  setOpHubMember,
   UpdateProfileInputSchema,
   AddSkillInputSchema,
   RemoveSkillInputSchema,
@@ -26,6 +27,7 @@ import {
   AddContributorInputSchema,
   RemoveContributorInputSchema,
   SetOperatorInputSchema,
+  SetOpHubMemberInputSchema,
 } from "@powerhousedao/builder-profile/document-models/builder-profile";
 
 describe("BuildersOperations", () => {
@@ -201,6 +203,23 @@ describe("BuildersOperations", () => {
     expect(updatedDocument.operations.global).toHaveLength(1);
     expect(updatedDocument.operations.global[0].action.type).toBe(
       "SET_OPERATOR",
+    );
+    expect(updatedDocument.operations.global[0].action.input).toStrictEqual(
+      input,
+    );
+    expect(updatedDocument.operations.global[0].index).toEqual(0);
+  });
+
+  it("should handle setOpHubMember operation", () => {
+    const document = utils.createDocument();
+    const input = generateMock(SetOpHubMemberInputSchema());
+
+    const updatedDocument = reducer(document, setOpHubMember(input));
+
+    expect(isBuilderProfileDocument(updatedDocument)).toBe(true);
+    expect(updatedDocument.operations.global).toHaveLength(1);
+    expect(updatedDocument.operations.global[0].action.type).toBe(
+      "SET_OP_HUB_MEMBER",
     );
     expect(updatedDocument.operations.global[0].action.input).toStrictEqual(
       input,

@@ -1,4 +1,4 @@
-import type { BuilderProfileBuildersOperations } from "@powerhousedao/builder-profile/document-models/builder-profile";
+import type { BuilderProfileBuildersOperations } from "../../gen/builders/operations.ts";
 
 export const builderProfileBuildersOperations: BuilderProfileBuildersOperations =
   {
@@ -114,4 +114,13 @@ export const builderProfileBuildersOperations: BuilderProfileBuildersOperations 
     setOperatorOperation(state, action) {
       state.isOperator = action.input.isOperator;
     },
+    setOpHubMemberOperation(state, action) {
+      if (action.input.name)
+        state.operationalHubMember.name = action.input.name;
+      if (action.input.phid)
+        state.operationalHubMember.phid = action.input.phid;
+      // Convert UTC timestamp (ms) to ISO string for storage
+      state.lastModified = new Date(action.timestampUtcMs).toISOString();
+    },
   };
+
