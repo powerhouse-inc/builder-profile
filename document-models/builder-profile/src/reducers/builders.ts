@@ -1,4 +1,4 @@
-import type { BuilderProfileBuildersOperations } from "../../gen/builders/operations.ts";
+import type { BuilderProfileBuildersOperations } from "@powerhousedao/builder-profile/document-models/builder-profile";
 
 export const builderProfileBuildersOperations: BuilderProfileBuildersOperations =
   {
@@ -123,4 +123,3 @@ export const builderProfileBuildersOperations: BuilderProfileBuildersOperations 
       state.lastModified = new Date(action.timestampUtcMs).toISOString();
     },
   };
-
