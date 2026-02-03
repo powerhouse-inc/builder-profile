@@ -1,11 +1,12 @@
 import { TextInput, Textarea } from "@powerhousedao/document-engineering";
-import { Settings, FileText, Copy, Info, X } from "lucide-react";
+import { Settings, FileText, Copy, Info, X, Building2 } from "lucide-react";
 import {
   toast,
   ToastContainer,
   DocumentToolbar,
 } from "@powerhousedao/design-system/connect";
 import { actions } from "../../document-models/builder-profile/index.js";
+import type { SetOpHubMemberInput } from "../../document-models/builder-profile/gen/types.js";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelectedBuilderProfileDocument } from "../../document-models/builder-profile/hooks.js";
 import {
@@ -51,11 +52,11 @@ export default function Editor() {
 
   const idGeneratedRef = useRef(false);
   const [descriptionValue, setDescriptionValue] = useState(
-    state?.description || "",
+    state?.description || ""
   );
   const [showRoleDialog, setShowRoleDialog] = useState(false);
   const [pendingRoleChange, setPendingRoleChange] = useState<boolean | null>(
-    null,
+    null
   );
 
   // Sync description state when document changes
@@ -70,7 +71,7 @@ export default function Editor() {
       dispatch(
         actions.updateProfile({
           id: doc.header.id,
-        }),
+        })
       );
     }
   }, [state?.id, dispatch, doc?.header.id]);
@@ -129,7 +130,7 @@ export default function Editor() {
         dispatch(actions.updateProfile({ [field]: value }));
       }
     },
-    [dispatch, generateSlug],
+    [dispatch, generateSlug]
   );
 
   // Handle status change
@@ -138,7 +139,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.updateProfile({ status }));
     },
-    [dispatch],
+    [dispatch]
   );
 
   // Skill handlers
@@ -147,7 +148,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.addSkill({ skill }));
     },
-    [dispatch],
+    [dispatch]
   );
 
   const handleRemoveSkill = useCallback(
@@ -155,7 +156,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.removeSkill({ skill }));
     },
-    [dispatch],
+    [dispatch]
   );
 
   // Scope handlers
@@ -164,7 +165,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.addScope({ scope }));
     },
-    [dispatch],
+    [dispatch]
   );
 
   const handleRemoveScope = useCallback(
@@ -172,7 +173,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.removeScope({ scope }));
     },
-    [dispatch],
+    [dispatch]
   );
 
   // Link handlers
@@ -180,20 +181,20 @@ export default function Editor() {
     (link: { id: string; url: string; label?: string }) => {
       if (!dispatch) return;
       dispatch(
-        actions.addLink({ id: link.id, url: link.url, label: link.label }),
+        actions.addLink({ id: link.id, url: link.url, label: link.label })
       );
     },
-    [dispatch],
+    [dispatch]
   );
 
   const handleEditLink = useCallback(
     (link: { id: string; url: string; label?: string }) => {
       if (!dispatch) return;
       dispatch(
-        actions.editLink({ id: link.id, url: link.url, label: link.label }),
+        actions.editLink({ id: link.id, url: link.url, label: link.label })
       );
     },
-    [dispatch],
+    [dispatch]
   );
 
   const handleRemoveLink = useCallback(
@@ -201,7 +202,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.removeLink({ id }));
     },
-    [dispatch],
+    [dispatch]
   );
 
   // Contributor handlers
@@ -210,7 +211,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.addContributor({ contributorPHID }));
     },
-    [dispatch],
+    [dispatch]
   );
 
   const handleRemoveContributor = useCallback(
@@ -218,7 +219,7 @@ export default function Editor() {
       if (!dispatch) return;
       dispatch(actions.removeContributor({ contributorPHID }));
     },
-    [dispatch],
+    [dispatch]
   );
 
   // Operator handler - shows confirmation dialog
@@ -231,7 +232,16 @@ export default function Editor() {
         setShowRoleDialog(true);
       }
     },
-    [dispatch, state?.isOperator],
+    [dispatch, state?.isOperator]
+  );
+
+  // Operational Hub Member handler
+  const handleSetOpHubMember = useCallback(
+    (input: SetOpHubMemberInput) => {
+      if (!dispatch) return;
+      dispatch(actions.setOpHubMember(input));
+    },
+    [dispatch]
   );
 
   // Confirm role change after dialog
@@ -618,6 +628,57 @@ export default function Editor() {
                 placeholder="https://example.com/avatar.jpg"
               />
             </div>
+
+            {/* Operational Hub Member */}
+            <div className="md:col-span-2 border-t border-slate-100 pt-6 mt-2">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="w-8 h-8 rounded-lg bg-violet-50 flex items-center justify-center">
+                  <Building2 size={18} className="text-violet-600" />
+                </span>
+                <label className="field-label mb-0">
+                  Operational Hub Member
+                </label>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-medium text-slate-500 mb-1.5 block">
+                    Name
+                  </label>
+                  <TextInput
+                    className="w-full"
+                    defaultValue={state?.operationalHubMember?.name || ""}
+                    onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
+                      if (
+                        e.target.value !== state?.operationalHubMember?.name
+                      ) {
+                        handleSetOpHubMember({ name: e.target.value || null });
+                      }
+                    }}
+                    placeholder="Enter hub name"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-slate-500 mb-1.5 block">
+                    PHID
+                  </label>
+                  <TextInput
+                    className="w-full"
+                    defaultValue={state?.operationalHubMember?.phid || ""}
+                    onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
+                      if (
+                        e.target.value !== state?.operationalHubMember?.phid
+                      ) {
+                        handleSetOpHubMember({ phid: e.target.value || null });
+                      }
+                    }}
+                    placeholder="Enter hub PHID"
+                  />
+                </div>
+              </div>
+              <p className="field-hint mt-2">
+                Link this profile to an operational hub member
+              </p>
+            </div>
           </div>
         </div>
 
@@ -697,7 +758,7 @@ export default function Editor() {
                     if (e.target.value.length > DESCRIPTION_MAX_LENGTH) {
                       toast(
                         `Description exceeds ${DESCRIPTION_MAX_LENGTH} character limit`,
-                        { type: "error" },
+                        { type: "error" }
                       );
                       return;
                     }
