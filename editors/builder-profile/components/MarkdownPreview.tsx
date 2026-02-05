@@ -119,10 +119,20 @@ export function MarkdownPreview({
             font-weight: 600;
             color: #334155;
           }
+          /* Hide anchor links on headers */
+          .markdown-preview-content .anchor {
+            display: none;
+          }
+          .markdown-preview-content .octicon {
+            display: none;
+          }
         `}
       </style>
       <div className="markdown-preview-content" data-color-mode="light">
-        <MarkdownRenderer source={displayContent} />
+        <MarkdownRenderer
+          source={displayContent}
+          disableCopy={true}
+        />
       </div>
       <ExpandButton />
     </div>
