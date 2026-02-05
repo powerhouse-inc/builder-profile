@@ -16,7 +16,7 @@ const previewOptions = {
 export type MarkdownEditorMode = "preview" | "edit" | "live";
 
 interface MarkdownEditorProps {
-  value: string;
+  value: string | null;
   onChange: (value: string) => void;
   onBlur?: (value: string) => void;
   height?: number;
@@ -34,7 +34,7 @@ export function MarkdownEditor({
 }: MarkdownEditorProps) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const [MDEditor, setMDEditor] = useState<any>(null);
-  const [contentValue, setContentValue] = useState<string>(" ");
+  const [contentValue, setContentValue] = useState<string>("");
   const [isLoaded, setIsLoaded] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
 
@@ -70,9 +70,9 @@ export function MarkdownEditor({
   // Update contentValue when value prop changes
   useEffect(() => {
     if (isLoaded) {
-      const stringValue = typeof value === "string" ? value : "";
-      const safeValue = stringValue.trim() || " ";
-      setContentValue(safeValue);
+      // Handle null/undefined but preserve empty strings, whitespace, and newlines
+      const stringValue = value ?? "";
+      setContentValue(stringValue);
     }
   }, [value, isLoaded]);
 
@@ -109,13 +109,10 @@ export function MarkdownEditor({
 
   // Handle content changes
   const handleContentChange = (newValue: string | undefined) => {
-    if (newValue !== undefined) {
-      const stringValue = typeof newValue === "string" ? newValue : "";
-      // Only replace completely empty strings with a space, preserve all other content
-      const safeValue = stringValue === "" ? " " : stringValue;
-      setContentValue(safeValue);
-      onChange(newValue); // Keep the original value for the parent component
-    }
+    // Handle null/undefined but preserve all string content including empty strings
+    const stringValue = newValue ?? "";
+    setContentValue(stringValue);
+    onChange(stringValue);
   };
 
   // Handle content blur
@@ -193,7 +190,7 @@ export function MarkdownEditor({
             <textarea
               className="w-full h-full mt-2 p-2 border border-gray-300 rounded text-sm"
               placeholder="Fallback text editor - write your content here..."
-              value={value}
+              value={value ?? ""}
               onChange={(e) => onChange(e.target.value)}
               onBlur={(e) => onBlur?.(e.target.value)}
             />
@@ -204,7 +201,7 @@ export function MarkdownEditor({
         <div data-color-mode="light" className="w-full">
           <MDEditor
             height={height}
-            value={contentValue}
+            value={contentValue || " "}
             onChange={handleContentChange}
             onBlur={handleContentBlur}
             previewOptions={previewOptions}
