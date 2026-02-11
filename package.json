@@ -68,7 +68,7 @@
     "@powerhousedao/builder-tools": "5.3.0",
     "@powerhousedao/common": "5.3.0",
     "@powerhousedao/design-system": "5.3.0",
-    "@powerhousedao/document-engineering": "^1.40.0",
+    "@powerhousedao/document-engineering": "^1.40.1",
     "@powerhousedao/vetra": "5.3.0",
     "@uiw/react-md-editor": "^4.0.11",
     "document-model": "5.3.0",
@@ -90,7 +90,7 @@
     "@powerhousedao/reactor-api": "5.3.0",
     "@powerhousedao/reactor-browser": "5.3.0",
     "@powerhousedao/reactor-local": "5.3.0",
-    "@powerhousedao/scalars": "latest",
+    "@powerhousedao/scalars": "^2.0.1",
     "@powerhousedao/switchboard": "5.3.0",
     "@tailwindcss/cli": "^4.1.4",
     "@testing-library/react": "^16.3.0",
@@ -125,15 +125,23 @@
   "release": {
     "branches": [
       "main",
-      { "name": "staging", "prerelease": "staging" },
-      { "name": "dev", "prerelease": "dev" }
+      {
+        "name": "staging",
+        "prerelease": "staging"
+      },
+      {
+        "name": "dev",
+        "prerelease": "dev"
+      }
     ],
     "plugins": [
       "@semantic-release/changelog",
       "@semantic-release/git",
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
-      ["@semantic-release/npm", { "npmPublish": false }],
+      ["@semantic-release/npm", {
+        "npmPublish": false
+      }],
       "@semantic-release/github"
     ]
   },
