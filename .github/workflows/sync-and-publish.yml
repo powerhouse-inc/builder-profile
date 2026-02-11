@@ -115,7 +115,13 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Update Powerhouse dependencies
-        run: bun update "@powerhousedao/*" "document-model" "document-drive"
+        run: |
+          bun update $(node -e "
+            const pkg = require('./package.json');
+            const deps = {...pkg.dependencies, ...pkg.devDependencies};
+            const names = Object.keys(deps).filter(d => d.startsWith('@powerhousedao/') || ['document-model','document-drive'].includes(d));
+            console.log(names.join(' '));
+          ")
 
       - name: Install dependencies
         run: bun install
