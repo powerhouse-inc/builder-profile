@@ -126,6 +126,9 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Generate
+        run: bun generate
+
       - name: Build package
         run: bun run build
 
@@ -206,6 +209,9 @@ jobs:
 
       - name: Install dependencies
         run: bun install
+
+      - name: Generate
+        run: bun generate
 
       - name: Build package
         run: bun run build
