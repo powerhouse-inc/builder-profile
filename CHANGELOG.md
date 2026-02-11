@@ -1,3 +1,10 @@
+# [1.0.0-dev.2](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.1...v1.0.0-dev.2) (2026-02-11)
+
+
+### Bug Fixes
+
+* trigger release with npm trusted publishers ([e63031d](https://github.com/powerhouse-inc/builder-profile/commit/e63031dca73d1cc62cd3f4f91edc5033676d2fdc))
+
 # 1.0.0-dev.1 (2026-02-11)
 
 
