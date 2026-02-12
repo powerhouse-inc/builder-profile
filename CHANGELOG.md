@@ -1,3 +1,10 @@
+# [1.0.0-dev.10](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.9...v1.0.0-dev.10) (2026-02-12)
+
+
+### Bug Fixes
+
+* **ci:** skip publish if version already exists on npm ([e54447b](https://github.com/powerhouse-inc/builder-profile/commit/e54447b7bfe607612b69670fc13258ea4eed9cde))
+
 # [1.0.0-dev.9](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.8...v1.0.0-dev.9) (2026-02-12)
 
 
