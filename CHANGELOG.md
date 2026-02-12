@@ -1,3 +1,10 @@
+# [1.0.0-dev.9](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.8...v1.0.0-dev.9) (2026-02-12)
+
+
+### Bug Fixes
+
+* **ci:** use always() for notify-downstream to read outputs from always() job ([a071fa6](https://github.com/powerhouse-inc/builder-profile/commit/a071fa69666857b0392a5abf801534aec350eca1))
+
 # [1.0.0-dev.8](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.7...v1.0.0-dev.8) (2026-02-12)
 
 
