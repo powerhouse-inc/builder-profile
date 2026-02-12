@@ -1,3 +1,10 @@
+# [1.0.0-dev.6](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.5...v1.0.0-dev.6) (2026-02-12)
+
+
+### Bug Fixes
+
+* **ci:** upgrade npm to v11+ for OIDC trusted publishing support ([8e5c0cc](https://github.com/powerhouse-inc/builder-profile/commit/8e5c0cc577394671a8faaff23ae9e72e47daee83))
+
 # [1.0.0-dev.5](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.4...v1.0.0-dev.5) (2026-02-12)
 
 
