@@ -270,7 +270,7 @@ jobs:
       - name: Trigger bai-powerhouse-env
         uses: peter-evans/repository-dispatch@v3
         with:
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ secrets.K8S_REPO_PAT }}
           repository: powerhouse-inc/bai-powerhouse-env
           event-type: dependency-release
           client-payload: |
