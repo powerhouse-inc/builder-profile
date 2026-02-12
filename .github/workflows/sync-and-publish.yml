@@ -226,12 +226,14 @@ jobs:
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REF: refs/heads/${{ needs.prepare.outputs.branch }}
 
       - name: Run semantic-release (dry-run)
         if: needs.prepare.outputs.dry_run == 'true'
         run: npx semantic-release --dry-run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REF: refs/heads/${{ needs.prepare.outputs.branch }}
 
       - name: Get released version
         id: get-version
