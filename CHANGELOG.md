@@ -1,3 +1,15 @@
+# [1.0.0-dev.8](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.7...v1.0.0-dev.8) (2026-02-12)
+
+
+### Bug Fixes
+
+* **ci:** use K8S_REPO_PAT org secret for cross-repo dispatch ([e8e9b73](https://github.com/powerhouse-inc/builder-profile/commit/e8e9b7388e30a1a83d72b5efc3d5f1871c3fe133))
+
+
+### Features
+
+* **ci:** notify bai-powerhouse-env after successful release ([e0e7739](https://github.com/powerhouse-inc/builder-profile/commit/e0e7739a5661c4c87739d07d7c8ade72d2f3ec22))
+
 # [1.0.0-dev.7](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.6...v1.0.0-dev.7) (2026-02-12)
 
 
