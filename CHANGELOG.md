@@ -1,3 +1,10 @@
+# [1.0.0-dev.4](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.3...v1.0.0-dev.4) (2026-02-12)
+
+
+### Bug Fixes
+
+* **ci:** remove NPM_TOKEN to use trusted publishers for npm publish ([cc19244](https://github.com/powerhouse-inc/builder-profile/commit/cc192445f0b7f77d30812d8274e47a71e6161f69))
+
 # [1.0.0-dev.3](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.2...v1.0.0-dev.3) (2026-02-12)
 
 
