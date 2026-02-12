@@ -1,3 +1,12 @@
+## [1.0.1](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0...v1.0.1) (2026-02-12)
+
+
+### Bug Fixes
+
+* **ci:** sync all branches on monorepo release via matrix strategy ([f436aa1](https://github.com/powerhouse-inc/builder-profile/commit/f436aa1b80238ef9d42cce71bca4e60c38cd5978))
+* **ci:** use bun update --latest to bump exact-pinned deps ([db91e33](https://github.com/powerhouse-inc/builder-profile/commit/db91e33a6261785c47e7bb6081aa6818e4fa7a75))
+* use caret ranges for powerhousedao dependencies ([85704b9](https://github.com/powerhouse-inc/builder-profile/commit/85704b926bc41c04fc2f7a7bbd9095ab6cb95a1e))
+
 # 1.0.0 (2026-02-12)
 
 
