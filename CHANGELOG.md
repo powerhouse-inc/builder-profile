@@ -1,3 +1,10 @@
+# [1.0.0-dev.7](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.6...v1.0.0-dev.7) (2026-02-12)
+
+
+### Bug Fixes
+
+* add repository url for npm provenance verification ([b5c08da](https://github.com/powerhouse-inc/builder-profile/commit/b5c08da3ebe57e0be564f7527d039defcac07e68))
+
 # [1.0.0-dev.6](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.5...v1.0.0-dev.6) (2026-02-12)
 
 
