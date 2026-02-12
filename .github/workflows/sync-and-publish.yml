@@ -250,12 +250,13 @@ jobs:
             echo "No new release (version: $VERSION)"
           fi
 
+      - name: Upgrade npm for trusted publishing
+        if: needs.prepare.outputs.dry_run != 'true' && steps.get-version.outputs.released == 'true'
+        run: npm install -g npm@latest
+
       - name: Publish to npm
         if: needs.prepare.outputs.dry_run != 'true' && steps.get-version.outputs.released == 'true'
-        run: |
-          npm config delete //registry.npmjs.org/:_authToken || true
-          unset NODE_AUTH_TOKEN
-          npm publish --provenance --access public --tag ${{ needs.prepare.outputs.channel }}
+        run: npm publish --provenance --access public --tag ${{ needs.prepare.outputs.channel }}
 
   # ==========================================================================
   # Summary
