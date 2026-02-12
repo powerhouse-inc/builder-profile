@@ -253,8 +253,6 @@ jobs:
       - name: Publish to npm
         if: needs.prepare.outputs.dry_run != 'true' && steps.get-version.outputs.released == 'true'
         run: npm publish --provenance --access public --tag ${{ needs.prepare.outputs.channel }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   # ==========================================================================
   # Summary
