@@ -259,11 +259,34 @@ jobs:
         run: npm publish --provenance --access public --tag ${{ needs.prepare.outputs.channel }}
 
   # ==========================================================================
+  # Notify downstream repositories
+  # ==========================================================================
+  notify-downstream:
+    name: Notify Downstream
+    needs: [prepare, release]
+    if: needs.release.outputs.released == 'true' && needs.prepare.outputs.dry_run != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger bai-powerhouse-env
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GH_PAT }}
+          repository: powerhouse-inc/bai-powerhouse-env
+          event-type: dependency-release
+          client-payload: |
+            {
+              "package": "@powerhousedao/builder-profile",
+              "version": "${{ needs.release.outputs.new_version }}",
+              "channel": "${{ needs.prepare.outputs.channel }}",
+              "powerhouse_version": "${{ needs.prepare.outputs.powerhouse_version }}"
+            }
+
+  # ==========================================================================
   # Summary
   # ==========================================================================
   summary:
     name: Summary
-    needs: [prepare, sync, release]
+    needs: [prepare, sync, release, notify-downstream]
     if: always()
     runs-on: ubuntu-latest
     steps:
