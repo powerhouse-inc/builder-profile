@@ -116,7 +116,7 @@ jobs:
 
       - name: Update Powerhouse dependencies
         run: |
-          bun update $(node -e "
+          bun update --latest $(node -e "
             const pkg = require('./package.json');
             const deps = {...pkg.dependencies, ...pkg.devDependencies};
             const names = Object.keys(deps).filter(d => d.startsWith('@powerhousedao/') || ['document-model','document-drive'].includes(d));
