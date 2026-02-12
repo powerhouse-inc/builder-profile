@@ -1,3 +1,11 @@
+# [1.0.0-dev.3](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.2...v1.0.0-dev.3) (2026-02-12)
+
+
+### Bug Fixes
+
+* **ci:** override GITHUB_REF so semantic-release uses correct branch ([e215b19](https://github.com/powerhouse-inc/builder-profile/commit/e215b199c5e3255bbc13d3d9ec18431f4206c304))
+* correct semantic-release plugin order ([e43a047](https://github.com/powerhouse-inc/builder-profile/commit/e43a0470ea0475be657a379b2ddfed90828b0a8e))
+
 # [1.0.0-dev.2](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.1...v1.0.0-dev.2) (2026-02-11)
 
 

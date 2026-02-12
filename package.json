@@ -1,7 +1,7 @@
 {
   "name": "@powerhousedao/builder-profile",
   "description": "Builder profile document model",
-  "version": "0.0.18",
+  "version": "1.0.0-dev.3",
   "license": "AGPL-3.0-only",
   "type": "module",
   "files": [
@@ -138,13 +138,15 @@
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
       "@semantic-release/changelog",
-      ["@semantic-release/npm", {
-        "npmPublish": false
-      }],
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
       "@semantic-release/github",
       "@semantic-release/git"
     ]
   },
-  "readme": "ERROR: No README data found!",
-  "_id": "@powerhousedao/builder-profile@0.0.17"
+  "readme": "ERROR: No README data found!"
 }
