@@ -1,7 +1,7 @@
 {
   "name": "@powerhousedao/builder-profile",
   "description": "Builder profile document model",
-  "version": "1.0.0-dev.4",
+  "version": "1.0.0-dev.5",
   "license": "AGPL-3.0-only",
   "type": "module",
   "files": [

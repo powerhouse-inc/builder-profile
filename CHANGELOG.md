@@ -1,3 +1,10 @@
+# [1.0.0-dev.5](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.4...v1.0.0-dev.5) (2026-02-12)
+
+
+### Bug Fixes
+
+* **ci:** clear auth token before publish to use OIDC trusted publishers ([c33ad03](https://github.com/powerhouse-inc/builder-profile/commit/c33ad03ec4e7f593ded1197ddf9d6d35f7036ae7))
+
 # [1.0.0-dev.4](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.3...v1.0.0-dev.4) (2026-02-12)
 
 
