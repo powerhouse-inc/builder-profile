@@ -1,3 +1,11 @@
+# [1.0.0-dev.11](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.10...v1.0.0-dev.11) (2026-02-12)
+
+
+### Bug Fixes
+
+* **ci:** use bun update --latest to bump exact-pinned deps ([abbd10c](https://github.com/powerhouse-inc/builder-profile/commit/abbd10c406cbcdb8c1b858d1cf164fe04682d5c6))
+* use caret ranges for powerhousedao dependencies ([a621372](https://github.com/powerhouse-inc/builder-profile/commit/a621372f4bba4223a17334c4cc84b84f63b0a684))
+
 # [1.0.0-dev.10](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.9...v1.0.0-dev.10) (2026-02-12)
 
 
