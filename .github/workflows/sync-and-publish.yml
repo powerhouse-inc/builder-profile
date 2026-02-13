@@ -65,7 +65,7 @@ jobs:
             -f dry-run=false \
             -f powerhouse-version="${{ github.event.client_payload.version }}"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.K8S_REPO_PAT }}
 
   # ==========================================================================
   # Sync powerhouse dependencies (workflow_dispatch only)
