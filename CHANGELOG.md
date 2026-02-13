@@ -1,3 +1,12 @@
+# [1.0.0-dev.12](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.11...v1.0.0-dev.12) (2026-02-13)
+
+
+### Bug Fixes
+
+* **ci:** fan out repository_dispatch into per-branch workflow_dispatch runs ([6b3bb40](https://github.com/powerhouse-inc/builder-profile/commit/6b3bb407882f181f9e2d46b5cc107e749cc3c208))
+* **ci:** sync all branches on monorepo release via matrix strategy ([dcf39a0](https://github.com/powerhouse-inc/builder-profile/commit/dcf39a0ae76f9d877fb421c5378179e3eaad9416))
+* **ci:** use PAT for workflow dispatch (GITHUB_TOKEN lacks permission) ([d3efdbf](https://github.com/powerhouse-inc/builder-profile/commit/d3efdbf6791ec069db37a7d49d248bbd76d60bf1))
+
 # [1.0.0-dev.11](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.10...v1.0.0-dev.11) (2026-02-12)
 
 
