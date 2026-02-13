@@ -1,3 +1,11 @@
+## [1.0.2](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.1...v1.0.2) (2026-02-13)
+
+
+### Bug Fixes
+
+* **ci:** fan out repository_dispatch into per-branch workflow_dispatch runs ([4451253](https://github.com/powerhouse-inc/builder-profile/commit/445125303e9ad9ccbbc94488907f3c50fc23b205))
+* **ci:** use PAT for workflow dispatch (GITHUB_TOKEN lacks permission) ([ccf638a](https://github.com/powerhouse-inc/builder-profile/commit/ccf638a10149ad72c4b3b2f2b2f678929a968bd0))
+
 ## [1.0.1](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0...v1.0.1) (2026-02-12)
 
 
