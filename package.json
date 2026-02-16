@@ -1,7 +1,7 @@
 {
   "name": "@powerhousedao/builder-profile",
   "description": "Builder profile document model",
-  "version": "1.0.0-staging.1",
+  "version": "1.0.0-staging.2",
   "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
@@ -139,39 +139,45 @@
       }
     ],
     "plugins": [
-      ["@semantic-release/commit-analyzer", {
-        "releaseRules": [
-          {
-            "type": "chore",
-            "release": "patch"
-          },
-          {
-            "type": "ci",
-            "release": "patch"
-          },
-          {
-            "type": "docs",
-            "release": "patch"
-          },
-          {
-            "type": "refactor",
-            "release": "patch"
-          },
-          {
-            "type": "style",
-            "release": "patch"
-          },
-          {
-            "type": "test",
-            "release": "patch"
-          }
-        ]
-      }],
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "releaseRules": [
+            {
+              "type": "chore",
+              "release": "patch"
+            },
+            {
+              "type": "ci",
+              "release": "patch"
+            },
+            {
+              "type": "docs",
+              "release": "patch"
+            },
+            {
+              "type": "refactor",
+              "release": "patch"
+            },
+            {
+              "type": "style",
+              "release": "patch"
+            },
+            {
+              "type": "test",
+              "release": "patch"
+            }
+          ]
+        }
+      ],
       "@semantic-release/release-notes-generator",
       "@semantic-release/changelog",
-      ["@semantic-release/npm", {
-        "npmPublish": false
-      }],
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
       "@semantic-release/github",
       "@semantic-release/git"
     ]

@@ -1,3 +1,10 @@
+# [1.0.0-staging.2](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-staging.1...v1.0.0-staging.2) (2026-02-16)
+
+
+### Bug Fixes
+
+* release on all commit types via semantic-release releaseRules ([21c3d89](https://github.com/powerhouse-inc/builder-profile/commit/21c3d89609c0a078cfe9359727f8f322e50b5445))
+
 # 1.0.0-staging.1 (2026-02-13)
 
 
