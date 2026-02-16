@@ -1,3 +1,10 @@
+# [1.0.0-dev.13](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.12...v1.0.0-dev.13) (2026-02-16)
+
+
+### Bug Fixes
+
+* release on all commit types via semantic-release releaseRules ([cc4b0dd](https://github.com/powerhouse-inc/builder-profile/commit/cc4b0dde79a208f58f09dba28927063f64030643))
+
 # [1.0.0-dev.12](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.0-dev.11...v1.0.0-dev.12) (2026-02-13)
 
 
