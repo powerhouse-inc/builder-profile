@@ -43,7 +43,7 @@ jobs:
   # ==========================================================================
   dispatch:
     name: Dispatch (${{ matrix.channel }})
-    if: github.event_name == 'repository_dispatch'
+    if: github.event_name == 'repository_dispatch' && github.event.client_payload.channel == 'latest'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -243,7 +243,7 @@ jobs:
         run: npm publish --provenance --access public --tag ${{ inputs.channel }}
 
       - name: Notify downstream
-        if: inputs.dry-run != true && steps.get-version.outputs.released == 'true' && inputs.channel == 'latest'
+        if: inputs.dry-run != true && steps.get-version.outputs.released == 'true' && inputs.channel == 'dev'
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.K8S_REPO_PAT }}
