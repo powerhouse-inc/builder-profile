@@ -139,8 +139,6 @@
       }
     ],
     "plugins": [
-      "@semantic-release/changelog",
-      "@semantic-release/git",
       ["@semantic-release/commit-analyzer", {
         "releaseRules": [
           { "type": "chore", "release": "patch" },
@@ -152,10 +150,12 @@
         ]
       }],
       "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
       ["@semantic-release/npm", {
         "npmPublish": false
       }],
-      "@semantic-release/github"
+      "@semantic-release/github",
+      "@semantic-release/git"
     ]
   },
   "readme": "ERROR: No README data found!",
