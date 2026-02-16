@@ -1,3 +1,11 @@
+## [1.0.3](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.2...v1.0.3) (2026-02-16)
+
+
+### Bug Fixes
+
+* correct semantic-release plugin order for releaseRules ([a246bdf](https://github.com/powerhouse-inc/builder-profile/commit/a246bdfba7b6513acdadb553c88adda99366b4d9))
+* release on all commit types via semantic-release releaseRules ([7764c05](https://github.com/powerhouse-inc/builder-profile/commit/7764c05195d58086837ce7f3f455b5be164f38c5))
+
 ## [1.0.2](https://github.com/powerhouse-inc/builder-profile/compare/v1.0.1...v1.0.2) (2026-02-13)
 
 
