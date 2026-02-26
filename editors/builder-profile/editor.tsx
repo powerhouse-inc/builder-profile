@@ -25,6 +25,9 @@ import { ContributorsSection } from "./components/ContributorsSection.js";
 import { ProfilePreview } from "./components/ProfilePreview.js";
 import { ImageUrlInput } from "./components/ImageUrlInput.js";
 import { MarkdownEditor } from "./components/markdown-editor.js";
+import operatorIconSrc from "./assets/operator-icon.png";
+
+const operatorIconUrl = operatorIconSrc as string;
 
 const STATUS_OPTIONS: {
   value: BuilderStatus;
@@ -505,7 +508,16 @@ export default function Editor() {
                   onClick={() => handleSetOperator(true)}
                   className={state?.isOperator ? "active operator" : ""}
                 >
-                  <span className="role-icon">⚡</span>
+                  <img
+                    src={operatorIconUrl}
+                    alt=""
+                    className="role-icon"
+                    style={{
+                      width: 19,
+                      height: 19,
+                      filter: state?.isOperator ? "invert(1)" : "none",
+                    }}
+                  />
                   Operator
                 </button>
               </div>
@@ -878,7 +890,11 @@ export default function Editor() {
                     className={`role-card ${pendingRoleChange ? "highlight" : ""}`}
                   >
                     <div className="role-card-header">
-                      <span className="role-icon-large">⚡</span>
+                      <img
+                        src={operatorIconUrl}
+                        alt=""
+                        style={{ width: 24, height: 24 }}
+                      />
                       <h4 className="text-lg font-semibold text-slate-900">
                         Operator
                       </h4>

@@ -49,7 +49,8 @@
     "./style.css": "./dist/style.css"
   },
   "scripts": {
-    "build": "npm run tsc && npm run tailwind",
+    "build": "npm run tsc && npm run tailwind && npm run copy-assets",
+    "copy-assets": "cp -r editors/builder-profile/assets dist/editors/builder-profile/assets",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint --config eslint.config.js --cache --cache-strategy content",
