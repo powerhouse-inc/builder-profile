@@ -6,6 +6,12 @@ import type {
   AddSkillInput,
   BuilderLink,
   BuilderProfileState,
+  BuilderScope,
+  BuilderScopeInput,
+  BuilderSkill,
+  BuilderSkillInput,
+  BuilderStatus,
+  BuilderStatusInput,
   EditLinkInput,
   OpHubMember,
   RemoveContributorInput,
@@ -104,7 +110,7 @@ export function AddLinkInputSchema(): z.ZodObject<Properties<AddLinkInput>> {
   return z.object({
     id: z.string(),
     label: z.string().nullish(),
-    url: z.string().url(),
+    url: z.url(),
   });
 }
 
@@ -125,7 +131,7 @@ export function BuilderLinkSchema(): z.ZodObject<Properties<BuilderLink>> {
     __typename: z.literal("BuilderLink").optional(),
     id: z.string(),
     label: z.string().nullish(),
-    url: z.string().url(),
+    url: z.url(),
   });
 }
 
@@ -138,10 +144,10 @@ export function BuilderProfileStateSchema(): z.ZodObject<
     code: z.string().nullish(),
     contributors: z.array(z.string()),
     description: z.string().nullish(),
-    icon: z.string().url().nullish(),
+    icon: z.url().nullish(),
     id: z.string().nullish(),
     isOperator: z.boolean(),
-    lastModified: z.string().datetime().nullish(),
+    lastModified: z.iso.datetime().nullish(),
     links: z.array(z.lazy(() => BuilderLinkSchema())),
     name: z.string().nullish(),
     operationalHubMember: z.lazy(() => OpHubMemberSchema()),
@@ -156,7 +162,7 @@ export function EditLinkInputSchema(): z.ZodObject<Properties<EditLinkInput>> {
   return z.object({
     id: z.string(),
     label: z.string().nullish(),
-    url: z.string().url(),
+    url: z.url(),
   });
 }
 
@@ -224,7 +230,7 @@ export function UpdateProfileInputSchema(): z.ZodObject<
     about: z.string().nullish(),
     code: z.string().nullish(),
     description: z.string().nullish(),
-    icon: z.string().url().nullish(),
+    icon: z.url().nullish(),
     id: z.string().nullish(),
     name: z.string().nullish(),
     slug: z.string().nullish(),

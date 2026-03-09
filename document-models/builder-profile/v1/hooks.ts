@@ -8,7 +8,7 @@ import {
 import type {
   BuilderProfileAction,
   BuilderProfileDocument,
-} from "@powerhousedao/builder-profile/document-models/builder-profile";
+} from "@powerhousedao/builder-profile/document-models/builder-profile/v1";
 import {
   assertIsBuilderProfileDocument,
   isBuilderProfileDocument,

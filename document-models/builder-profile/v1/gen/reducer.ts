@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import type { StateReducer } from "document-model";
 import { isDocumentAction, createReducer } from "document-model/core";
-import type { BuilderProfilePHState } from "@powerhousedao/builder-profile/document-models/builder-profile";
+import type { BuilderProfilePHState } from "@powerhousedao/builder-profile/document-models/builder-profile/v1";
 
 import { builderProfileBuildersOperations } from "../src/reducers/builders.js";
 

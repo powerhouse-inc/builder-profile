@@ -1,14 +1,14 @@
 import { TextInput, Textarea } from "@powerhousedao/document-engineering";
-import { Settings, FileText, Copy, Info, X, Building2 } from "lucide-react";
+import { Settings, FileText, Info, X, Building2 } from "lucide-react";
 import {
   toast,
   ToastContainer,
   DocumentToolbar,
 } from "@powerhousedao/design-system/connect";
 import { actions } from "../../document-models/builder-profile/index.js";
-import type { SetOpHubMemberInput } from "../../document-models/builder-profile/gen/types.ts";
+import type { SetOpHubMemberInput } from "../../document-models/builder-profile/v1/gen/types.ts";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useSelectedBuilderProfileDocument } from "../../document-models/builder-profile/hooks.js";
+import { useSelectedBuilderProfileDocument } from "../../document-models/builder-profile/v1/hooks.js";
 import {
   setSelectedNode,
   useParentFolderForSelectedNode,
@@ -17,7 +17,7 @@ import type {
   BuilderSkill,
   BuilderScope,
   BuilderStatus,
-} from "../../document-models/builder-profile/gen/types.js";
+} from "../../document-models/builder-profile/v1/gen/types.js";
 import { SkillsSection } from "./components/SkillsSection.js";
 import { ScopesSection } from "./components/ScopesSection.js";
 import { LinksSection } from "./components/LinksSection.js";
@@ -79,31 +79,6 @@ export default function Editor() {
     }
   }, [state?.id, dispatch, doc?.header.id]);
 
-  // Format date as "09 DEC 2025 10:52:30"
-  const formatLastModified = (isoString: string) => {
-    const date = new Date(isoString);
-    const day = date.getDate().toString().padStart(2, "0");
-    const months = [
-      "JAN",
-      "FEB",
-      "MAR",
-      "APR",
-      "MAY",
-      "JUN",
-      "JUL",
-      "AUG",
-      "SEP",
-      "OCT",
-      "NOV",
-      "DEC",
-    ];
-    const month = months[date.getMonth()];
-    const year = date.getFullYear();
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    const seconds = date.getSeconds().toString().padStart(2, "0");
-    return `${day} ${month} ${year} ${hours}:${minutes}:${seconds}`;
-  };
 
   // Generate slug from name
   const generateSlug = useCallback((name: string) => {
@@ -530,49 +505,6 @@ export default function Editor() {
 
         {/* Profile Preview */}
         {state && <ProfilePreview state={state} />}
-
-        {/* Metadata Section */}
-        <div className="section-card p-6">
-          <h3 className="text-lg font-semibold text-slate-900 mb-6 flex items-center gap-2">
-            <span className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
-              <Info size={18} className="text-slate-600" />
-            </span>
-            Metadata
-          </h3>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Builder/Operator ID */}
-            <div>
-              <label className="field-label">{roleLabel} ID</label>
-              <div className="flex items-center gap-2">
-                <code className="meta-value flex-1 truncate">
-                  {doc?.header.id}
-                </code>
-                <button
-                  type="button"
-                  className="p-2 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors"
-                  title={`Copy ${roleLabel} ID`}
-                  onClick={() => {
-                    void navigator.clipboard.writeText(doc?.header.id || "");
-                    toast(`Copied ${roleLabel} ID!`, { type: "success" });
-                  }}
-                >
-                  <Copy size={16} className="text-slate-500" />
-                </button>
-              </div>
-            </div>
-
-            {/* Last Modified */}
-            <div>
-              <label className="field-label">Last Modified</label>
-              <div className="meta-value">
-                {state?.lastModified
-                  ? formatLastModified(state.lastModified)
-                  : "Never modified"}
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* Identity Section */}
         <div className="section-card p-6">

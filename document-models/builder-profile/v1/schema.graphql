@@ -37,7 +37,6 @@ type BuilderProfileState {
   links: [BuilderLink!]!
 }
 
-
 enum BuilderStatus {
   ACTIVE
   INACTIVE
@@ -75,12 +74,9 @@ type BuilderLink {
   label: String
 }
 
-enum BuilderStatusInput {
-  ACTIVE
-  INACTIVE
-  ON_HOLD
-  COMPLETED
-  ARCHIVED
+type OpHubMember {
+  name: String
+  phid: PHID
 }
 
 enum BuilderSkillInput {
@@ -96,21 +92,6 @@ enum BuilderSkillInput {
   SECURITY_ENGINEERING
 }
 
-enum BuilderScopeInput {
-  ACC
-  STA
-  SUP
-  STABILITY_SCOPE
-  SUPPORT_SCOPE
-  PROTOCOL_SCOPE
-  GOVERNANCE_SCOPE
-}
-
-type OpHubMember {
-  name: String
-  phid: PHID
-}
-
 # builders
 
 input UpdateProfileInput {
@@ -124,8 +105,13 @@ input UpdateProfileInput {
   status: BuilderStatusInput
 }
 
-
-
+enum BuilderStatusInput {
+  ACTIVE
+  INACTIVE
+  ON_HOLD
+  COMPLETED
+  ARCHIVED
+}
 
 input AddSkillInput {
   skill: BuilderSkillInput
@@ -138,16 +124,25 @@ input RemoveSkillInput {
 }
 
 
-
 input AddScopeInput {
   scope: BuilderScopeInput
 }
 
-
+enum BuilderScopeInput {
+  ACC
+  STA
+  SUP
+  STABILITY_SCOPE
+  SUPPORT_SCOPE
+  PROTOCOL_SCOPE
+  GOVERNANCE_SCOPE
+}
 
 input RemoveScopeInput {
   scope: BuilderScopeInput
 }
+
+
 
 input AddLinkInput {
   id: OID!
@@ -162,7 +157,7 @@ input EditLinkInput {
 }
 
 input RemoveLinkInput {
-  id: OID!  
+  id: OID!
 }
 
 input AddContributorInput {

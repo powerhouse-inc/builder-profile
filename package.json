@@ -1,11 +1,11 @@
 {
   "name": "@powerhousedao/builder-profile",
   "description": "Builder profile document model",
-  "version": "1.0.7",
+  "version": "1.0.0-dev.0",
   "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
-    "url": "https://github.com/powerhouse-inc/builder-profile"
+    "url": "git+https://github.com/powerhouse-inc/builder-profile.git"
   },
   "type": "module",
   "files": [
@@ -43,6 +43,14 @@
       "types": "./dist/processors/index.d.ts",
       "default": "./dist/processors/index.js"
     },
+    "./processors/connect": {
+      "types": "./dist/processors/connect.d.ts",
+      "import": "./dist/processors/connect.js"
+    },
+    "./processors/switchboard": {
+      "types": "./dist/processors/switchboard.d.ts",
+      "import": "./dist/processors/switchboard.js"
+    },
     "./manifest": {
       "default": "./dist/powerhouse.manifest.json"
     },
@@ -57,7 +65,7 @@
     "lint:fix": "npm run lint -- --fix",
     "tsc": "tsc",
     "tsc:watch": "tsc --watch",
-    "tailwind": "bunx tailwindcss -i ./style.css -o ./dist/style.css",
+    "tailwind": "pnpm exec tailwindcss -i ./style.css -o ./dist/style.css",
     "prepublishOnly": "npm run build",
     "check-circular-imports": "npx dpdm -T ./index.ts",
     "generate": "ph-cli generate",
@@ -70,39 +78,38 @@
     "migrate": "ph-cli migrate"
   },
   "dependencies": {
-    "@powerhousedao/builder-tools": "^5.3.5",
-    "@powerhousedao/common": "^5.3.5",
-    "@powerhousedao/design-system": "^5.3.5",
-    "@powerhousedao/document-engineering": "^1.40.1",
-    "@powerhousedao/vetra": "^5.3.5",
+    "@electric-sql/pglite": "0.3.15",
+    "@powerhousedao/builder-tools": "6.0.1-staging.1",
+    "@powerhousedao/common": "6.0.1-staging.1",
+    "@powerhousedao/design-system": "6.0.1-staging.1",
+    "@powerhousedao/document-engineering": "1.40.1",
+    "@powerhousedao/vetra": "6.0.1-staging.1",
+    "@uiw/react-markdown-preview": "^5.1.5",
     "@uiw/react-md-editor": "^4.0.11",
-    "document-model": "^5.3.5",
-    "error": "^10.4.0",
+    "cmd-ts": "^0.15.0",
+    "document-model": "6.0.1-staging.1",
     "graphql": "^16.10.0",
     "graphql-tag": "^2.12.6",
-    "lucide-react": "^0.556.0",
+    "lucide-react": "^0.577.0",
     "rehype-slug": "^6.0.0",
     "zod": "^4.3.5"
   },
   "devDependencies": {
-    "@electric-sql/pglite": "^0.2.12",
     "@eslint/js": "^9.38.0",
-    "@powerhousedao/analytics-engine-core": "^0.6.4",
-    "@powerhousedao/codegen": "^5.3.5",
-    "@powerhousedao/config": "^5.3.5",
-    "@powerhousedao/connect": "^5.3.5",
-    "@powerhousedao/ph-cli": "^5.3.5",
-    "@powerhousedao/reactor-api": "^5.3.5",
-    "@powerhousedao/reactor-browser": "^5.3.5",
-    "@powerhousedao/reactor-local": "^5.3.5",
-    "@powerhousedao/scalars": "^2.0.1",
-    "@powerhousedao/switchboard": "^5.3.5",
+    "@powerhousedao/analytics-engine-core": "6.0.1-staging.1",
+    "@powerhousedao/config": "6.0.1-staging.1",
+    "@powerhousedao/connect": "6.0.1-staging.1",
+    "@powerhousedao/ph-cli": "6.0.1-staging.1",
+    "@powerhousedao/reactor-api": "6.0.1-staging.1",
+    "@powerhousedao/reactor-browser": "6.0.1-staging.1",
+    "@powerhousedao/reactor-local": "6.0.1-staging.1",
+    "@powerhousedao/switchboard": "6.0.1-staging.1",
     "@tailwindcss/cli": "^4.1.4",
     "@testing-library/react": "^16.3.0",
     "@types/node": "^24.9.2",
-    "@types/react": "^19.2.2",
+    "@types/react": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.0",
-    "document-drive": "^5.3.5",
+    "document-drive": "6.0.1-staging.1",
     "eslint": "^9.38.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
@@ -111,21 +118,21 @@
     "globals": "^16.4.0",
     "package-manager-detector": "^0.2.8",
     "pm2": "^5.4.3",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "tailwindcss": "^4.1.16",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.2",
     "vite": "^6.2.3",
     "vite-plugin-node-polyfills": "^0.24.0",
-    "vitest": "^3.0.9",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/git": "^10.0.1",
-    "semantic-release": "^25.0.2"
+    "vitest": "^3.0.9"
   },
   "peerDependencies": {
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react": ">=19.0.0",
+    "react-dom": ">=19.0.0"
+  },
+  "overrides": {
+    "graphql": "16.12.0"
   },
   "release": {
     "branches": [
@@ -183,5 +190,10 @@
       "@semantic-release/git"
     ]
   },
-  "readme": "ERROR: No README data found!"
+  "readme": "ERROR: No README data found!",
+  "bugs": {
+    "url": "https://github.com/powerhouse-inc/builder-profile/issues"
+  },
+  "homepage": "https://github.com/powerhouse-inc/builder-profile#readme",
+  "_id": "@powerhousedao/builder-profile@1.0.0-dev.0"
 }
