@@ -251,8 +251,8 @@ jobs:
       - name: Get released version
         id: get-version
         run: |
-          CHANNEL="${{ needs.prepare.outputs.channel }}"
-          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
           # Check if this version is already published on npm
           if npm view "@powerhousedao/builder-profile@${VERSION}" version 2>/dev/null; then
@@ -277,6 +277,8 @@ jobs:
       - name: Publish to npm
         if: inputs.dry-run != true && steps.get-version.outputs.released == 'true'
         run: npm publish --provenance --access public --tag ${{ steps.channel.outputs.channel }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
 
       - name: Notify bai-powerhouse-env
         if: inputs.dry-run != true && steps.get-version.outputs.released == 'true' && steps.channel.outputs.channel == 'dev'
