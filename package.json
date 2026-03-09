@@ -88,7 +88,7 @@
     "@uiw/react-md-editor": "^4.0.11",
     "cmd-ts": "^0.15.0",
     "document-model": "6.0.1-staging.1",
-    "graphql": "^16.10.0",
+    "graphql": "16.12.0",
     "graphql-tag": "^2.12.6",
     "lucide-react": "^0.577.0",
     "rehype-slug": "^6.0.0",
