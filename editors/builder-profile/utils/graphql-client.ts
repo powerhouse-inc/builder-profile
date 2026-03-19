@@ -102,6 +102,7 @@ const GET_BUILDER_PROFILES_QUERY = `
           name
           slug
           icon
+          description
         }
       }
     }
@@ -118,6 +119,7 @@ const GET_BUILDER_PROFILE_QUERY = `
           name
           slug
           icon
+          description
         }
       }
     }
@@ -134,10 +136,13 @@ interface DriveIdBySlugResponse {
 
 export interface RemoteBuilderProfile {
   id: string;
+  /** The drive slug/name this profile was fetched from */
+  driveName?: string;
   state: {
     name: string | null;
     slug: string | null;
     icon: string | null;
+    description: string | null;
   };
 }
 
@@ -184,7 +189,7 @@ export async function fetchBuilderProfilesFromDrive(
     { driveId },
     options,
   );
-  return data?.BuilderProfile?.getDocuments ?? [];
+  return data?.BuilderProfile.getDocuments ?? [];
 }
 
 /**
@@ -198,12 +203,13 @@ export async function fetchBuilderProfileById(
     GET_BUILDER_PROFILE_QUERY,
     { docId, driveId },
   );
-  return data?.BuilderProfile?.getDocument ?? null;
+  return data?.BuilderProfile.getDocument ?? null;
 }
 
 /**
  * Fetches all builder profiles from all available remote drives.
  * This aggregates profiles from multiple drives into a single list.
+ * Each profile includes the drive name it was fetched from.
  */
 export async function fetchAllRemoteBuilderProfiles(): Promise<
   RemoteBuilderProfile[]
@@ -215,15 +221,21 @@ export async function fetchAllRemoteBuilderProfiles(): Promise<
     }
 
     // Fetch profiles from all drives in parallel (silent to avoid console spam)
-    const profilePromises = drives.map((driveSlug) =>
-      fetchBuilderProfilesFromDrive(driveSlug, { silent: true }).catch(
-        () => [],
-      ),
-    );
+    // Keep track of which drive each profile came from
+    const profilePromises = drives.map(async (driveSlug) => {
+      const profiles = await fetchBuilderProfilesFromDrive(driveSlug, {
+        silent: true,
+      }).catch(() => [] as RemoteBuilderProfile[]);
+      // Attach drive name to each profile
+      return profiles.map((profile) => ({
+        ...profile,
+        driveName: driveSlug,
+      }));
+    });
 
     const profileArrays = await Promise.all(profilePromises);
 
-    // Flatten and dedupe by ID
+    // Flatten and dedupe by ID (keep first occurrence)
     const profileMap = new Map<string, RemoteBuilderProfile>();
     for (const profiles of profileArrays) {
       for (const profile of profiles) {
@@ -277,5 +289,51 @@ export async function fetchRemoteBuilderProfilesByIds(
     return result;
   } catch {
     return new Map();
+  }
+}
+
+// Mutation to set operational hub member on a builder profile
+const SET_OP_HUB_MEMBER_MUTATION = `
+  mutation BuilderProfile_setOpHubMember($driveId: String, $docId: PHID, $input: BuilderProfile_SetOpHubMemberInput) {
+    BuilderProfile_setOpHubMember(driveId: $driveId, docId: $docId, input: $input)
+  }
+`;
+
+export interface SetOpHubMemberInput {
+  name: string | null;
+  phid: string | null;
+}
+
+interface SetOpHubMemberResponse {
+  BuilderProfile_setOpHubMember: boolean;
+}
+
+/**
+ * Sets the operational hub member on a builder profile document.
+ * This works for both local and remote documents via the Switchboard GraphQL API.
+ *
+ * @param docId - The builder profile document ID (PHID)
+ * @param input - The operational hub member data (name and phid of the op hub)
+ * @param driveId - Optional drive ID (can be null to let the server find the document)
+ * @returns true if successful, false otherwise
+ */
+export async function setOpHubMemberOnBuilderProfile(
+  docId: string,
+  input: SetOpHubMemberInput,
+  driveId?: string | null,
+): Promise<boolean> {
+  try {
+    const data = await graphqlRequest<SetOpHubMemberResponse>(
+      SET_OP_HUB_MEMBER_MUTATION,
+      {
+        driveId: driveId || null,
+        docId,
+        input,
+      },
+    );
+    return data?.BuilderProfile_setOpHubMember ?? false;
+  } catch (error) {
+    console.warn("[graphql-client] Failed to set op hub member:", error);
+    return false;
   }
 }
