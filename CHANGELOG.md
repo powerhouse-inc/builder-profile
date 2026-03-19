@@ -1,3 +1,10 @@
+# [1.1.0-dev.4](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.3...v1.1.0-dev.4) (2026-03-19)
+
+
+### Bug Fixes
+
+* update gql client ([191b4d6](https://github.com/powerhouse-inc/builder-profile/commit/191b4d682380c88736d12fc6dcaafa281da5b8a0))
+
 # [1.1.0-dev.3](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.2...v1.1.0-dev.3) (2026-03-19)
 
 # [1.1.0-dev.2](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.1...v1.1.0-dev.2) (2026-03-18)
