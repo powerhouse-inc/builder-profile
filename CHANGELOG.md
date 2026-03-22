@@ -1,3 +1,10 @@
+# [1.1.0-dev.6](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.5...v1.1.0-dev.6) (2026-03-22)
+
+
+### Bug Fixes
+
+* migrate graphql client to generic reactor API and clean up deps ([9757cfb](https://github.com/powerhouse-inc/builder-profile/commit/9757cfbc3a9d1431ebc3ec485ab1196f0c65d7ac))
+
 # [1.1.0-dev.5](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.4...v1.1.0-dev.5) (2026-03-19)
 
 
