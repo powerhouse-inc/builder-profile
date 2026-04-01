@@ -1,6 +1,6 @@
 {
-    "name": "powerhouse/builder-profile",
-    "description": "builder profile",
+    "name": "@powerhousedao/builder-profile",
+    "description": "Builder profile document model",
     "category": "Project Management",
     "publisher": {
         "name": "",
@@ -12,7 +12,15 @@
             "name": "BuilderProfile"
         }
     ],
-    "editors": [],
+    "editors": [
+        {
+            "id": "builder-profile",
+            "name": "builder-profile",
+            "documentTypes": [
+                "powerhouse/builder-profile"
+            ]
+        }
+    ],
     "apps": [],
     "subgraphs": [],
     "importScripts": []

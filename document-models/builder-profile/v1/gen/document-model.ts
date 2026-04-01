@@ -8,7 +8,7 @@ export const documentModel: DocumentModelGlobalState = {
     website: "https://powerhouse.inc",
   },
   extension: "",
-  description: "A builder profile document.",
+  description: "A builder profile document",
   specifications: [
     {
       state: {

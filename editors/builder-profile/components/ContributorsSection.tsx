@@ -7,7 +7,7 @@ import {
   type ColumnAlignment,
   PHIDInput,
 } from "@powerhousedao/document-engineering";
-import type { BuilderProfileDocument } from "../../../document-models/builder-profile/v1/gen/types.js";
+import type { BuilderProfileDocument } from "document-models/builder-profile/v1";
 import { useRemoteBuilderProfiles } from "../hooks/useRemoteBuilderProfiles.js";
 
 type Contributor = {

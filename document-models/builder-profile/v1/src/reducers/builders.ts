@@ -1,4 +1,4 @@
-import type { BuilderProfileBuildersOperations } from "@powerhousedao/builder-profile/document-models/builder-profile/v1";
+import type { BuilderProfileBuildersOperations } from "document-models/builder-profile/v1";
 
 export const builderProfileBuildersOperations: BuilderProfileBuildersOperations =
   {
@@ -20,7 +20,6 @@ export const builderProfileBuildersOperations: BuilderProfileBuildersOperations 
       if (action.input.status) state.status = action.input.status;
       state.lastModified = new Date(action.timestampUtcMs).toISOString();
     },
-
     addSkillOperation(state, action) {
       if (action.input.skill) {
         if (!state.skills.includes(action.input.skill)) {
@@ -29,7 +28,6 @@ export const builderProfileBuildersOperations: BuilderProfileBuildersOperations 
       }
       state.lastModified = new Date(action.timestampUtcMs).toISOString();
     },
-
     removeSkillOperation(state, action) {
       if (action.input.skill) {
         const index = state.skills.indexOf(action.input.skill);
@@ -39,7 +37,6 @@ export const builderProfileBuildersOperations: BuilderProfileBuildersOperations 
       }
       state.lastModified = new Date(action.timestampUtcMs).toISOString();
     },
-
     addScopeOperation(state, action) {
       if (action.input.scope) {
         if (!state.scopes.includes(action.input.scope)) {
@@ -48,7 +45,6 @@ export const builderProfileBuildersOperations: BuilderProfileBuildersOperations 
       }
       state.lastModified = new Date(action.timestampUtcMs).toISOString();
     },
-
     removeScopeOperation(state, action) {
       if (action.input.scope) {
         const index = state.scopes.indexOf(action.input.scope);
@@ -58,7 +54,6 @@ export const builderProfileBuildersOperations: BuilderProfileBuildersOperations 
       }
       state.lastModified = new Date(action.timestampUtcMs).toISOString();
     },
-
     addLinkOperation(state, action) {
       const newLink = {
         id: action.input.id,
@@ -68,7 +63,6 @@ export const builderProfileBuildersOperations: BuilderProfileBuildersOperations 
       state.links.push(newLink);
       state.lastModified = new Date(action.timestampUtcMs).toISOString();
     },
-
     editLinkOperation(state, action) {
       const linkIndex = state.links.findIndex(
         (link) => link.id === action.input.id,
@@ -80,7 +74,6 @@ export const builderProfileBuildersOperations: BuilderProfileBuildersOperations 
       }
       state.lastModified = new Date(action.timestampUtcMs).toISOString();
     },
-
     removeLinkOperation(state, action) {
       const linkIndex = state.links.findIndex(
         (link) => link.id === action.input.id,
@@ -90,7 +83,6 @@ export const builderProfileBuildersOperations: BuilderProfileBuildersOperations 
       }
       state.lastModified = new Date(action.timestampUtcMs).toISOString();
     },
-
     addContributorOperation(state, action) {
       if (action.input.contributorPHID) {
         if (!state.contributors.includes(action.input.contributorPHID)) {
@@ -99,7 +91,6 @@ export const builderProfileBuildersOperations: BuilderProfileBuildersOperations 
       }
       state.lastModified = new Date(action.timestampUtcMs).toISOString();
     },
-
     removeContributorOperation(state, action) {
       if (action.input.contributorPHID) {
         const index = state.contributors.indexOf(action.input.contributorPHID);
@@ -109,11 +100,9 @@ export const builderProfileBuildersOperations: BuilderProfileBuildersOperations 
       }
       state.lastModified = new Date(action.timestampUtcMs).toISOString();
     },
-
     setOperatorOperation(state, action) {
       state.isOperator = action.input.isOperator;
     },
-
     setOpHubMemberOperation(state, action) {
       if (action.input.name)
         state.operationalHubMember.name = action.input.name;

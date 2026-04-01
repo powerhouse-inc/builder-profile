@@ -5,10 +5,10 @@ import {
   ToastContainer,
   DocumentToolbar,
 } from "@powerhousedao/design-system/connect";
-import { actions } from "../../document-models/builder-profile/index.js";
-import type { SetOpHubMemberInput } from "../../document-models/builder-profile/v1/gen/types.ts";
+import { actions } from "document-models/builder-profile";
+import type { SetOpHubMemberInput } from "document-models/builder-profile/v1";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useSelectedBuilderProfileDocument } from "../../document-models/builder-profile/v1/hooks.js";
+import { useSelectedBuilderProfileDocument } from "document-models/builder-profile";
 import {
   setSelectedNode,
   useParentFolderForSelectedNode,
@@ -17,7 +17,7 @@ import type {
   BuilderSkill,
   BuilderScope,
   BuilderStatus,
-} from "../../document-models/builder-profile/v1/gen/types.js";
+} from "document-models/builder-profile/v1";
 import { SkillsSection } from "./components/SkillsSection.js";
 import { ScopesSection } from "./components/ScopesSection.js";
 import { LinksSection } from "./components/LinksSection.js";
@@ -25,9 +25,7 @@ import { ContributorsSection } from "./components/ContributorsSection.js";
 import { ProfilePreview } from "./components/ProfilePreview.js";
 import { ImageUrlInput } from "./components/ImageUrlInput.js";
 import { MarkdownEditor } from "./components/markdown-editor.js";
-import operatorIconSrc from "./assets/operator-icon.png";
-
-const operatorIconUrl = operatorIconSrc as string;
+const operatorIconUrl = new URL("./assets/operator-icon.png", import.meta.url).href;
 
 const STATUS_OPTIONS: {
   value: BuilderStatus;
@@ -451,7 +449,7 @@ export default function Editor() {
         `}
       </style>
 
-      <DocumentToolbar document={doc} onClose={handleClose} />
+      <DocumentToolbar />
 
       <div className="builder-editor p-6 max-w-4xl mx-auto space-y-6 pb-12">
         {/* Header with Role Toggle */}

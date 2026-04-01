@@ -17,7 +17,7 @@ import {
   assertIsBuilderProfileDocument,
   isBuilderProfileState,
   assertIsBuilderProfileState,
-} from "@powerhousedao/builder-profile/document-models/builder-profile/v1";
+} from "document-models/builder-profile/v1";
 import { ZodError } from "zod";
 
 describe("BuilderProfile Document Model", () => {

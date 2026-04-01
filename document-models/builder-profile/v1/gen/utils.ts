@@ -5,20 +5,20 @@ import {
   baseLoadFromInput,
   defaultBaseState,
   generateId,
-} from "document-model/core";
-import type {
-  BuilderProfileGlobalState,
-  BuilderProfileLocalState,
-} from "./types.js";
-import type { BuilderProfilePHState } from "./types.js";
+} from "document-model";
 import { reducer } from "./reducer.js";
 import { builderProfileDocumentType } from "./document-type.js";
 import {
-  isBuilderProfileDocument,
   assertIsBuilderProfileDocument,
-  isBuilderProfileState,
   assertIsBuilderProfileState,
+  isBuilderProfileDocument,
+  isBuilderProfileState,
 } from "./document-schema.js";
+import type {
+  BuilderProfileGlobalState,
+  BuilderProfileLocalState,
+  BuilderProfilePHState,
+} from "./types.js";
 
 export const initialGlobalState: BuilderProfileGlobalState = {
   id: null,
@@ -80,12 +80,3 @@ export const utils: DocumentModelUtils<BuilderProfilePHState> = {
     return assertIsBuilderProfileDocument(document);
   },
 };
-
-export const createDocument = utils.createDocument;
-export const createState = utils.createState;
-export const saveToFileHandle = utils.saveToFileHandle;
-export const loadFromInput = utils.loadFromInput;
-export const isStateOfType = utils.isStateOfType;
-export const assertIsStateOfType = utils.assertIsStateOfType;
-export const isDocumentOfType = utils.isDocumentOfType;
-export const assertIsDocumentOfType = utils.assertIsDocumentOfType;

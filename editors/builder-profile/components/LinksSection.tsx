@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { TextInput } from "@powerhousedao/document-engineering";
 import { Link2, Plus, Check, X, Pencil, Trash2 } from "lucide-react";
-import { generateId } from "document-model/core";
-import type { BuilderLink } from "../../../document-models/builder-profile/v1/gen/types.ts";
+import { generateId } from "document-model";
+import type { BuilderLink } from "document-models/builder-profile/v1";
 
 interface LinksSectionProps {
   links: BuilderLink[];
