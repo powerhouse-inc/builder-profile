@@ -1,7 +1,7 @@
 {
-    "name": "@powerhousedao/builder-profile",
-    "description": "Builder profile document model",
-    "category": "Project Management",
+    "name": "builder-profile",
+    "description": "",
+    "category": "",
     "publisher": {
         "name": "",
         "url": ""
