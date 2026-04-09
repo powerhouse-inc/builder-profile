@@ -6,7 +6,7 @@
  * calls that fail at runtime. This script patches those calls since the ESM
  * imports already exist at the top of the same files.
  */
-import { readFileSync, writeFileSync, globSync, existsSync, rmSync, symlinkSync } from "node:fs";
+import { readFileSync, writeFileSync, globSync, existsSync, rmSync, cpSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 
 const ROOT = process.cwd();
@@ -54,10 +54,42 @@ if (totalPatches > 0) {
   console.log("No CJS require() calls found — build is clean.");
 }
 
-// === Fix 2: Create browser/ symlink at package root ===
-const symlinkPath = join(ROOT, "browser");
-if (existsSync(symlinkPath)) {
-  rmSync(symlinkPath, { recursive: true });
+// === Fix 2: Copy static assets into dist/browser/ (before browser/ copy) ===
+// The bundled JS references assets via new URL("./assets/...", import.meta.url)
+// but the bundler doesn't emit them. Copy from source into dist/browser/assets/.
+const assetsDir = join(ROOT, "editors", "builder-profile", "assets");
+const distAssetsDir = join(BROWSER_DIR, "assets");
+if (existsSync(assetsDir)) {
+  mkdirSync(distAssetsDir, { recursive: true });
+  cpSync(assetsDir, distAssetsDir, { recursive: true });
+  console.log("Copied editor assets → dist/browser/assets/ for static asset resolution.");
 }
-symlinkSync("dist/browser", symlinkPath);
-console.log("Created browser/ → dist/browser/ symlink for Connect package loader.");
+
+// === Fix 3: Copy dist/browser/ to package root for npm publish ===
+// (runs after Fix 2 so assets are included in the copy)
+const browserCopyPath = join(ROOT, "browser");
+if (existsSync(browserCopyPath)) {
+  rmSync(browserCopyPath, { recursive: true });
+}
+cpSync(join(ROOT, "dist", "browser"), browserCopyPath, { recursive: true });
+console.log("Copied dist/browser/ → browser/ for Connect package loader.");
+
+// === Fix 4: Merge all CSS into root style.css for Connect stylesheet loader ===
+// dist/style.css has Tailwind CSS, dist/browser/style.css has component CSS (md-editor, etc.)
+// Connect only loads one style.css from the package root, so we concatenate both.
+const tailwindCss = join(ROOT, "dist", "style.css");
+const componentCss = join(ROOT, "dist", "browser", "style.css");
+const styleDest = join(ROOT, "style.css");
+
+let combinedCss = "";
+if (existsSync(tailwindCss)) {
+  combinedCss += readFileSync(tailwindCss, "utf-8");
+}
+if (existsSync(componentCss)) {
+  combinedCss += "\n/* === Component styles (bundled from browser build) === */\n";
+  combinedCss += readFileSync(componentCss, "utf-8");
+}
+if (combinedCss) {
+  writeFileSync(styleDest, combinedCss, "utf-8");
+  console.log("Merged dist/style.css + dist/browser/style.css → style.css for Connect stylesheet loader.");
+}
