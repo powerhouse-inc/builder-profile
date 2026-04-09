@@ -1,3 +1,10 @@
+# [1.1.0-dev.15](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.14...v1.1.0-dev.15) (2026-04-09)
+
+
+### Bug Fixes
+
+* fix publish 2nd attempt ([4fec82b](https://github.com/powerhouse-inc/builder-profile/commit/4fec82b23e48205973271bd99c264d21694e69d0))
+
 # [1.1.0-dev.14](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.13...v1.1.0-dev.14) (2026-04-09)
 
 
