@@ -9,7 +9,8 @@
   },
   "type": "module",
   "files": [
-    "/dist"
+    "/dist",
+    "/browser"
   ],
   "publishConfig": {
     "access": "public"

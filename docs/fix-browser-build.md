@@ -1,55 +1,102 @@
-# Fixing the Browser Build CJS `require()` Calls
+Instructions to paste in the builder-profile repo
 
-## The Problem
+I need to fix two build issues in this project so the published npm package works correctly when loaded by Connect's runtime package loader.
 
-When `ph-cli build` runs tsdown for the browser target, it correctly marks `react`/`react-dom` as external — they become ESM imports at the top of the output files. However, the dependency `react-confirm` (pulled in by `@powerhousedao/document-engineering`) is a CJS package that uses `require("react")`. Rolldown wraps this in a `__require()` shim that throws at runtime in the browser because `require` is undefined there.
+### Problem 1: Browser path mismatch
 
-The affected file after build: `dist/browser/editor-*.js` — it has proper ESM `import React from "react"` at the top, but also contains 6 `__require("react")` / `__require("react-dom")` / `__require("react-dom/client")` calls from the bundled CJS code.
+Connect's `BrowserPackageManager` loads packages at runtime via:
+```js
+const importUrl = `/node_modules/${name}/browser/index.js`;
+But ph-cli build outputs the browser bundle to dist/browser/. The package.json exports map points to ./dist/browser/index.js (which works for Node resolution), but the browser dynamic import uses a literal URL path — so it gets a 404.
 
-## The Fix
+Fix: Add a postbuild step that copies or symlinks dist/browser → browser at the package root, and add "/browser" to the "files" array so it's included when published.
 
-A postbuild script (`scripts/fix-browser-build.mjs`) patches the browser output to replace the broken `__require()` calls with references to the already-imported ESM modules.
+Problem 2: CJS require("react") in browser bundle
+The dependency chain @powerhousedao/document-engineering → react-confirm uses CJS (require("react")). When tsdown/rolldown bundles this for the browser target, react is external (in neverBundle), so rolldown wraps the CJS require in a __require() shim that throws at runtime in browsers.
 
-### How it works
+Fix: Add a postbuild step that patches __require("react"), __require("react-dom"), and __require("react-dom/client") calls in the browser output. These can safely be replaced with the module-level ESM imports that already exist at the top of the same files (React, ReactDOM).
 
-The browser bundle already has correct ESM imports for react at the top of the file (`import React from "react"`). The `__require("react")` calls deep inside are from CJS code (`react-confirm`) that rolldown couldn't convert because react was marked external. The script simply replaces those runtime `__require()` calls with the module-level `React`/`ReactDOM` references that are already in scope.
+Implementation
+Create scripts/fix-browser-build.mjs with this content:
 
-### Replacements made
+import { readFileSync, writeFileSync, mkdirSync, symlinkSync, existsSync, rmSync } from "node:fs";
+import { globSync } from "node:fs";
+import { join } from "node:path";
 
-| Pattern | Replacement | Reason |
-|---------|-------------|--------|
-| `__require("react")` | `React` | Already imported as default/namespace at top of file |
-| `__require("react-dom")` | `ReactDOM` | Already imported as `ReactDOM` |
-| `__require("react-dom/client")` | `ReactDOM` | Client is part of react-dom in v19 |
+const ROOT = process.cwd();
+const BROWSER_DIR = join(ROOT, "dist", "browser");
 
-### Build script
+// === Fix 1: Patch CJS require() calls in browser bundle ===
+const files = globSync("**/*.js", { cwd: BROWSER_DIR }).map((f) =>
+  join(BROWSER_DIR, f),
+);
 
-The `build` script in `package.json` chains the fix after `ph-cli build`:
+const replacements = [
+  [/__require\("react"\)/g, "React"],
+  [/__require\("react-dom"\)/g, "ReactDOM"],
+  [/__require\("react-dom\/client"\)/g, "ReactDOM"],
+];
 
-```json
+let totalPatches = 0;
+
+for (const filePath of files) {
+  let content = readFileSync(filePath, "utf-8");
+  let filePatches = 0;
+
+  for (const [pattern, replacement] of replacements) {
+    const matches = content.match(pattern);
+    if (matches) {
+      filePatches += matches.length;
+      content = content.replace(pattern, replacement);
+    }
+  }
+
+  if (filePatches > 0) {
+    writeFileSync(filePath, content, "utf-8");
+    const relative = filePath.replace(ROOT + "/", "");
+    console.log(`  Patched ${filePatches} require() calls in ${relative}`);
+    totalPatches += filePatches;
+  }
+}
+
+if (totalPatches > 0) {
+  console.log(`Fixed ${totalPatches} CJS require() calls in browser build.`);
+} else {
+  console.log("No CJS require() calls found — build is clean.");
+}
+
+// === Fix 2: Create browser/ symlink at package root ===
+const symlinkPath = join(ROOT, "browser");
+if (existsSync(symlinkPath)) {
+  rmSync(symlinkPath, { recursive: true });
+}
+symlinkSync("dist/browser", symlinkPath);
+console.log("Created browser/ → dist/browser/ symlink for Connect package loader.");
+In package.json, make these changes:
+
+a. Update the "build" script to run the fix after ph-cli build:
+
+
 "build": "ph-cli build && node scripts/fix-browser-build.mjs"
-```
+b. Add "/browser" to the "files" array so the symlink is included when published:
 
-### Verification
 
-After building, verify no `__require()` calls remain:
+"files": ["/dist", "/browser"]
+Add browser to .gitignore (it's a build artifact):
 
-```bash
-grep -rn '__require(' dist/browser/ --include="*.js"
-```
 
-This should return no results.
+browser
+Build, verify, and publish:
 
-## Publishing
 
-After confirming the build is clean:
-
-```bash
-# bump the prerelease version
-npm version 1.1.0-dev.XX --no-git-tag-version
-
-# publish to npm
+npm run build
+# Verify no __require("react") calls remain:
+grep -rn '__require(' dist/browser/ --include="*.js" | grep -v chunk-olfrzTEO
+# Verify browser/ symlink works:
+ls -la browser/index.js
+# Bump version and publish to npm:
+npm version 1.1.0-dev.15 --no-git-tag-version
 npm publish --access public
-```
-
-Then in consuming projects (e.g. contributor-billing), update `package.json` and `powerhouse.config.json` to point to the new version and `npm install` from npm (not a custom registry).
+Why these fixes are needed
+Path fix: Connect's BrowserPackageManager#loadPackageFromNodeModules() constructs the URL as /node_modules/<pkg>/browser/index.js but ph-cli build outputs to dist/browser/. The symlink bridges this gap.
+CJS fix: react-confirm (dep of @powerhousedao/document-engineering) is CJS and calls require("react"). Rolldown externalizes react but can't convert the CJS require to ESM import, so it uses a __require shim that throws in browsers. The patched code uses the React/ReactDOM variables that are already ESM-imported at the top of the same file.

@@ -1,5 +1,6 @@
 
 dist
+browser
 coverage
 node_modules
 .eslintcache

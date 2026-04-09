@@ -6,10 +6,11 @@
  * calls that fail at runtime. This script patches those calls since the ESM
  * imports already exist at the top of the same files.
  */
-import { readFileSync, writeFileSync, globSync } from "node:fs";
+import { readFileSync, writeFileSync, globSync, existsSync, rmSync, symlinkSync } from "node:fs";
 import { join } from "node:path";
 
-const BROWSER_DIR = join(process.cwd(), "dist", "browser");
+const ROOT = process.cwd();
+const BROWSER_DIR = join(ROOT, "dist", "browser");
 
 // Find all JS files in browser dist
 const files = globSync("**/*.js", { cwd: BROWSER_DIR }).map((f) =>
@@ -41,7 +42,7 @@ for (const filePath of files) {
 
   if (filePatches > 0) {
     writeFileSync(filePath, content, "utf-8");
-    const relative = filePath.replace(process.cwd() + "/", "");
+    const relative = filePath.replace(ROOT + "/", "");
     console.log(`  Patched ${filePatches} require() calls in ${relative}`);
     totalPatches += filePatches;
   }
@@ -52,3 +53,11 @@ if (totalPatches > 0) {
 } else {
   console.log("No CJS require() calls found — build is clean.");
 }
+
+// === Fix 2: Create browser/ symlink at package root ===
+const symlinkPath = join(ROOT, "browser");
+if (existsSync(symlinkPath)) {
+  rmSync(symlinkPath, { recursive: true });
+}
+symlinkSync("dist/browser", symlinkPath);
+console.log("Created browser/ → dist/browser/ symlink for Connect package loader.");
