@@ -1,3 +1,10 @@
+# [1.1.0-dev.12](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.11...v1.1.0-dev.12) (2026-04-09)
+
+
+### Bug Fixes
+
+* update to 6.0.0-dev.163 ([ccc5a31](https://github.com/powerhouse-inc/builder-profile/commit/ccc5a31f0f78faa344c53efe21dff42435cc6224))
+
 # [1.1.0-dev.11](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.10...v1.1.0-dev.11) (2026-04-09)
 
 
