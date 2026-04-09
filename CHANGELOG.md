@@ -1,3 +1,10 @@
+# [1.1.0-dev.11](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.10...v1.1.0-dev.11) (2026-04-09)
+
+
+### Bug Fixes
+
+* update to 6.0.0-dev.162 and adjust minor editor logic ([6082994](https://github.com/powerhouse-inc/builder-profile/commit/6082994b65a89ede52076bfde32407df9161a14c))
+
 # [1.1.0-dev.10](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.9...v1.1.0-dev.10) (2026-04-08)
 
 
