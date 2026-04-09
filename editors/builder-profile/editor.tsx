@@ -763,6 +763,7 @@ export default function Editor() {
 
         {/* Contributors Section */}
         <ContributorsSection
+          currentDocumentId={doc.header.id}
           contributors={state.contributors}
           onAddContributor={handleAddContributor}
           onRemoveContributor={handleRemoveContributor}

@@ -153,12 +153,14 @@ function ContributorPHIDInput({
 }
 
 interface ContributorsSectionProps {
+  currentDocumentId: string;
   contributors: string[];
   onAddContributor: (contributorPHID: string) => void;
   onRemoveContributor: (contributorPHID: string) => void;
 }
 
 export function ContributorsSection({
+  currentDocumentId,
   contributors,
   onAddContributor,
   onRemoveContributor,
@@ -223,10 +225,12 @@ export function ContributorsSection({
     useRemoteBuilderProfiles(localBuilderProfileMap);
 
   // Helper function to get builder profile documents from all drives (local + remote)
+  // Excludes the current document being edited — you can't add yourself as a contributor
   const getBuilderProfiles = useCallback((): ProfileOption[] => {
-    // Start with local profiles
-    const profileOptions: ProfileOption[] = builderProfileNodesWithDriveId.map(
-      ({ node }) => {
+    // Start with local profiles, excluding the current document
+    const profileOptions: ProfileOption[] = builderProfileNodesWithDriveId
+      .filter(({ node }) => node.id !== currentDocumentId)
+      .map(({ node }) => {
         const doc = localBuilderProfileMap.get(node.id);
         const name = doc?.state?.global?.name || node.name || node.id;
         return {
@@ -235,13 +239,15 @@ export function ContributorsSection({
           value: node.id,
           title: name,
         };
-      },
-    );
+      });
 
-    // Add remote profiles that aren't already in local
+    // Add remote profiles that aren't already in local and aren't the current document
     const localIds = new Set(profileOptions.map((p) => p.id));
     for (const remoteProfile of remoteProfiles) {
-      if (!localIds.has(remoteProfile.id)) {
+      if (
+        !localIds.has(remoteProfile.id) &&
+        remoteProfile.id !== currentDocumentId
+      ) {
         const name = remoteProfile.state?.name || remoteProfile.id;
         profileOptions.push({
           id: remoteProfile.id,
@@ -253,7 +259,12 @@ export function ContributorsSection({
     }
 
     return profileOptions;
-  }, [builderProfileNodesWithDriveId, localBuilderProfileMap, remoteProfiles]);
+  }, [
+    builderProfileNodesWithDriveId,
+    localBuilderProfileMap,
+    remoteProfiles,
+    currentDocumentId,
+  ]);
 
   // Helper function to get builder profile data by PHID (local first, then remote fallback)
   const getBuilderProfileByPhid = useCallback(

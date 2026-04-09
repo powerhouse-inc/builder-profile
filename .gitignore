@@ -6,4 +6,5 @@ node_modules
 .env.local
 
 .ph
+.claude/plugins/
 projects-import.js
