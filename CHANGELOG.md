@@ -1,3 +1,10 @@
+# [1.1.0-dev.16](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.15...v1.1.0-dev.16) (2026-04-09)
+
+
+### Bug Fixes
+
+* working fix for browser build ([a42a6bf](https://github.com/powerhouse-inc/builder-profile/commit/a42a6bf74a74b73da74588bd9b67618880aec4bf))
+
 # [1.1.0-dev.15](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.14...v1.1.0-dev.15) (2026-04-09)
 
 
