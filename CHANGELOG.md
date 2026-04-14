@@ -1,3 +1,10 @@
+# [1.1.0-dev.20](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.19...v1.1.0-dev.20) (2026-04-14)
+
+
+### Bug Fixes
+
+* bump version ([c69bdd0](https://github.com/powerhouse-inc/builder-profile/commit/c69bdd0b9a7af286b3d85cfa572cf84ea3184af7))
+
 # [1.1.0-dev.19](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.18...v1.1.0-dev.19) (2026-04-14)
 
 
