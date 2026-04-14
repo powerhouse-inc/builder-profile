@@ -1,3 +1,10 @@
+# [1.1.0-dev.19](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.18...v1.1.0-dev.19) (2026-04-14)
+
+
+### Bug Fixes
+
+* upgrade to 6.0.0-dev.171 ([fe94e59](https://github.com/powerhouse-inc/builder-profile/commit/fe94e59d7e9c3cd5f718004478be3b09abb56e07))
+
 # [1.1.0-dev.18](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.17...v1.1.0-dev.18) (2026-04-14)
 
 
