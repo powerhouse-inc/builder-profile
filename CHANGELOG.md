@@ -1,3 +1,5 @@
+# [1.1.0-dev.17](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.16...v1.1.0-dev.17) (2026-04-14)
+
 # [1.1.0-dev.16](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.15...v1.1.0-dev.16) (2026-04-09)
 
 
