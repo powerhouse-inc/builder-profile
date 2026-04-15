@@ -73,14 +73,14 @@
     "service-unstartup": "bash ./node_modules/@powerhousedao/ph-cli/dist/scripts/service-unstartup.sh"
   },
   "dependencies": {
-    "@powerhousedao/analytics-engine-core": "6.0.0-dev.171",
-    "@powerhousedao/connect": "6.0.0-dev.171",
-    "@powerhousedao/design-system": "6.0.0-dev.171",
+    "@powerhousedao/analytics-engine-core": "6.0.0-dev.174",
+    "@powerhousedao/connect": "6.0.0-dev.174",
+    "@powerhousedao/design-system": "6.0.0-dev.174",
     "@powerhousedao/document-engineering": "1.40.1",
-    "@powerhousedao/reactor-browser": "6.0.0-dev.171",
+    "@powerhousedao/reactor-browser": "6.0.0-dev.174",
     "@uiw/react-markdown-preview": "^5.2.0",
     "@uiw/react-md-editor": "^4.1.0",
-    "document-model": "6.0.0-dev.171",
+    "document-model": "6.0.0-dev.174",
     "graphql": "^16.10.0",
     "graphql-tag": "^2.12.6",
     "lucide-react": "^1.7.0",
@@ -93,8 +93,8 @@
     "@electric-sql/pglite": "0.3.15",
     "@electric-sql/pglite-tools": "0.2.20",
     "@eslint/js": "^9.38.0",
-    "@powerhousedao/ph-cli": "6.0.0-dev.171",
-    "@powerhousedao/reactor": "6.0.0-dev.171",
+    "@powerhousedao/ph-cli": "6.0.0-dev.174",
+    "@powerhousedao/reactor": "6.0.0-dev.174",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@tailwindcss/cli": "^4.1.18",
@@ -174,5 +174,6 @@
   "bugs": {
     "url": "https://github.com/powerhouse-inc/builder-profile/issues"
   },
-  "homepage": "https://github.com/powerhouse-inc/builder-profile#readme"
+  "homepage": "https://github.com/powerhouse-inc/builder-profile#readme",
+  "_id": "@powerhousedao/builder-profile@1.1.0-dev.20"
 }
