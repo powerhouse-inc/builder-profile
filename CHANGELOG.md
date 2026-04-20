@@ -1,3 +1,10 @@
+# [1.1.0-dev.21](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.20...v1.1.0-dev.21) (2026-04-15)
+
+
+### Features
+
+* upgrade to dev174 ([0f0aa2c](https://github.com/powerhouse-inc/builder-profile/commit/0f0aa2cb00d85f2e91cc5d4c60a4f02885639430))
+
 # [1.1.0-dev.20](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.19...v1.1.0-dev.20) (2026-04-14)
 
 
