@@ -1,3 +1,10 @@
+# [1.1.0-dev.23](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.22...v1.1.0-dev.23) (2026-04-20)
+
+
+### Bug Fixes
+
+* scope manifest name, bump document-engineering to 1.40.2, run post-build script to ship editor assets ([03eb5c0](https://github.com/powerhouse-inc/builder-profile/commit/03eb5c0246a033126f6d1f94076afffde673ce3b))
+
 # [1.1.0-dev.22](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.21...v1.1.0-dev.22) (2026-04-20)
 
 
