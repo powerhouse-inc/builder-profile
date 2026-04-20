@@ -1,3 +1,10 @@
+# [1.1.0-dev.22](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.21...v1.1.0-dev.22) (2026-04-20)
+
+
+### Bug Fixes
+
+* pixel align cursor in md editor ([944c909](https://github.com/powerhouse-inc/builder-profile/commit/944c9091a582b0083a844d158f5d4908b97fe15b))
+
 # [1.1.0-dev.21](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.20...v1.1.0-dev.21) (2026-04-15)
 
 
