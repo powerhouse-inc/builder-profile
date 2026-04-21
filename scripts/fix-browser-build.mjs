@@ -77,16 +77,23 @@ console.log("Copied dist/browser/ → browser/ for Connect package loader.");
 // === Fix 4: Merge all CSS into root style.css for Connect stylesheet loader ===
 // dist/style.css has Tailwind CSS, dist/browser/style.css has component CSS (md-editor, etc.)
 // Connect only loads one style.css from the package root, so we concatenate both.
+// Root style.css is also Tailwind's input (`ph-cli build` runs `tailwindcss -i ./style.css`),
+// so on the next build Tailwind passes the prior component block through. To keep the file
+// from growing, we split on the marker and drop any prior component block before re-appending.
+const COMPONENT_MARKER =
+  "/* === Component styles (bundled from browser build) === */";
 const tailwindCss = join(ROOT, "dist", "style.css");
 const componentCss = join(ROOT, "dist", "browser", "style.css");
 const styleDest = join(ROOT, "style.css");
 
 let combinedCss = "";
 if (existsSync(tailwindCss)) {
-  combinedCss += readFileSync(tailwindCss, "utf-8");
+  combinedCss += readFileSync(tailwindCss, "utf-8")
+    .split(COMPONENT_MARKER)[0]
+    .trimEnd();
 }
 if (existsSync(componentCss)) {
-  combinedCss += "\n/* === Component styles (bundled from browser build) === */\n";
+  combinedCss += `\n\n${COMPONENT_MARKER}\n`;
   combinedCss += readFileSync(componentCss, "utf-8");
 }
 if (combinedCss) {
