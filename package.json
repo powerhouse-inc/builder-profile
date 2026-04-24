@@ -1,7 +1,7 @@
 {
   "name": "@powerhousedao/builder-profile",
   "description": "Builder profile document model",
-  "version": "1.1.0-dev.25",
+  "version": "1.1.0-dev.27",
   "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
@@ -65,7 +65,7 @@
     "check-circular-imports": "npx dpdm -T ./index.ts",
     "generate": "ph-cli generate",
     "connect": "ph-cli connect",
-    "build": "ph-cli build",
+    "build": "bun run build.ts",
     "reactor": "ph-cli reactor",
     "service": "ph-cli service",
     "vetra": "ph-cli vetra",
@@ -78,6 +78,7 @@
     "@powerhousedao/design-system": "6.0.0-dev.195",
     "@powerhousedao/document-engineering": "1.40.2",
     "@powerhousedao/reactor-browser": "6.0.0-dev.195",
+    "@powerhousedao/shared": "6.0.0-dev.195",
     "@uiw/react-markdown-preview": "^5.2.0",
     "@uiw/react-md-editor": "^4.1.0",
     "document-model": "6.0.0-dev.195",
