@@ -1,10 +1,6 @@
 import { TextInput, Textarea } from "@powerhousedao/document-engineering";
 import { Settings, FileText, Info, X, Building2 } from "lucide-react";
 import { DocumentToolbar } from "@powerhousedao/design-system/connect";
-import {
-  toast,
-  ToastContainer,
-} from "@powerhousedao/design-system/connect/toast";
 import { actions } from "document-models/builder-profile";
 import type { SetOpHubMemberInput } from "document-models/builder-profile/v1";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -12,6 +8,7 @@ import { useSelectedBuilderProfileDocument } from "document-models/builder-profi
 import {
   setSelectedNode,
   useParentFolderForSelectedNode,
+  usePHToast,
 } from "@powerhousedao/reactor-browser";
 import type {
   BuilderSkill,
@@ -45,6 +42,7 @@ const DESCRIPTION_MAX_LENGTH = 350;
 export default function Editor() {
   const [doc, dispatch] = useSelectedBuilderProfileDocument();
   const state = doc?.state.global;
+  const toast = usePHToast();
 
   const parentFolder = useParentFolderForSelectedNode();
 
@@ -93,7 +91,7 @@ export default function Editor() {
   const handleFieldChange = useCallback(
     (field: string, value: string | null) => {
       if (!dispatch) {
-        toast(`Failed to update ${field} - no dispatch function`, {
+        toast?.(`Failed to update ${field} - no dispatch function`, {
           type: "error",
         });
         return;
@@ -226,9 +224,10 @@ export default function Editor() {
     dispatch(actions.setOperator({ isOperator: pendingRoleChange }));
     setShowRoleDialog(false);
     setPendingRoleChange(null);
-    toast(`Switched to ${pendingRoleChange ? "Operator" : "Builder"} profile`, {
-      type: "success",
-    });
+    toast?.(
+      `Switched to ${pendingRoleChange ? "Operator" : "Builder"} profile`,
+      { type: "success" },
+    );
   }, [dispatch, pendingRoleChange]);
 
   // Cancel role change
@@ -698,7 +697,7 @@ export default function Editor() {
                 onBlur={(e: React.FocusEvent<HTMLTextAreaElement>) => {
                   if (e.target.value !== state?.description) {
                     if (e.target.value.length > DESCRIPTION_MAX_LENGTH) {
-                      toast(
+                      toast?.(
                         `Description exceeds ${DESCRIPTION_MAX_LENGTH} character limit`,
                         { type: "error" },
                       );
@@ -768,8 +767,6 @@ export default function Editor() {
           onAddContributor={handleAddContributor}
           onRemoveContributor={handleRemoveContributor}
         />
-
-        <ToastContainer position="bottom-right" />
 
         {/* Role Change Confirmation Dialog */}
         {showRoleDialog && (
