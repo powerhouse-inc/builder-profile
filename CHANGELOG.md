@@ -1,3 +1,10 @@
+# [1.1.0-dev.27](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.26...v1.1.0-dev.27) (2026-04-28)
+
+
+### Bug Fixes
+
+* use toast hook ([47a2170](https://github.com/powerhouse-inc/builder-profile/commit/47a21704a7b52c4004df98516662149c48ec8d18))
+
 # [1.1.0-dev.26](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.25...v1.1.0-dev.26) (2026-04-28)
 
 # [1.1.0-dev.25](https://github.com/powerhouse-inc/builder-profile/compare/v1.1.0-dev.24...v1.1.0-dev.25) (2026-04-24)
