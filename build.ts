@@ -17,7 +17,10 @@
  * against its own React at runtime — so there's only ever one React.
  */
 
-import { browserBuildConfig, nodeBuildConfig } from "@powerhousedao/shared/clis";
+import {
+  browserBuildConfig,
+  nodeBuildConfig,
+} from "@powerhousedao/shared/clis";
 import { execSync } from "node:child_process";
 import { join } from "node:path";
 import { build, type InlineConfig } from "tsdown";

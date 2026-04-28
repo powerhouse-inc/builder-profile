@@ -1,10 +1,10 @@
 import { TextInput, Textarea } from "@powerhousedao/document-engineering";
 import { Settings, FileText, Info, X, Building2 } from "lucide-react";
+import { DocumentToolbar } from "@powerhousedao/design-system/connect";
 import {
   toast,
   ToastContainer,
-  DocumentToolbar,
-} from "@powerhousedao/design-system/connect";
+} from "@powerhousedao/design-system/connect/toast";
 import { actions } from "document-models/builder-profile";
 import type { SetOpHubMemberInput } from "document-models/builder-profile/v1";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -25,7 +25,8 @@ import { ContributorsSection } from "./components/ContributorsSection.js";
 import { ProfilePreview } from "./components/ProfilePreview.js";
 import { ImageUrlInput } from "./components/ImageUrlInput.js";
 import { MarkdownEditor } from "./components/markdown-editor.js";
-const operatorIconUrl = new URL("./assets/operator-icon.png", import.meta.url).href;
+const operatorIconUrl = new URL("./assets/operator-icon.png", import.meta.url)
+  .href;
 
 const STATUS_OPTIONS: {
   value: BuilderStatus;
@@ -76,7 +77,6 @@ export default function Editor() {
       );
     }
   }, [state?.id, dispatch, doc?.header.id]);
-
 
   // Generate slug from name
   const generateSlug = useCallback((name: string) => {
