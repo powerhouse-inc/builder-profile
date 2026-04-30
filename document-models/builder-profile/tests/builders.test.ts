@@ -1,4 +1,4 @@
-import { generateMock } from "@powerhousedao/codegen";
+import { generateMock } from "document-model";
 import { describe, expect, it } from "vitest";
 import {
   reducer,
@@ -28,7 +28,7 @@ import {
   RemoveContributorInputSchema,
   SetOperatorInputSchema,
   SetOpHubMemberInputSchema,
-} from "@powerhousedao/builder-profile/document-models/builder-profile";
+} from "document-models/builder-profile";
 
 describe("BuildersOperations", () => {
   it("should handle updateProfile operation", () => {
