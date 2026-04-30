@@ -1,19 +1,36 @@
 {
-    "name": "powerhouse/builder-profile",
-    "description": "builder profile",
-    "category": "Project Management",
-    "publisher": {
-        "name": "",
-        "url": ""
-    },
-    "documentModels": [
-        {
-            "id": "powerhouse/builder-profile",
-            "name": "BuilderProfile"
-        }
-    ],
-    "editors": [],
-    "apps": [],
-    "subgraphs": [],
-    "importScripts": []
+	"name": "powerhouse/builder-profile",
+	"description": "builder profile",
+	"category": "Project Management",
+	"publisher": {
+		"name": "",
+		"url": ""
+	},
+	"documentModels": [
+		{
+			"id": "powerhouse/builder-profile",
+			"name": "BuilderProfile"
+		}
+	],
+	"apps": [
+		{
+			"name": "builder-profile",
+			"id": "builder-profile",
+			"documentTypes": [
+				"powerhousedao/document-drive"
+			]
+		}
+	],
+	"editors": [
+		{
+			"id": "builder-profile",
+			"name": "builder-profile",
+			"documentTypes": [
+				"powerhouse/builder-profile"
+			]
+		}
+	],
+	"processors": [],
+	"subgraphs": [],
+	"config": []
 }
