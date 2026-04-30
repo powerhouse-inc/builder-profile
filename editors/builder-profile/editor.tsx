@@ -4,7 +4,7 @@ import { DocumentToolbar } from "@powerhousedao/design-system/connect";
 import { actions } from "document-models/builder-profile";
 import type { SetOpHubMemberInput } from "document-models/builder-profile";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useSelectedBuilderProfileDocument } from "document-models/builder-profile";
+import { useSelectedBuilderProfileDocumentSafe } from "./hooks/useSelectedBuilderProfileDocument.js";
 import {
   setSelectedNode,
   useParentFolderForSelectedNode,
@@ -39,7 +39,7 @@ const STATUS_OPTIONS: {
 const DESCRIPTION_MAX_LENGTH = 350;
 
 export default function Editor() {
-  const [doc, dispatch] = useSelectedBuilderProfileDocument();
+  const [doc, dispatch] = useSelectedBuilderProfileDocumentSafe();
   const state = doc?.state.global;
   const toast = usePHToast();
 
@@ -69,7 +69,7 @@ export default function Editor() {
       idGeneratedRef.current = true;
       dispatch(
         actions.updateProfile({
-          id: doc.header.id,
+          id: doc?.header.id,
         }),
       );
     }
@@ -829,7 +829,7 @@ export default function Editor() {
 
         {/* Contributors Section */}
         <ContributorsSection
-          contributors={state.contributors}
+          contributors={state?.contributors ?? []}
           onAddContributor={handleAddContributor}
           onRemoveContributor={handleRemoveContributor}
         />
