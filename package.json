@@ -1,7 +1,7 @@
 {
   "name": "@powerhousedao/builder-profile",
   "description": "Builder profile document model",
-  "version": "1.1.0-dev.32",
+  "version": "1.1.0-dev.33",
   "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
@@ -73,15 +73,15 @@
     "service-unstartup": "bash ./node_modules/@powerhousedao/ph-cli/dist/scripts/service-unstartup.sh"
   },
   "dependencies": {
-    "@powerhousedao/analytics-engine-core": "6.0.0-dev.207",
-    "@powerhousedao/connect": "6.0.0-dev.207",
-    "@powerhousedao/design-system": "6.0.0-dev.207",
+    "@powerhousedao/analytics-engine-core": "6.0.0-dev.210",
+    "@powerhousedao/connect": "6.0.0-dev.210",
+    "@powerhousedao/design-system": "6.0.0-dev.210",
     "@powerhousedao/document-engineering": "1.40.2",
-    "@powerhousedao/reactor-browser": "6.0.0-dev.207",
-    "@powerhousedao/shared": "6.0.0-dev.207",
+    "@powerhousedao/reactor-browser": "6.0.0-dev.210",
+    "@powerhousedao/shared": "6.0.0-dev.210",
     "@uiw/react-markdown-preview": "^5.2.0",
     "@uiw/react-md-editor": "^4.1.0",
-    "document-model": "6.0.0-dev.207",
+    "document-model": "6.0.0-dev.210",
     "graphql": "^16.10.0",
     "graphql-tag": "^2.12.6",
     "lucide-react": "^1.7.0",
@@ -94,8 +94,8 @@
     "@electric-sql/pglite": "0.3.15",
     "@electric-sql/pglite-tools": "0.2.20",
     "@eslint/js": "^9.38.0",
-    "@powerhousedao/ph-cli": "6.0.0-dev.207",
-    "@powerhousedao/reactor": "6.0.0-dev.207",
+    "@powerhousedao/ph-cli": "6.0.0-dev.210",
+    "@powerhousedao/reactor": "6.0.0-dev.210",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@tailwindcss/cli": "^4.1.18",
@@ -175,5 +175,6 @@
   "bugs": {
     "url": "https://github.com/powerhouse-inc/builder-profile/issues"
   },
-  "homepage": "https://github.com/powerhouse-inc/builder-profile#readme"
+  "homepage": "https://github.com/powerhouse-inc/builder-profile#readme",
+  "_id": "@powerhousedao/builder-profile@1.1.0-dev.32"
 }
