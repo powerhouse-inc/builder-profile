@@ -1,23 +1,20 @@
 import { TextInput, Textarea } from "@powerhousedao/document-engineering";
 import { Settings, FileText, Copy, Info, X, Building2 } from "lucide-react";
-import {
-  toast,
-  ToastContainer,
-  DocumentToolbar,
-} from "@powerhousedao/design-system/connect";
-import { actions } from "../../document-models/builder-profile/index.js";
-import type { SetOpHubMemberInput } from "../../document-models/builder-profile/gen/types.ts";
+import { DocumentToolbar } from "@powerhousedao/design-system/connect";
+import { actions } from "document-models/builder-profile";
+import type { SetOpHubMemberInput } from "document-models/builder-profile";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useSelectedBuilderProfileDocument } from "../../document-models/builder-profile/hooks.js";
+import { useSelectedBuilderProfileDocument } from "document-models/builder-profile";
 import {
   setSelectedNode,
   useParentFolderForSelectedNode,
+  usePHToast,
 } from "@powerhousedao/reactor-browser";
 import type {
   BuilderSkill,
   BuilderScope,
   BuilderStatus,
-} from "../../document-models/builder-profile/gen/types.js";
+} from "document-models/builder-profile";
 import { SkillsSection } from "./components/SkillsSection.js";
 import { ScopesSection } from "./components/ScopesSection.js";
 import { LinksSection } from "./components/LinksSection.js";
@@ -25,9 +22,9 @@ import { ContributorsSection } from "./components/ContributorsSection.js";
 import { ProfilePreview } from "./components/ProfilePreview.js";
 import { ImageUrlInput } from "./components/ImageUrlInput.js";
 import { MarkdownEditor } from "./components/markdown-editor.js";
-import operatorIconSrc from "./assets/operator-icon.png";
 
-const operatorIconUrl = operatorIconSrc as string;
+const operatorIconUrl = new URL("./assets/operator-icon.png", import.meta.url)
+  .href;
 
 const STATUS_OPTIONS: {
   value: BuilderStatus;
@@ -46,6 +43,7 @@ const DESCRIPTION_MAX_LENGTH = 350;
 export default function Editor() {
   const [doc, dispatch] = useSelectedBuilderProfileDocument();
   const state = doc?.state.global;
+  const toast = usePHToast();
 
   const parentFolder = useParentFolderForSelectedNode();
 
@@ -120,7 +118,7 @@ export default function Editor() {
   const handleFieldChange = useCallback(
     (field: string, value: string | null) => {
       if (!dispatch) {
-        toast(`Failed to update ${field} - no dispatch function`, {
+        toast?.(`Failed to update ${field} - no dispatch function`, {
           type: "error",
         });
         return;
@@ -253,10 +251,13 @@ export default function Editor() {
     dispatch(actions.setOperator({ isOperator: pendingRoleChange }));
     setShowRoleDialog(false);
     setPendingRoleChange(null);
-    toast(`Switched to ${pendingRoleChange ? "Operator" : "Builder"} profile`, {
-      type: "success",
-    });
-  }, [dispatch, pendingRoleChange]);
+    toast?.(
+      `Switched to ${pendingRoleChange ? "Operator" : "Builder"} profile`,
+      {
+        type: "success",
+      },
+    );
+  }, [dispatch, pendingRoleChange, toast]);
 
   // Cancel role change
   const cancelRoleChange = useCallback(() => {
@@ -554,7 +555,7 @@ export default function Editor() {
                   title={`Copy ${roleLabel} ID`}
                   onClick={() => {
                     void navigator.clipboard.writeText(doc?.header.id || "");
-                    toast(`Copied ${roleLabel} ID!`, { type: "success" });
+                    toast?.(`Copied ${roleLabel} ID!`, { type: "success" });
                   }}
                 >
                   <Copy size={16} className="text-slate-500" />
@@ -768,7 +769,7 @@ export default function Editor() {
                 onBlur={(e: React.FocusEvent<HTMLTextAreaElement>) => {
                   if (e.target.value !== state?.description) {
                     if (e.target.value.length > DESCRIPTION_MAX_LENGTH) {
-                      toast(
+                      toast?.(
                         `Description exceeds ${DESCRIPTION_MAX_LENGTH} character limit`,
                         { type: "error" },
                       );
@@ -837,8 +838,6 @@ export default function Editor() {
           onAddContributor={handleAddContributor}
           onRemoveContributor={handleRemoveContributor}
         />
-
-        <ToastContainer position="bottom-right" />
 
         {/* Role Change Confirmation Dialog */}
         {showRoleDialog && (

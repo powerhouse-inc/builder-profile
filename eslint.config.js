@@ -14,6 +14,7 @@ const ignoredFiles = [
   "**/.ph/",
   "**/storybook-static/",
   "**/.vite/",
+  "**/.claude/",
 ];
 
 /** Global configs for eslint ignores */
@@ -73,7 +74,7 @@ const typescriptLanguageOptions = {
   },
   parserOptions: {
     projectService: {
-      allowDefaultProject: ["eslint.config.js"],
+      allowDefaultProject: ["eslint.config.js", "vitest.config.ts"],
     },
     tsconfigRootDir: import.meta.dirname,
     ecmaFeatures: {
