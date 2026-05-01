@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "ph-porter": {
+      "source": "powerhouse-inc/ph-porter",
+      "sourceType": "github",
+      "skillPath": "ph-porter/SKILL.md",
+      "computedHash": "a283e9ce52167c4cc256ff8709d62a69b6462bde63f3c8317187e65d9925d9a3"
+    }
+  }
+}

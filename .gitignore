@@ -8,3 +8,5 @@ node_modules
 projects-import.js
 .keypair.json
 .auth.json
+.claude/plugins/
+.claude/settings.json
